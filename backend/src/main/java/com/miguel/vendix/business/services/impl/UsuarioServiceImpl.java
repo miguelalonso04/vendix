@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.miguel.vendix.business.model.Direccion;
 import com.miguel.vendix.business.model.Usuario;
-import com.miguel.vendix.business.services.UsuarioServices;
+import com.miguel.vendix.business.services.UsuarioService;
 import com.miguel.vendix.integration.repositories.DireccionRepository;
 import com.miguel.vendix.integration.repositories.UsuarioRepository;
 
 @Service
-public class UsuarioServicesImpl implements UsuarioServices{
+public class UsuarioServiceImpl implements UsuarioService{
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;

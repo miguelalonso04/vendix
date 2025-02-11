@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.miguel.vendix.business.model.Direccion;
 import com.miguel.vendix.business.model.Usuario;
 
-public interface UsuarioServices {
+public interface UsuarioService {
 
 	/**
 	 * Metodo para logear al usuario

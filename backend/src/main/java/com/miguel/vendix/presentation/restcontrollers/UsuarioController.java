@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.miguel.vendix.business.model.Usuario;
-import com.miguel.vendix.business.services.UsuarioServices;
+import com.miguel.vendix.business.services.UsuarioService;
 
 @RestController
 @RequestMapping("/api/users")
 public class UsuarioController {
 
-	private UsuarioServices usuarioServices;
+	private UsuarioService usuarioServices;
 	
-	public UsuarioController(UsuarioServices usuarioServices) {
+	public UsuarioController(UsuarioService usuarioServices) {
 		this.usuarioServices = usuarioServices;
 	}
 	

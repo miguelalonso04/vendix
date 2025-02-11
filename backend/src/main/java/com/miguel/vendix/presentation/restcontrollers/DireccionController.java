@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.miguel.vendix.business.model.Direccion;
-import com.miguel.vendix.business.services.UsuarioServices;
+import com.miguel.vendix.business.services.UsuarioService;
 
 @RestController
 @RequestMapping("/api/direcciones")
 public class DireccionController {
 
-	private UsuarioServices usuarioServices;
+	private UsuarioService usuarioServices;
 	
-	public DireccionController(UsuarioServices usuarioServices) {
+	public DireccionController(UsuarioService usuarioServices) {
 		this.usuarioServices = usuarioServices;
 	}
 	
