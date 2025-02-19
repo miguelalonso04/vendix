@@ -21,12 +21,12 @@ public class DireccionController {
 	}
 	
 	 @PostMapping("/user/{userId}")
-	    public ResponseEntity<String> addDireccion(@PathVariable Long userId, @RequestBody Direccion direccion) {
-	        try {
-	            usuarioServices.addDireccionUser(userId, direccion);
-	            return ResponseEntity.ok("Direccion añadida correctamente");
-	        } catch (Exception e) {
-	            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-	        }
+    public ResponseEntity<String> addDireccion(@PathVariable Long userId, @RequestBody Direccion direccion) {
+        try {
+            usuarioServices.addDireccionUser(userId, direccion);
+            return ResponseEntity.ok("Direccion añadida correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
 	 }
 }

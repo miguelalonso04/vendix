@@ -2,6 +2,7 @@ package com.miguel.vendix.business.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -55,6 +56,8 @@ public class Usuario {
 			   joinColumns = @JoinColumn(name="ID_USER"),
 			   inverseJoinColumns = @JoinColumn(name="ID_ROL"))
 	private Set<Role> roles;
+	
+	private List<Producto> lProductos;
 	
 	public Usuario() {
 		this.roles = new HashSet<Role>();
