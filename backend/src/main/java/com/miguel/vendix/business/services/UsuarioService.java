@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.miguel.vendix.business.model.Direccion;
-import com.miguel.vendix.business.model.Usuario;
+import com.miguel.vendix.security.model.Usuario;
 
 public interface UsuarioService {
 

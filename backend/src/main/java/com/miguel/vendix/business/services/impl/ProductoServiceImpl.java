@@ -85,11 +85,6 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public List<Producto> getBetweenFechaAlta(Date desde, Date hasta) {
-		return productoRepository.findByFechaAltaBetweenOrderByFechaAltaDesc(desde, hasta);
-	}
-
-	@Override
 	public int getNumeroTotalProductos() {
 		return (int) productoRepository.count();
 	}

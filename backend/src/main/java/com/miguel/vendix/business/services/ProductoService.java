@@ -36,11 +36,6 @@ public interface ProductoService {
 	 */
 	List<Producto> getBetweenPriceRange(double min, double max);
 	
-	/**
-	 * Incluye los extremos
-	 * 
-	 */
-	List<Producto> getBetweenFechaAlta(Date desde, Date hasta);
 	
 	int getNumeroTotalProductos();
 

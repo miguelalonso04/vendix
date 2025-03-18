@@ -1,9 +1,16 @@
-package com.miguel.vendix.business.model;
+package com.miguel.vendix.security.model;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,8 +34,10 @@ import lombok.Data;
 		@UniqueConstraint(columnNames = "USERNAME"),
 		@UniqueConstraint(columnNames = "EMAIL")
 })
-public class Usuario {
+public class Usuario implements UserDetails {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -57,10 +66,42 @@ public class Usuario {
 			   inverseJoinColumns = @JoinColumn(name="ID_ROL"))
 	private Set<Role> roles;
 	
-	private List<Producto> lProductos;
-	
 	public Usuario() {
 		this.roles = new HashSet<Role>();
 	}
+
+	@Override
+	public String getUsername() {
+		return this.userName;
+	}
+	
+	/**
+     * Devuelve los roles del usuario como `GrantedAuthority` para Spring Security.
+     */
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(rol -> new SimpleGrantedAuthority("ROLE_" + rol.getTipo()))
+                .collect(Collectors.toSet());
+    }
+    
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+    	return UserDetails.super.isAccountNonExpired();
+    }
+    
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+    	return UserDetails.super.isAccountNonLocked();
+    }
+    
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+    	return UserDetails.super.isCredentialsNonExpired();
+    }
 
 }

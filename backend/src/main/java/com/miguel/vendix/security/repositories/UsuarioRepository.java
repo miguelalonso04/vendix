@@ -1,14 +1,16 @@
-package com.miguel.vendix.integration.repositories;
+package com.miguel.vendix.security.repositories;
+
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.miguel.vendix.business.model.Usuario;
+import com.miguel.vendix.security.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	Usuario findByEmailAndPassword(String email, String password);
 	
 	Boolean existsByEmail(String email);
-
-	Boolean existByUserName(String userName);
+	
+	Optional<Usuario> findByUserName(String userName);
 }

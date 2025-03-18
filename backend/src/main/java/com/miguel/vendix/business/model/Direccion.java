@@ -2,6 +2,9 @@ package com.miguel.vendix.business.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import com.miguel.vendix.security.model.Usuario;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

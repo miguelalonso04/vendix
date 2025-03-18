@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.miguel.vendix.business.model.Direccion;
-import com.miguel.vendix.business.model.Usuario;
+import com.miguel.vendix.security.model.Usuario;
 import com.miguel.vendix.business.services.UsuarioService;
 import com.miguel.vendix.integration.repositories.DireccionRepository;
-import com.miguel.vendix.integration.repositories.UsuarioRepository;
+import com.miguel.vendix.security.repositories.UsuarioRepository;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
@@ -29,9 +29,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Override
 	public Long register(Usuario user) throws Exception {
 		
-		if (usuarioRepository.existByUserName(user.getUserName())) {
-            throw new Exception("Username already exists");
-        }
+		if (usuarioRepository.findByUserName(user.getUsername()).isPresent()) {
+		    throw new IllegalArgumentException("Username already exists");
+		}
+		
         if (usuarioRepository.existsByEmail(user.getEmail())) {
             throw new Exception("Email already exists");
         }

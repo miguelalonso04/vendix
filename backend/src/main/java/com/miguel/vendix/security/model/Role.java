@@ -1,4 +1,4 @@
-package com.miguel.vendix.business.model;
+package com.miguel.vendix.security.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

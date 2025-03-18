@@ -1,6 +1,5 @@
 package com.miguel.vendix.presentation.restcontrollers;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,28 +97,18 @@ public class ProductoController {
 		return lista;
 	}
 	
-	@GetMapping("/fecha")
-	public List<Producto> getBetweenFechaAlta(@RequestParam Date desde, @RequestParam Date hasta) {
-		List<Producto> lista = productoService.getBetweenFechaAlta(desde, hasta);
-		
-		if(lista.isEmpty()) {
-			throw new PresentationException("No existen productos entre ["+desde+" - "+hasta+"].", HttpStatus.NO_CONTENT);
-		}
-		
-		return lista;
-	}
 	
     @GetMapping("/totalCount")
     public int getNumeroTotalProductos() {
         return productoService.getNumeroTotalProductos();
     }
 	
-    @PutMapping("/incrementar-precio")
+    @PutMapping("/incrementar-precio/productos")
     public void incrementarPrecio(@RequestBody List<Producto> productos, @RequestParam double porcentaje) {
         productoService.incrementarPrecio(productos, porcentaje);
     }
 
-    @PutMapping("/incrementar-precio")
+    @PutMapping("/incrementar-precio/ids")
     public void incrementarPrecio(@RequestParam double porcentaje, @RequestParam Long... ids) {
         productoService.incrementarPrecio(porcentaje, ids);
     }
