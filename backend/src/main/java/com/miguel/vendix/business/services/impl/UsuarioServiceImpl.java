@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.miguel.vendix.business.model.Direccion;
+import com.miguel.vendix.security.model.Role;
 import com.miguel.vendix.security.model.Usuario;
 import com.miguel.vendix.business.services.UsuarioService;
 import com.miguel.vendix.integration.repositories.DireccionRepository;
@@ -27,14 +28,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Long register(Usuario user) throws Exception {
+	public Long register(Usuario user) {
 		
-		if (usuarioRepository.findByUserName(user.getUsername()).isPresent()) {
+		if (usuarioRepository.findByUsername(user.getUsername()).isPresent()) {
 		    throw new IllegalArgumentException("Username already exists");
 		}
 		
         if (usuarioRepository.existsByEmail(user.getEmail())) {
-            throw new Exception("Email already exists");
+            throw new IllegalArgumentException("Email already exists");
         }
         
        return usuarioRepository.save(user).getId();
@@ -66,6 +67,21 @@ public class UsuarioServiceImpl implements UsuarioService{
 		direccion.setUsuario(user);
 		
 		return direccionRepository.save(direccion).getId();
+	}
+
+	@Override
+	public Optional<Role> findRolByIdUsuario(Long idUsuario) {
+		return usuarioRepository.findRolByIdUsuario(idUsuario);
+	}
+
+	@Override
+	public Optional<Usuario> findByUserName(String username) {
+		return usuarioRepository.findByUsername(username);
+	}
+
+	@Override
+	public boolean existsByEmail(String email) {
+		return usuarioRepository.existsByEmail(email);
 	}
 
 }

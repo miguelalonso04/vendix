@@ -42,7 +42,7 @@ public class Usuario implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String userName;
+	private String username;
 	private String password;
 
 	@Email
@@ -61,7 +61,7 @@ public class Usuario implements UserDetails {
 	private Date lastPasswordResetDate;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="ROLES",
+	@JoinTable(name="USUARIO_ROLES",
 			   joinColumns = @JoinColumn(name="ID_USER"),
 			   inverseJoinColumns = @JoinColumn(name="ID_ROL"))
 	private Set<Role> roles;
@@ -72,7 +72,7 @@ public class Usuario implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return this.userName;
+		return this.username;
 	}
 	
 	/**

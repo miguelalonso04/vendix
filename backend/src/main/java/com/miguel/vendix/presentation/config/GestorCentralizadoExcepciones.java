@@ -1,5 +1,6 @@
 package com.miguel.vendix.presentation.config;
 
+import org.slf4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class GestorCentralizadoExcepciones extends ResponseEntityExceptionHandler{
+	
 
 
 	// **********************************************************************************
@@ -59,6 +61,7 @@ public class GestorCentralizadoExcepciones extends ResponseEntityExceptionHandle
 	public ResponseEntity<Object> handleException(Exception ex){
 	
 		HttpErrorCustomizado httpErrorCustomizado = new HttpErrorCustomizado("Se ha producido un error en el servidor.");
+		ex.printStackTrace();
 		
 		return ResponseEntity.internalServerError().body(httpErrorCustomizado);
 	}

@@ -77,7 +77,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth ->
                 auth.requestMatchers("/auth/login/**").permitAll()
-                .requestMatchers("/auth/signup/**").permitAll()
+                .requestMatchers("/auth/register/**").permitAll()
                 .requestMatchers("/favicon.ico").permitAll()
                 .requestMatchers("/WEB-INF/**").permitAll()
                 .requestMatchers("/img/**", "/css/**", "/js/**").permitAll()

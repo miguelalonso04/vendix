@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.miguel.vendix.business.model.Direccion;
+import com.miguel.vendix.security.model.Role;
 import com.miguel.vendix.security.model.Usuario;
 
 public interface UsuarioService {
@@ -25,7 +26,7 @@ public interface UsuarioService {
 	 * @return devuelve el id del usuario registrado
 	 * @throws Exception 
 	 */
-	Long register(Usuario user) throws Exception;
+	Long register(Usuario user);
 	
 	Optional<Usuario> read(Long id);
 	
@@ -38,4 +39,10 @@ public interface UsuarioService {
 	void delete(Long id);
 	
 	Long addDireccionUser(Long userId, Direccion direccion) throws Exception;
+	
+	Optional<Role> findRolByIdUsuario(Long idUsuario);
+	
+	Optional<Usuario> findByUserName(String username);
+	
+	boolean existsByEmail(String email);
 }
