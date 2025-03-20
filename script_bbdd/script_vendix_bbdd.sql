@@ -37,7 +37,7 @@ CREATE TABLE PRODUCTOS (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
     descripcion TEXT,
-    precio FLOAT NOT NULL,
+    precio DOUBLE NOT NULL,
     stock INT NOT NULL,
     disponible BOOLEAN NOT NULL,
     categoria_id BIGINT,
