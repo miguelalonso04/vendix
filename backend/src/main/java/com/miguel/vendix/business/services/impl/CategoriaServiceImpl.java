@@ -28,6 +28,10 @@ public class CategoriaServiceImpl implements CategoriaService{
 			throw new IllegalStateException("Para crear una categoria el id ha de ser null");
 		}
 		
+		if(categoriaRepository.existsByNombre(categoria.getNombre())) {
+			throw new IllegalStateException("La categoria "+categoria.getNombre()+" ya existe.");
+		}
+		
 		Categoria categoriaCreada = categoriaRepository.save(categoria);
 		
 		return categoriaCreada.getId();

@@ -1,6 +1,5 @@
 package com.miguel.vendix.business.services.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +22,13 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 	}
 
 	@Override
+	public Long create(CestaProductos cesta) {
+		CestaProductos cestaCreada = cestaRepository.save(cesta);
+		
+		return cestaCreada.getId();
+	}
+	
+	@Override
 	public Optional<CestaProductos> read(Long id) {
 		
 		Optional <CestaProductos> optional = cestaRepository.findById(id);
@@ -32,17 +38,10 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 
 	@Override
 	public void añadirProductoACesta(Producto producto, Long idCesta) {
-		
-		//Comprobamos que existe la cesta o la creamos
+	
 		 CestaProductos cesta = cestaRepository.findById(idCesta)
-		            .orElseGet(() -> {
-		                CestaProductos nuevaCesta = new CestaProductos();
-		                nuevaCesta.setId(idCesta);
-		                nuevaCesta.setProductos(new ArrayList<Producto>());
-		                nuevaCesta.setTotal(0);
-		                return cestaRepository.save(nuevaCesta);
-		            });
-
+				 .orElseThrow(() -> new IllegalStateException("No se ha encontrado la cesta con id "+ idCesta));
+		 
 		List<Producto> lProducto = cesta.getProductos();
 		
 		lProducto.add(producto);
@@ -127,7 +126,6 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 	            .mapToDouble(Producto::getPrecio)
 	            .sum();
 	}
-
 	
 
 }

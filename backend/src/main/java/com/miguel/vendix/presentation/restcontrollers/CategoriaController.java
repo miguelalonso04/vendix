@@ -59,7 +59,7 @@ public class CategoriaController {
 		return ResponseEntity.created(ucb.path("/categoria/{id}").build(id)).build();
 	}
 	
-	@PutMapping("/{id")
+	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateCategoria(@RequestBody Categoria categoria, @PathVariable Long id) {
 		

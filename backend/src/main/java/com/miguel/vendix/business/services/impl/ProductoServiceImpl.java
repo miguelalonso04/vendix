@@ -70,7 +70,9 @@ public class ProductoServiceImpl implements ProductoService {
     
 		Optional<Producto> optional = productoRepository.findById(id);
 		
-		optional.get().setDisponible(false);
+		optional.get().setDisponible(false); 
+		
+		productoRepository.delete(optional.get());
 	}
 
 	@Override

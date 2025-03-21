@@ -1,5 +1,6 @@
 package com.miguel.vendix.security.restcontrollers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.miguel.vendix.business.model.CestaProductos;
+import com.miguel.vendix.business.model.Producto;
+import com.miguel.vendix.business.services.CestaProductoService;
 import com.miguel.vendix.business.services.RoleService;
 import com.miguel.vendix.business.services.UsuarioService;
 import com.miguel.vendix.presentation.config.PresentationException;
@@ -53,6 +57,9 @@ public class AuthController {
     
     @Autowired
     private RoleService roleService;
+    
+    @Autowired
+    private CestaProductoService cestaService;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -119,6 +126,13 @@ public class AuthController {
         usuario.setRoles(rol);
         
         usuario.setLastPasswordResetDate(new Date());
+        
+        //Le asignamos una cesta
+        CestaProductos nuevaCesta = new CestaProductos();
+        nuevaCesta.setId(usuario.getId());
+        nuevaCesta.setProductos(new ArrayList<Producto>());
+        nuevaCesta.setTotal(0);
+		cestaService.create(nuevaCesta);
 
         usuarioService.register(usuario);
 		

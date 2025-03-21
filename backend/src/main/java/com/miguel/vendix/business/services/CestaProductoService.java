@@ -7,6 +7,8 @@ import com.miguel.vendix.business.model.CestaProductos;
 import com.miguel.vendix.business.model.Producto;
 
 public interface CestaProductoService {
+	
+	Long create(CestaProductos cesta);
 
 	/**
 	 * Solo podra haber 1 cesta por usuario
@@ -19,7 +21,6 @@ public interface CestaProductoService {
 	/**
 	 * Si la id es null o no existe lanza IllegalStateException
 	 * 
-	 * Se comprueba que no existe la cesta, en tal caso la crea
 	 */
 	void añadirProductoACesta(Producto producto, Long idCesta);
 	

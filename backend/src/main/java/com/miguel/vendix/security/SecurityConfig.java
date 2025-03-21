@@ -78,6 +78,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth ->
                 auth.requestMatchers("/auth/login/**").permitAll()
                 .requestMatchers("/auth/register/**").permitAll()
+                .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/favicon.ico").permitAll()
                 .requestMatchers("/WEB-INF/**").permitAll()
                 .requestMatchers("/img/**", "/css/**", "/js/**").permitAll()

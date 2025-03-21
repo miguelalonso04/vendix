@@ -6,4 +6,6 @@ import com.miguel.vendix.business.model.Categoria;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
 
+	boolean existsByNombre(String nombre);
+	
 }

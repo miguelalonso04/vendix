@@ -2,6 +2,7 @@ package com.miguel.vendix.business.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class CestaProductos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
         name = "CESTA_PRODUCTOS_PRODUCTO",
         joinColumns = @JoinColumn(name = "cesta_id"),
