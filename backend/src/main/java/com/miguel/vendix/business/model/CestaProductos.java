@@ -1,15 +1,17 @@
 package com.miguel.vendix.business.model;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MapKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,13 +28,12 @@ public class CestaProductos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-        name = "CESTA_PRODUCTOS_PRODUCTO",
-        joinColumns = @JoinColumn(name = "cesta_id"),
-        inverseJoinColumns = @JoinColumn(name = "producto_id")
-    )
-    private List<Producto> productos;
+    @ElementCollection
+    @CollectionTable(name = "cesta_productos_cantidad", 
+                     joinColumns = @JoinColumn(name = "cesta_id"))
+    @MapKeyJoinColumn(name = "producto_id")
+    @Column(name = "cantidad")
+    private Map<Producto, Integer> productos = new HashMap<>();
     
     private double total;
 }

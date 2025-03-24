@@ -1,7 +1,7 @@
 package com.miguel.vendix.security.restcontrollers;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -130,7 +130,7 @@ public class AuthController {
         //Le asignamos una cesta
         CestaProductos nuevaCesta = new CestaProductos();
         nuevaCesta.setId(usuario.getId());
-        nuevaCesta.setProductos(new ArrayList<Producto>());
+        nuevaCesta.setProductos(new HashMap<Producto,Integer>());
         nuevaCesta.setTotal(0);
 		cestaService.create(nuevaCesta);
 

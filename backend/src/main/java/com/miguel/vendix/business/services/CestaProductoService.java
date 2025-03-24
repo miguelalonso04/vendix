@@ -1,6 +1,6 @@
 package com.miguel.vendix.business.services;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.miguel.vendix.business.model.CestaProductos;
@@ -36,13 +36,13 @@ public interface CestaProductoService {
 	 */
 	void eliminarUnProductoEnCesta(Long idProducto, Long idCesta);
 	
-	List<Producto> getAllProductos(Long idCesta);
+	Map<Producto,Integer> getAllProductos(Long idCesta);
 	
 	/**
 	 * Si la id es null o no existe lanza IllegalStateException
 	 * 
 	 */
-	Long getCantidadXProducto(Long idProducto, Long idCesta);
+	Integer getCantidadXProducto(Long idProducto, Long idCesta);
 	
 	/**
 	 * Si la id es null o no existe lanza IllegalStateException
@@ -50,7 +50,10 @@ public interface CestaProductoService {
 	 */
 	Double getPrecioXProducto(Long idProducto, Long idCesta);
 	
-	Double calcularTotalCesta(Long idCesta);
+	Double calcularTotalCesta(Long idCesta);                                                                                                                                                           
 	
+	void sumarCantidadXProducto(Long idProducto, Long idCesta);
+	
+	void restarCanitdadXProducto(Long idProducto, Long idCesta);
 	
 }
