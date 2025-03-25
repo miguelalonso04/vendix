@@ -57,6 +57,7 @@ CREATE TABLE DIRECCION (
 
 CREATE TABLE PEDIDOS (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    cesta_id BIGINT,
     direccion_id BIGINT,
     usuario_id BIGINT,
     precioTotal DOUBLE NOT NULL,

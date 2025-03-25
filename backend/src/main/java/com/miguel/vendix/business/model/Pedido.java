@@ -1,7 +1,6 @@
 package com.miguel.vendix.business.model;
 
 import java.util.Date;
-import java.util.List;
 
 import com.miguel.vendix.security.model.Usuario;
 
@@ -11,9 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -31,15 +28,11 @@ public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; 
     
-    @ManyToMany
-    @JoinTable(
-        name = "PEDIDO_PRODUCTOS",
-        joinColumns = @JoinColumn(name = "pedido_id"),
-        inverseJoinColumns = @JoinColumn(name = "producto_id")
-    )
-    private List<Producto> producto;
+    @ManyToOne
+    @JoinColumn(name = "cesta_id", referencedColumnName = "id")
+    private CestaProductos cestaProductos;
     
     @ManyToOne
     @JoinColumn(name = "direccion_id")
