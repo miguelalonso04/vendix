@@ -31,11 +31,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public Long register(Usuario user) {
 		
 		if (usuarioRepository.findByUsername(user.getUsername()).isPresent()) {
-		    throw new IllegalArgumentException("Username already exists");
+		    new IllegalArgumentException("Username already exists");
 		}
 		
         if (usuarioRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+            new IllegalArgumentException("Email already exists");
         }
         
        return usuarioRepository.save(user).getId();
@@ -43,45 +43,119 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Optional<Usuario> read(Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		
+		Optional <Usuario> optional = usuarioRepository.findById(id);
+		
+		return optional.isEmpty() ? Optional.empty() : Optional.of(optional.get());
 	}
 
 	@Override
 	public List<Usuario> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return usuarioRepository.findAll();
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
 		
+		boolean existe = usuarioRepository.existsById(id);
+		
+		if(!existe) {
+			new IllegalStateException("El usuario con ID [ "+id+" ] no existe");
+		}
+		
+		Optional <Usuario> optional = usuarioRepository.findById(id);
+		
+		usuarioRepository.delete(optional.get());
+		
+	}
+	
+	@Override
+	public void deshabilitarUsuario(Long id) {
+		
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new IllegalStateException("El usuario con ID [ "+id+" ] no existe"));
+		
+		usuario.setEnabled(false);
+		
+		usuarioRepository.save(usuario);
 	}
 
 	@Override
-	public Long addDireccionUser(Long userId, Direccion direccion) throws Exception {
+	public void habilitarUsuario(Long id) {
+		
+		Usuario usuario = usuarioRepository.findById(id)
+				.orElseThrow(() -> new IllegalStateException("El usuario con ID [ "+id+" ] no existe"));
+		
+		usuario.setEnabled(true);
+		
+		usuarioRepository.save(usuario);
+	}
+
+	@Override
+	public Optional<Direccion> getDireccion(Long idUser, Long idDireccion) {
+		
+		Optional<Direccion> optional = direccionRepository.getDireccion(idUser, idDireccion);
+		
+		if(optional.isEmpty()) {
+			new IllegalStateException("No existe la direccion para el usuario con id [ "+idUser+" ].");
+		}
+		
+		return optional;
+	}
+
+	@Override
+	public List<Direccion> getAllDirecciones(Long idUser) {
+		
+		boolean existe = usuarioRepository.existsById(idUser);
+		
+		if(!existe) {
+			new IllegalStateException("El usuario con ID [ "+idUser+" ] no existe");
+		}
+		
+		return direccionRepository.findByUsuarioId(idUser);
+	}
+	
+	@Override
+	public void addDireccionUser(Long userId, Direccion direccion) throws Exception {
 		Usuario user = usuarioRepository.findById(userId)
-				.orElseThrow(() -> new Exception("Usuario no encontrado"));
+				.orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
 		
 		direccion.setUsuario(user);
 		
-		return direccionRepository.save(direccion).getId();
+		direccionRepository.save(direccion);
 	}
 
 	@Override
 	public Optional<Role> findRolByIdUsuario(Long idUsuario) {
-		return usuarioRepository.findRolByIdUsuario(idUsuario);
+		Optional<Role> optional = usuarioRepository.findRolByIdUsuario(idUsuario);
+		
+		return optional.isEmpty() ? Optional.empty() : Optional.of(optional.get());
 	}
 
 	@Override
 	public Optional<Usuario> findByUserName(String username) {
-		return usuarioRepository.findByUsername(username);
+		Optional<Usuario> optional = usuarioRepository.findByUsername(username);
+		
+		return optional.isEmpty() ? Optional.empty() : Optional.of(optional.get());
 	}
 
 	@Override
 	public boolean existsByEmail(String email) {
 		return usuarioRepository.existsByEmail(email);
+	}
+
+	@Override
+	public void deleteDireccion(Long idDireccion) {
+		
+		boolean existe = direccionRepository.existsById(idDireccion);
+		
+		if(!existe) {
+			new IllegalStateException("La direccion con ID [ "+idDireccion+" ] no existe");
+		}
+		
+		Optional<Direccion> optional = direccionRepository.findById(idDireccion);
+		
+		direccionRepository.delete(optional.get());
 	}
 
 }

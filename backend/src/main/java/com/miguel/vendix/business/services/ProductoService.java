@@ -38,23 +38,6 @@ public interface ProductoService {
 	
 	int getNumeroTotalProductos();
 
-	/**
-	 * Incrementa el precio de todos los productos que se aportan 
-	 * según el porcentaje que se indica.
-	 * 
-	 * Ejemplo: si porcentaje = 20.0 se incrementa el precio un 20%
-	 * 
-	 */
-	void incrementarPrecio(List<Producto> productos, double porcentaje);
+	List<Producto> getlAllByCategoria(Long idCategoria);
 	
-	/**
-	 * Incrementa el precio de todos los productos que se aportan
-	 * según el porcentaje que se indica.
-	 * 
-	 * (el argumento ids representa los ids de los productos) 
-	 * 
-	 * Ejemplo: si porcentaje = 20.0 se incrementa el precio un 20%
-	 * 
-	 */
-	void incrementarPrecio(double porcentaje, Long... ids);
 }

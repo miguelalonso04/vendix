@@ -44,14 +44,15 @@ public class CestaProductosController {
 		return optional.get();
 	}
 	
-	@PutMapping("/{idCesta}/añadir")
+	@PutMapping("/{idCesta}/add")
 	@Transactional
     public ResponseEntity<?> añadirProductoACesta(@RequestBody Producto producto, @PathVariable Long idCesta) {
+		
 		
 		try {
 			cestaService.añadirProductoACesta(producto, idCesta);
 		} catch(IllegalStateException e) {
-			throw new PresentationException("NO HAY SUFICIENTE STOCK DE "+producto.getNombre(), HttpStatus.BAD_REQUEST);
+			throw new PresentationException(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
         return ResponseEntity.ok().build();
     }

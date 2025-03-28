@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.miguel.vendix.business.model.Pedido;
+import com.miguel.vendix.business.model.dtos.PedidoDTO;
 import com.miguel.vendix.business.services.PedidoService;
 import com.miguel.vendix.presentation.config.PresentationException;
+import com.miguel.vendix.security.model.Usuario;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -32,12 +34,12 @@ public class PedidoController {
 	private PedidoService pedidoService;
 	
 	@PostMapping("/crear")
-	public ResponseEntity<?> createPedido(@RequestBody Pedido pedido, UriComponentsBuilder ucb){
+	public ResponseEntity<?> createPedido(@RequestBody PedidoDTO pedidoDTO, @RequestParam Long idUsuario, UriComponentsBuilder ucb){
 		
 		Long id = null;
 		
 		try {
-			id = pedidoService.create(pedido);
+			id = pedidoService.create(pedidoDTO, idUsuario);
 		} catch (IllegalStateException e) {
 			throw new PresentationException(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -86,7 +88,7 @@ public class PedidoController {
 	
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteAllProductos() {		
+	public void deleteAll() {		
 		try {
 			pedidoService.deleteAll();
 		} catch(IllegalStateException e) {
@@ -119,6 +121,19 @@ public class PedidoController {
 		} catch(IllegalStateException e) {
 			throw new PresentationException(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping("/{idPedido}/usuario")
+	public Usuario getUsuario(@PathVariable Long idPedido) {
+		
+		Optional<Usuario> optional = pedidoService.getUsuarioByPedido(idPedido);
+		
+		if(optional.isEmpty()) {
+			throw new PresentationException("No existe el Usuario con el idPedido " + idPedido, HttpStatus.NOT_FOUND);
+		}
+		
+		return optional.get();
+		
 	}
 	
 	

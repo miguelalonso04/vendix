@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.miguel.vendix.business.model.Pedido;
+import com.miguel.vendix.business.model.dtos.PedidoDTO;
+import com.miguel.vendix.security.model.Usuario;
 
 public interface PedidoService {
 	
@@ -12,7 +14,7 @@ public interface PedidoService {
 	 * Si la id no es null lanza IllegalStateException
 	 * 
 	 */
-	Long create(Pedido pedido);
+	Long create(PedidoDTO pedido, Long idUsuario);
 	
 	Optional<Pedido> read(Long id);
 	
@@ -39,4 +41,6 @@ public interface PedidoService {
 	void confirmarPedido(Long id);
 	
 	void cancelarPedido(Long id);
+	
+	Optional<Usuario> getUsuarioByPedido(Long id);
 }

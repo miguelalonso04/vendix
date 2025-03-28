@@ -103,14 +103,17 @@ public class ProductoController {
         return productoService.getNumeroTotalProductos();
     }
 	
-    @PutMapping("/incrementar-precio/productos")
-    public void incrementarPrecio(@RequestBody List<Producto> productos, @RequestParam double porcentaje) {
-        productoService.incrementarPrecio(productos, porcentaje);
-    }
-
-    @PutMapping("/incrementar-precio/ids")
-    public void incrementarPrecio(@RequestParam double porcentaje, @RequestParam Long... ids) {
-        productoService.incrementarPrecio(porcentaje, ids);
+    
+    @GetMapping("/categoria")
+    public List<Producto> getAllByCategoria(@RequestParam Long idCategoria){
+    	
+    	List<Producto> lista = productoService.getlAllByCategoria(idCategoria);
+		
+		if(lista.isEmpty()) {
+			throw new PresentationException("No existen productos para la Categoria con id [ "+idCategoria+" ].", HttpStatus.NO_CONTENT);
+		}
+		
+		return lista;
     }
 	
 	

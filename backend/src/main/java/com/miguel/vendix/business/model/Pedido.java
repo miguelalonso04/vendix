@@ -2,6 +2,7 @@ package com.miguel.vendix.business.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.miguel.vendix.security.model.Usuario;
 
 import jakarta.persistence.Entity;
@@ -41,12 +42,13 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
-    
-    private double precioTotal;
+ 
+    private Double precioTotal;
     
     @Enumerated(EnumType.STRING)
     private EstadoPedido estado;
     
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date fechaPedido;
 }
 

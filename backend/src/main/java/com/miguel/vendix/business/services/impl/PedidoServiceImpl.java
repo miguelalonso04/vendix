@@ -1,31 +1,81 @@
 package com.miguel.vendix.business.services.impl;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.miguel.vendix.business.model.CestaProductos;
 import com.miguel.vendix.business.model.EstadoPedido;
 import com.miguel.vendix.business.model.Pedido;
+import com.miguel.vendix.business.model.Producto;
+import com.miguel.vendix.business.model.dtos.PedidoDTO;
+import com.miguel.vendix.business.model.dtos.ProductoDTO;
 import com.miguel.vendix.business.services.PedidoService;
+import com.miguel.vendix.integration.repositories.CestaProductosRepository;
 import com.miguel.vendix.integration.repositories.PedidoRepository;
+import com.miguel.vendix.integration.repositories.ProductoRepository;
+import com.miguel.vendix.security.model.Usuario;
+import com.miguel.vendix.security.repositories.UsuarioRepository;
 
 @Service
 public class PedidoServiceImpl implements PedidoService {
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private ProductoRepository productoRepository;
+	
+	@Autowired
+	private CestaProductosRepository cestaRepository;
 
 	@Override
-	public Long create(Pedido pedido) {
+	public Long create(PedidoDTO pedidoDTO, Long idUsuario) {
 		
-		if(pedido.getId() != null) {
-			throw new IllegalStateException("Para crear un pedido el id tiene que ser null");
-		}
+		Pedido pedido = new Pedido();
+		CestaProductos cesta = cestaRepository.findById(idUsuario)
+								.orElseThrow(()->new IllegalStateException("NO SE HA ENCONTRADO LA CESTA CON ID "+idUsuario));
+		Map<Producto, Integer> productos = cesta.getProductos();
+		Double total = 0.0;
 		
-		pedido.setEstado(EstadoPedido.PENDIENTE);
+		Usuario usuario = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new IllegalArgumentException("Usuario con id ["+idUsuario+"] no encontrado"));
+		
+		for (ProductoDTO productoDTO : pedidoDTO.getProductos()) {
+	        
+	        Producto producto = productoRepository.findByNombre(productoDTO.getNombre())
+	                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + productoDTO.getNombre()));
+
+	        total += productoDTO.getPrecio() * productoDTO.getCantidad();
+	        
+	        productos.put(producto, productoDTO.getCantidad());
+	    }
+		
+		cesta.setProductos(productos);
+		pedidoDTO.setPrecioTotalPedido(total);;
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		LocalDateTime now = LocalDateTime.now();
+		now.format(formatter);
+		Date fechaPedido = java.sql.Timestamp.valueOf(now);
+		
+		pedido.setCestaProductos(cesta);
+		pedido.setDireccion(pedidoDTO.getDireccion());
+		pedido.setUsuario(usuario);
+		pedido.setPrecioTotal(total);
+		pedido.setEstado(EstadoPedido.PENDIENTE);   
+		pedido.setFechaPedido(fechaPedido);
+		
+		System.out.println(fechaPedido);
 		
 		Pedido pedidoCreado = pedidoRepository.save(pedido);
 		
@@ -122,6 +172,20 @@ public class PedidoServiceImpl implements PedidoService {
 		
 		optional.get().setEstado(EstadoPedido.CANCELADO);
 		
+	}
+
+	@Override
+	public Optional<Usuario> getUsuarioByPedido(Long id) {
+		
+		boolean existe = pedidoRepository.existsById(id);
+		
+		if(!existe) {
+			throw new IllegalStateException("El pedido con ID [ "+id+" ] no existe");
+		}
+		
+		Optional<Usuario> optional = pedidoRepository.findUsuarioByid(id);
+		
+		return optional.isEmpty() ? Optional.empty() : Optional.of(optional.get());
 	}
 
 }

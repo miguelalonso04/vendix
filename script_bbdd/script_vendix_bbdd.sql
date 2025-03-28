@@ -60,9 +60,9 @@ CREATE TABLE PEDIDOS (
     cesta_id BIGINT,
     direccion_id BIGINT,
     usuario_id BIGINT,
-    precioTotal DOUBLE NOT NULL,
-    estado ENUM('PENDIENTE', 'ENVIADO', 'ENTREGADO', 'CANCELADO') NOT NULL,
-    fechaPedido TIMESTAMP NOT NULL,
+    precioTotal DOUBLE,
+    estado VARCHAR(20),
+    fechaPedido TIMESTAMP,
     FOREIGN KEY (direccion_id) REFERENCES DIRECCION(id),
     FOREIGN KEY (usuario_id) REFERENCES USUARIOS(id)
 );

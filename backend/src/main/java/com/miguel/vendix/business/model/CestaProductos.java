@@ -3,6 +3,8 @@ package com.miguel.vendix.business.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -36,4 +38,9 @@ public class CestaProductos {
     private Map<Producto, Integer> productos = new HashMap<>();
     
     private double total;
+    
+    @JsonAnyGetter
+    public Map<Producto, Integer> getProductos() {
+        return this.productos;
+    }
 }

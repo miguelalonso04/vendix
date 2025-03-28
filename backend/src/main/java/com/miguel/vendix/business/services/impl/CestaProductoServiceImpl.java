@@ -52,7 +52,14 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 		
 		if(p.getStock() > 1) {
 			cesta.setTotal(total + p.getPrecio());
-			productos.put(p, 1);
+			
+			if(productos.containsKey(p)) {
+				productos.replace(p , productos.get(p) + 1);
+				
+			}else {
+				productos.put(p, 1);
+			}
+			
 		}else {
 			throw new IllegalStateException("NO HAY SUFICIENTE STOCK DE "+p.getNombre());
 			
@@ -148,8 +155,8 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 		CestaProductos cesta = cestaRepository.findById(idCesta)
 	            .orElseThrow(() -> new IllegalStateException("NO SE HA ENCONTRADO LA CESTA DEL USUARIO " + idCesta));    
 
-	    return cesta.getProductos().keySet().stream()
-	            .mapToDouble(Producto::getPrecio)
+	    return cesta.getProductos().entrySet().stream()
+	    		.mapToDouble(entry -> entry.getKey().getPrecio() * entry.getValue())
 	            .sum();
 	}
 

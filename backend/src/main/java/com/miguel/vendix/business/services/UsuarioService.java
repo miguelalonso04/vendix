@@ -38,11 +38,22 @@ public interface UsuarioService {
 	 */
 	void delete(Long id);
 	
-	Long addDireccionUser(Long userId, Direccion direccion) throws Exception;
+	void deshabilitarUsuario(Long id);
+	
+	void habilitarUsuario(Long id);
+	
+	Optional<Direccion> getDireccion(Long idUser, Long idDireccion);
+	
+	List<Direccion> getAllDirecciones(Long idUser);
+	
+	void addDireccionUser(Long userId, Direccion direccion) throws Exception;
+	
+	void deleteDireccion(Long idDireccion);
 	
 	Optional<Role> findRolByIdUsuario(Long idUsuario);
 	
 	Optional<Usuario> findByUserName(String username);
-	
+
 	boolean existsByEmail(String email);
+	
 }

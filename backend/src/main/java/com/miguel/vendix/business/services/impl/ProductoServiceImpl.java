@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.miguel.vendix.business.model.Producto;
 import com.miguel.vendix.business.services.ProductoService;
+import com.miguel.vendix.integration.repositories.CategoriaRepository;
 import com.miguel.vendix.integration.repositories.ProductoRepository;
 
 import jakarta.transaction.Transactional;
@@ -16,8 +17,11 @@ public class ProductoServiceImpl implements ProductoService {
 
 	private final ProductoRepository productoRepository;
 	
-	public ProductoServiceImpl(ProductoRepository productoRepository) {
+	private final CategoriaRepository categoriaRepository;
+	
+	public ProductoServiceImpl(ProductoRepository productoRepository, CategoriaRepository categoriaRepository) {
 		this.productoRepository = productoRepository;
+		this.categoriaRepository = categoriaRepository;
 	}
 	
 	@Override
@@ -91,13 +95,15 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public void incrementarPrecio(List<Producto> productos, double porcentaje) {
-		productoRepository.incrementarPrecio(productos, porcentaje);
-	}
-
-	@Override
-	public void incrementarPrecio(double porcentaje, Long... ids) {
-		productoRepository.incrementarPrecio(porcentaje, ids);
+	public List<Producto> getlAllByCategoria(Long idCategoria) {
+		
+		boolean existe = categoriaRepository.existsById(idCategoria);
+		
+		if(!existe) {
+			new IllegalStateException("La categoria con ID [" + idCategoria + "] no existe.");
+		}
+		
+		return productoRepository.findByCategoriaId(idCategoria);
 	}
 
 }

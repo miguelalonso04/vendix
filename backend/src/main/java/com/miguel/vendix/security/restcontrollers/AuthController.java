@@ -119,6 +119,10 @@ public class AuthController {
         usuario.setUsername(registerRequest.getUsername());
         usuario.setPassword(encodedPassword);
         usuario.setEmail(registerRequest.getEmail());
+        usuario.setFirstName(registerRequest.getFirstName());
+        usuario.setLastName(registerRequest.getLastName());
+        usuario.setTelefono(registerRequest.getTelefono());
+        usuario.setEnabled(true);
 
         //Asignar Rol
         Set <Role> rol = new HashSet<>();
