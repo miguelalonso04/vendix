@@ -136,5 +136,16 @@ public class UsuarioController {
 		}
 	}
 	
+	@PutMapping("/{id}/passwd")
+	public void changePassw(@PathVariable Long id, @RequestBody String newPasswd) {
+		
+		try {
+			usuarioService.updatePasswd(id, newPasswd);
+		} catch (IllegalStateException e) {
+			throw new PresentationException(e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+	}
+	
 	
 }

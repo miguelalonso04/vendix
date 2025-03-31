@@ -20,7 +20,7 @@ public class DireccionController {
 		this.usuarioServices = usuarioServices;
 	}
 	
-	 @PostMapping("/user/{userId}")
+	@PostMapping("/user/{userId}")
     public ResponseEntity<String> addDireccion(@PathVariable Long userId, @RequestBody Direccion direccion) {
         try {
             usuarioServices.addDireccionUser(userId, direccion);

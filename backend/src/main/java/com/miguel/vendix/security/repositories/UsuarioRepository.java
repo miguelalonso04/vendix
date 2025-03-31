@@ -14,6 +14,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
 	Boolean existsByEmail(String email);
 	
+	Boolean existsByusername(String username);
+	
 	@Query("SELECT u.roles FROM Usuario u WHERE u.id = :idUsuario")
 	Optional<Role> findRolByIdUsuario(Long idUsuario);
 

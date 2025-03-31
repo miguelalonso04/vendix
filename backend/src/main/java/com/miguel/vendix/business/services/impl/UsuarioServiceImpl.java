@@ -1,9 +1,11 @@
 package com.miguel.vendix.business.services.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.miguel.vendix.business.model.Direccion;
@@ -21,6 +23,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Autowired
 	private DireccionRepository direccionRepository;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public Optional<Usuario> login(String email, String password) {
@@ -156,6 +161,26 @@ public class UsuarioServiceImpl implements UsuarioService{
 		Optional<Direccion> optional = direccionRepository.findById(idDireccion);
 		
 		direccionRepository.delete(optional.get());
+	}
+
+	@Override
+	public void updatePasswd(Long id, String newPasswd) {
+		
+		Usuario user = usuarioRepository.findById(id)
+				.orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
+		
+		String latestPasswd = user.getPassword();
+		
+        String newEncodedPassword = passwordEncoder.encode(newPasswd);
+		
+		if(latestPasswd.equalsIgnoreCase(newEncodedPassword)) {
+			throw new IllegalStateException("La contraseña nueva no puede ser la misma que la antigua.");
+		}
+		
+		user.setPassword(newEncodedPassword);
+		user.setLastPasswordResetDate(new Date());
+		
+		usuarioRepository.save(user);
 	}
 
 }

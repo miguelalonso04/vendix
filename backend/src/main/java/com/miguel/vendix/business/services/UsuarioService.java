@@ -56,4 +56,6 @@ public interface UsuarioService {
 
 	boolean existsByEmail(String email);
 	
+	void updatePasswd(Long id, String newPasswd);
+	
 }

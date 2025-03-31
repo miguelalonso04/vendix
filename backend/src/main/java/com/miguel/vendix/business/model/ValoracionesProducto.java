@@ -1,5 +1,7 @@
 package com.miguel.vendix.business.model;
 
+import com.miguel.vendix.security.model.Usuario;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,10 @@ public class ValoracionesProducto {
     @ManyToOne
     @JoinColumn(name = "producto_id")
     private Producto producto;
+    
+    @ManyToOne
+    @JoinColumn(name ="usuario_id")
+    private Usuario usuario;
     
     private String comentario;
     private int valoracion;
