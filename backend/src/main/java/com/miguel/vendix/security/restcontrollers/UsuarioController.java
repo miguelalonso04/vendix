@@ -55,8 +55,8 @@ public class UsuarioController {
 		}
 	}
 	
-	@PutMapping("/{id}/deshabilitar")
-	public void deshabilitarUsuario(@PathVariable Long id) {
+	@PutMapping("/deshabilitar")
+	public void deshabilitarUsuario(@RequestBody Long id) {
 		try {
 			usuarioService.deshabilitarUsuario(id);
 		} catch(IllegalStateException e) {
@@ -65,8 +65,8 @@ public class UsuarioController {
 	}
 	
 
-	@PutMapping("/{id}/habilitar")
-	public void habilitarUsuario(@PathVariable Long id) {
+	@PutMapping("/habilitar")
+	public void habilitarUsuario(@RequestBody Long id) {
 		try {
 			usuarioService.habilitarUsuario(id);
 		} catch(IllegalStateException e) {
@@ -74,8 +74,8 @@ public class UsuarioController {
 		}
 	}
 	
-	@GetMapping("/{idUser}/direccion")
-	public Direccion getDireccion(@PathVariable Long idUser,@RequestParam Long idDireccion) {
+	@GetMapping("/{idUser}/direccion/{idDireccion}")
+	public Direccion getDireccion(@PathVariable Long idUser,@PathVariable Long idDireccion) {
 		
 		Optional <Direccion> optional = usuarioService.getDireccion(idUser, idDireccion);
 		

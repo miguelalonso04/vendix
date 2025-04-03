@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -102,9 +103,10 @@ public class AuthController {
     
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+    	    	
         // Verificar si el usuario ya existe
         if (usuarioService.findByUserName(registerRequest.getUsername()).isPresent()) {
-            return ResponseEntity.badRequest().body("Error: ¡El nombre de usuario ya está en uso!");
+            return ResponseEntity.badRequest().body("¡El nombre de usuario ya está en uso!");
         }
         
         if(usuarioService.existsByEmail(registerRequest.getEmail())) {
@@ -137,11 +139,10 @@ public class AuthController {
         nuevaCesta.setProductos(new HashMap<Producto,Integer>());
         nuevaCesta.setTotal(0);
 		cestaService.create(nuevaCesta);
-
-        usuarioService.register(usuario);
 		
-
-        return ResponseEntity.ok("Usuario registrado exitosamente");
+        usuarioService.register(usuario);
+        
+        return ResponseEntity.ok(Map.of("message", "Usuario registrado exitosamente"));
     }
 
 }

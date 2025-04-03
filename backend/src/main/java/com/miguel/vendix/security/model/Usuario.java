@@ -58,12 +58,13 @@ public class Usuario implements UserDetails {
 	private String telefono;
 	private Boolean enabled;
 	
+	@Column(name = "lastPasswordResetDate")
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date lastPasswordResetDate;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="USUARIO_ROLES",
+	@JoinTable(name="USUARIOS_ROLES",
 			   joinColumns = @JoinColumn(name="ID_USER"),
 			   inverseJoinColumns = @JoinColumn(name="ID_ROL"))
 	private Set<Role> roles;
