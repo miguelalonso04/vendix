@@ -47,7 +47,7 @@ public class ValoracionesProductoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createValoracion(@RequestBody ValoracionesProducto valoracion,@PathVariable Long idProducto, @RequestParam Long idUsuario, UriComponentsBuilder ucb){
+	public ResponseEntity<?> createValoracion(@RequestBody ValoracionesProducto valoracion,@RequestParam Long idProducto, @RequestParam Long idUsuario, UriComponentsBuilder ucb){
 		
 		Long id = null;
 		
@@ -62,7 +62,7 @@ public class ValoracionesProductoController {
 	
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateProducto(@RequestBody ValoracionesProducto valoracion, @PathVariable Long id) {
+	public void updateValoracion(@RequestBody ValoracionesProducto valoracion, @PathVariable Long id) {
 		
 		valoracion.setId(id);
 		
@@ -75,7 +75,7 @@ public class ValoracionesProductoController {
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteProducto(@PathVariable Long id){
+	public void deleteValoracion(@PathVariable Long id){
 		
 		try {
 			valoracionesService.delete(id);

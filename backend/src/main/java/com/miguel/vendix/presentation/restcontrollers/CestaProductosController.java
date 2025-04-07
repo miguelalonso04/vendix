@@ -57,8 +57,8 @@ public class CestaProductosController {
         return ResponseEntity.ok().build();
     }
 
-	@PutMapping("/vaciar/{idCesta}")
-	public  void vaciarCesta(@PathVariable Long idCesta){
+	@PutMapping("/vaciar")
+	public  void vaciarCesta(@RequestParam Long idCesta){
 	
 		try {
 			cestaService.vaciarCesta(idCesta);
@@ -77,8 +77,8 @@ public class CestaProductosController {
 		}	
 	}
 	
-	@GetMapping("/productos")
-	public Map<Producto,Integer> getAllProductos(@RequestParam Long idCesta){
+	@GetMapping("/{idCesta}/productos")
+	public Map<Producto,Integer> getAllProductos(@PathVariable Long idCesta){
 		
 		Optional<CestaProductos> optional = cestaService.read(idCesta);
 		
@@ -94,8 +94,8 @@ public class CestaProductosController {
 		
 	}
 	
-	@GetMapping("/productos/precio/{idProducto}")
-	public Double getPrecioXProducto(@PathVariable Long idProducto, @RequestParam Long idCesta) {
+	@GetMapping("/{idCesta}/productos/precio/{idProducto}")
+	public Double getPrecioXProducto(@PathVariable Long idProducto, @PathVariable Long idCesta) {
 		
 		Optional<CestaProductos> cesta = cestaService.read(idCesta);
 		
@@ -112,8 +112,8 @@ public class CestaProductosController {
 		return cestaService.getPrecioXProducto(idProducto, idCesta);
 	}
 	
-	@GetMapping("/productos/precio")
-	public Double getPrecioTotalCesta(@RequestParam Long idCesta) {
+	@GetMapping("/{idCesta}/productos/precio")
+	public Double getPrecioTotalCesta(@PathVariable Long idCesta) {
 		
 		Optional<CestaProductos> optional = cestaService.read(idCesta);
 		

@@ -104,8 +104,8 @@ public class PedidoController {
 		return pedidoService.getBetweenFechas(desde, hasta);
 	}
 	
-	@PutMapping("/confirmar/{id}")
-	public void confirmarPedido(@PathVariable Long id) {
+	@PutMapping("/confirmar")
+	public void confirmarPedido(@RequestParam Long id) {
 		try {
 			pedidoService.confirmarPedido(id);
 		} catch(IllegalStateException e) {
@@ -113,8 +113,8 @@ public class PedidoController {
 		}
 	}
 	
-	@PutMapping("/cancelar/{id}")
-	public void cancelarPedido(@PathVariable Long id) {
+	@PutMapping("/cancelar")
+	public void cancelarPedido(@RequestParam Long id) {
 		
 		try {
 			pedidoService.cancelarPedido(id);

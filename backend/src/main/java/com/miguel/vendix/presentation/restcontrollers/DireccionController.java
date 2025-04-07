@@ -11,7 +11,7 @@ import com.miguel.vendix.business.model.Direccion;
 import com.miguel.vendix.business.services.UsuarioService;
 
 @RestController
-@RequestMapping("/api/direcciones")
+@RequestMapping("/api/direccion")
 public class DireccionController {
 
 	private UsuarioService usuarioServices;
