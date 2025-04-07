@@ -1,0 +1,117 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: sans-serif;
+    display: grid;
+    grid-template-areas: 
+      "header header"
+      "nav nav"
+      "aside main";
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto auto 1fr;
+    height: 100vh;
+  }
+  
+  /* Header */
+  header {
+    grid-area: header;
+    background-color: #222;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  /* Nav */
+  nav {
+    grid-area: nav;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+  }
+  
+  .barra-busqueda {
+    flex: 1;
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .barra {
+    flex: 1;
+    padding: 0.5rem;
+  }
+  
+  .btn-buscar {
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .carrito, .pedidos {
+    margin-left: 1rem;
+  }
+  
+  .btn-carrito, .btn-pedidos {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Aside */
+  aside {
+    grid-area: aside;
+    background-color: #eaeaea;
+    padding: 1rem;
+    border-right: 1px solid #ccc;
+    float: left;
+    height: 760px;
+  }
+  
+  aside h2 {
+    margin-bottom: 1rem;
+  }
+  
+  aside p {
+    margin: 0.5rem 0;
+  }
+  
+  aside a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  hr {
+    margin: 1rem 0;
+  }
+  
+  /* Main */
+  main {
+    grid-area: main;
+    padding: 1rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    padding: 200px;
+  }
+  
+  .productos {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  .productos img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
