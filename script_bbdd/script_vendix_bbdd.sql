@@ -102,3 +102,16 @@ CREATE TABLE CESTA_PRODUCTOS_PRODUCTO (
 INSERT INTO ROLES (ID, TIPO) VALUES (1, 'ADMIN');
 INSERT INTO ROLES (ID, TIPO) VALUES (2, 'USER');
 
+INSERT INTO USUARIOS (id,username, password, email, FIRST_NAME, LAST_NAME, telefono, enabled, lastPasswordResetDate)  
+VALUES (1,'admin', '$2a$10$27wkx.cJ8xJCGWVCY3dg/.OcnvhPWK9rQhMDDKWdJZBno77tyVrK6', 'admin@gmail.com', 'Miguel', 'Alonso', '123456789', TRUE, NOW());
+
+INSERT INTO USUARIOS_ROLES(ID_USER,ID_ROL) VALUES (1,1);
+
+INSERT INTO CATEGORIAS (nombre, descripcion) VALUES
+('Libros', 'Categoría dedicada a libros de todo tipo, incluyendo novelas, educación y más.'),
+('Electrónica', 'Dispositivos y artículos electrónicos como teléfonos, computadoras, videjuegos y accesorios.'),
+('Moda', 'Ropa, calzado y accesorios de moda para todas las edades.'),
+('Deportes', 'Equipamiento y artículos relacionados con el deporte y la actividad física.'),
+('Automocion', 'Productos y accesorios para automóviles, motos y otros vehículos.'),
+('Otros', 'Otro tipo de productos.');
+
