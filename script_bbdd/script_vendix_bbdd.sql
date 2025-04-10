@@ -109,9 +109,12 @@ INSERT INTO USUARIOS_ROLES(ID_USER,ID_ROL) VALUES (1,1);
 
 INSERT INTO CATEGORIAS (nombre, descripcion) VALUES
 ('Libros', 'Categoría dedicada a libros de todo tipo, incluyendo novelas, educación y más.'),
-('Electrónica', 'Dispositivos y artículos electrónicos como teléfonos, computadoras, videjuegos y accesorios.'),
+('Electrónica', 'Dispositivos y artículos electrónicos como teléfonos, computadoras, videjuegoscesta_productos_producto y accesorios.'),
 ('Moda', 'Ropa, calzado y accesorios de moda para todas las edades.'),
 ('Deportes', 'Equipamiento y artículos relacionados con el deporte y la actividad física.'),
 ('Automocion', 'Productos y accesorios para automóviles, motos y otros vehículos.'),
 ('Otros', 'Otro tipo de productos.');
+
+ALTER TABLE CESTA_PRODUCTOS AUTO_INCREMENT = 2;
+
 
