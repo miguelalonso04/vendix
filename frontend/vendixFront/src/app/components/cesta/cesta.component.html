@@ -1,0 +1,8 @@
+<div class="cesta" *ngIf="cesta">
+    <div *ngFor="let item of cesta.productos">
+      <p>{{ item.producto }}</p>
+      <p>Cantidad: {{ item.cantidad }}</p>
+    </div>
+    <p>Total: {{ cesta.total }}€</p>
+  </div>
+  

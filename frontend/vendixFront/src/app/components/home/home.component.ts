@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/users.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { Router } from '@angular/router';
+import { CestaService } from '../../services/cesta.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit{
   rol!: string;
   idUsuario!: number;
 
-  usuario: any;
+  usuario!: any;
   productos!: any[];
   categorias!: any[];
 
@@ -25,12 +26,14 @@ export class HomeComponent implements OnInit{
               private userService: UsersService,
               private categoriaService: CategoriaService, 
               private localStorage: LocalStorageService,
+              private cestaService: CestaService,
               private router: Router){ }
 
   ngOnInit(): void {
     this.rol = this.localStorage.getItem('roles');
     this.idUsuario = this.localStorage.getItem('idUsuario');
     
+    console.log(this.rol)
     this.getAllProductos();
     this.getUsuarioById(this.idUsuario);
     this.getAllCategorias();
@@ -39,25 +42,35 @@ export class HomeComponent implements OnInit{
   private getAllProductos(){
     this.productoService.getAll().subscribe(
       data => {this.productos = data} 
-    )
+    );
   }
 
   private getUsuarioById(idUsuario: number){
     this.userService.getUser(idUsuario).subscribe(
       data => {this.usuario = data}
-    )
+    );
   }
 
   private getAllCategorias(){
     this.categoriaService.getAll().subscribe(
       data => {this.categorias = data}
-    )
+    );
   }
 
-  btnCategoria(categoria: string){
+  btnCategoria(idCategoria: number){
     this.router.navigate(['categoria/productos'],
-      {queryParams: {categoria: categoria} });
+      {queryParams: {idCategoria: idCategoria} });
   }
 
+  addACesta(producto: any){
+    this.cestaService.addProducto(this.idUsuario,producto).subscribe();
+
+  }
+
+  btnProducto(idProducto: number){
+    this.router.navigate(['productos/producto'],
+      {queryParams: {idProducto : idProducto} });
+
+  }
 
 }

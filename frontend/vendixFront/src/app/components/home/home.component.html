@@ -10,7 +10,7 @@
     </div>
 
     <div class="carrito">
-        <a href="" class="btn-carrito"> Cesta 🛒</a>
+        <a href="usuario/cesta" class="btn-carrito"> Cesta 🛒</a>
     </div>
 
     <div class="pedidos">
@@ -34,20 +34,34 @@
     <h3>Categorias: </h3>
 
     <p *ngFor="let c of categorias">
-        <a (click)="btnCategoria(c.nombre)">{{ c.nombre }}</a>
-      </p>
+        <a (click)="btnCategoria(c.id)">{{ c.nombre }}</a>
+    </p>
+    
+    
+    <hr>
+
+    <h3>Productos: </h3>
+
+    <p><a href="">Mis productos</a></p>
+    <p><a href="productos/form">Añadir producto</a></p>
+    <p>Buscar por precio</p>
+
 
 </aside>
 
 <main>
     <div class="productos" *ngFor="let p of productos">
 
-        <img src="" title="imagen producto {{p.id}}"/>
+        <a (click)="btnProducto(p.id)"><img src="" title="imagen producto {{p.id}}"/></a>
         <h3>{{p.nombre}}</h3>
         <p>{{p.descripcion}}</p>
         <h3>{{p.precio}}€</h3>
-        <small>{{p.categoria.nombre}}</small>
+        <small>{{p.categoria?.nombre}}</small>
 
+        <!--pasar a vista producto-->
+        <div class="btn-anadirACesta" *ngIf="rol?.includes('ROLE_USER')">
+            <button (click)="addACesta(p)" >Añadir</button>
+        </div>
     </div>
 </main>
 

@@ -1,3 +1,17 @@
-<p>categoria-productos works!</p>
+<div class="cabecera-categoria" *ngIf="categoria">
+    <h2>{{categoria.nombre}}</h2>
+    <p>{{categoria.descripcion}}</p>
+</div>
 
-<p>La categoria que has elegido es: {{categoria}}</p>
+
+<div class="productos" *ngFor="let p of productos">
+
+    <div class="producto">
+        <img src="" title="imagen producto {{p.id}}"/>
+        <h3>{{p.nombre}}</h3>
+        <p>{{p.descripcion}}</p>
+        <h3>{{p.precio}}€</h3>
+        <small>{{p.categoria.nombre}}</small>
+    </div>
+
+</div>

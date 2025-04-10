@@ -1,0 +1,42 @@
+<p>productos-form works!</p>
+
+
+<form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" formControlName="nombre" />
+      <div *ngIf="productoForm.get('nombre')?.invalid && productoForm.get('nombre')?.touched">
+        El nombre es obligatorio.
+      </div>
+    </div>
+  
+    <div>
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" formControlName="descripcion"></textarea>
+    </div>
+  
+    <div>
+      <label for="precio">Precio:</label>
+      <input type="number" id="precio" formControlName="precio" />
+      <div *ngIf="productoForm.get('precio')?.invalid && productoForm.get('precio')?.touched">
+        El precio es obligatorio.
+      </div>
+    </div>
+  
+    <div>
+      <label for="stock">Stock:</label>
+      <input type="number" id="stock" formControlName="stock" />
+    </div>
+  
+    <div>
+      <label for="categoria">Categoría:</label>
+      <select id="categoria" formControlName="categoria" >
+        <option type="number" *ngFor="let c of categorias" [ngValue]="c" [selected]="c.id === productoForm.value.categoria">{{c.nombre}}</option>
+      </select>
+    </div>
+  
+    <button type="submit" [disabled]="productoForm.invalid">Guardar</button>
+  
+    <p *ngIf="message">{{ message }}</p>
+  </form>
+  
