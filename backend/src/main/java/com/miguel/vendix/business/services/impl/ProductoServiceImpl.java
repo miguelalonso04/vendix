@@ -33,7 +33,11 @@ public class ProductoServiceImpl implements ProductoService {
 			throw new IllegalStateException("Para crear un producto el id ha de ser null");
 		}
 		
+		producto.setDisponible(true);
+		
 		Producto productoCreado = productoRepository.save(producto);
+		
+		System.out.println(producto);
 		
 		return productoCreado.getId();
 	}
