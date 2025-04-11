@@ -44,7 +44,7 @@ public class PedidoController {
 			throw new PresentationException(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
-		return ResponseEntity.created(ucb.path("/pedidos/{id}").build(id)).build();
+		return ResponseEntity.created(ucb.path("/pedidos/{id}").build(id)).body(id);
 	}
 	
 	@GetMapping("/{id}")

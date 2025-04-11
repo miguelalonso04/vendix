@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.miguel.vendix.business.model.CestaProductos;
 import com.miguel.vendix.business.model.Producto;
+import com.miguel.vendix.business.model.dtos.CestaDTO;
 
 public interface CestaProductoService {
 	
@@ -16,7 +17,7 @@ public interface CestaProductoService {
 	 * @param idUsuario tiene que coincidir con el idCesta
 	 * 
 	 */
-	Optional<CestaProductos> read(Long id);
+	Optional<CestaDTO> read(Long id);
 	
 	/**
 	 * Si la id es null o no existe lanza IllegalStateException

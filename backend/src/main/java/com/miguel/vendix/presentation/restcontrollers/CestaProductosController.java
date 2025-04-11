@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.miguel.vendix.business.model.CestaProductos;
 import com.miguel.vendix.business.model.Producto;
+import com.miguel.vendix.business.model.dtos.CestaDTO;
 import com.miguel.vendix.business.services.CestaProductoService;
 import com.miguel.vendix.business.services.ProductoService;
 import com.miguel.vendix.presentation.config.PresentationException;
@@ -33,9 +33,9 @@ public class CestaProductosController {
 	private ProductoService productoService;
 	
 	@GetMapping("/{id}")
-	public CestaProductos getCesta(@PathVariable Long id){
+	public CestaDTO getCesta(@PathVariable Long id){
 		
-		Optional<CestaProductos> optional = cestaService.read(id);
+		Optional<CestaDTO> optional = cestaService.read(id);
 		
 		if(optional.isEmpty()) {
 			throw new PresentationException("No existe La cesta con id " + id, HttpStatus.NOT_FOUND);
@@ -80,7 +80,7 @@ public class CestaProductosController {
 	@GetMapping("/{idCesta}/productos")
 	public Map<Producto,Integer> getAllProductos(@PathVariable Long idCesta){
 		
-		Optional<CestaProductos> optional = cestaService.read(idCesta);
+		Optional<CestaDTO> optional = cestaService.read(idCesta);
 		
 		if(optional.isEmpty()) {
 			throw new PresentationException("No existe La cesta con id " + idCesta, HttpStatus.NOT_FOUND);
@@ -97,7 +97,7 @@ public class CestaProductosController {
 	@GetMapping("/{idCesta}/productos/precio/{idProducto}")
 	public Double getPrecioXProducto(@PathVariable Long idProducto, @PathVariable Long idCesta) {
 		
-		Optional<CestaProductos> cesta = cestaService.read(idCesta);
+		Optional<CestaDTO> cesta = cestaService.read(idCesta);
 		
 		Optional<Producto> producto = productoService.read(idProducto);
 		
@@ -115,7 +115,7 @@ public class CestaProductosController {
 	@GetMapping("/{idCesta}/productos/precio")
 	public Double getPrecioTotalCesta(@PathVariable Long idCesta) {
 		
-		Optional<CestaProductos> optional = cestaService.read(idCesta);
+		Optional<CestaDTO> optional = cestaService.read(idCesta);
 		
 		if(optional.isEmpty()) {
 			throw new PresentationException("No existe La cesta con id " + idCesta, HttpStatus.NOT_FOUND);

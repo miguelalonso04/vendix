@@ -1,5 +1,7 @@
 package com.miguel.vendix.business.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -7,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.miguel.vendix.business.model.CestaProductos;
 import com.miguel.vendix.business.model.Producto;
+import com.miguel.vendix.business.model.dtos.CestaDTO;
+import com.miguel.vendix.business.model.dtos.ProductoDTO;
 import com.miguel.vendix.business.services.CestaProductoService;
 import com.miguel.vendix.integration.repositories.CestaProductosRepository;
 import com.miguel.vendix.integration.repositories.ProductoRepository;
@@ -33,11 +37,13 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 	}
 	
 	@Override
-	public Optional<CestaProductos> read(Long id) {
+	public Optional<CestaDTO> read(Long id) {
 		
 		Optional <CestaProductos> optional = cestaRepository.findById(id);
 		
-		return optional.isEmpty() ? Optional.empty() : Optional.of(optional.get());
+		CestaDTO cestaDTO = convertirACestaDTO(optional.get());
+		
+		return optional.isEmpty() ? Optional.empty() : Optional.of(cestaDTO);
 	}
 
 	@Override
@@ -209,4 +215,18 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 	}
 	
 
+	//CONVERTIR DTO
+	
+	public CestaDTO convertirACestaDTO(CestaProductos cesta) {
+	    List<ProductoDTO> lista = new ArrayList<>();
+
+	    for (Producto p : cesta.getProductos().keySet()) {
+	    	Integer cantidad = this.getCantidadXProducto(p.getId(), cesta.getId());
+	        ProductoDTO item = new ProductoDTO(p.getNombre(),p.getPrecio(), cantidad);
+	        lista.add(item);
+	    }
+
+	    return new CestaDTO(cesta.getId(), cesta.getTotal(), lista);
+	}
+	
 }
