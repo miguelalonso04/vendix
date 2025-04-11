@@ -22,7 +22,7 @@ export class CestaComponent implements OnInit {
   cesta: any;
   pedido !: any;
   productos!: any[];
-  direccion!: any;
+  direccion!: any[];
   nombreUsuario !: string;
 
   constructor(
@@ -37,6 +37,7 @@ export class CestaComponent implements OnInit {
     this.idUsuario = this.localStorage.getItem('idUsuario');
     this.getCesta(this.idUsuario);
     this.getProductosCesta(this.idUsuario);
+    this.getNombreUsuario(this.idUsuario);
   }
 
   btnPedido(){
@@ -44,7 +45,7 @@ export class CestaComponent implements OnInit {
 
     this.route.navigate(
       ['/home/pedidos'], {queryParams: {idPedido: this.idPedido} }
-      );
+      );    
   }
 
   /*
@@ -62,7 +63,14 @@ export class CestaComponent implements OnInit {
 
   private getProductosCesta(idUsuario: number){
    this.cestaService.getAllProductosCesta(idUsuario).subscribe(
-      data => {data = this.productos}
+      
+      data => {this.productos = data}
+    );
+  }
+  
+  private getNombreUsuario(idUsuario: number){
+    this.userService.getUser(idUsuario).subscribe(
+      data => {this.nombreUsuario = data.username}
     );
   }
 
@@ -74,9 +82,11 @@ export class CestaComponent implements OnInit {
       nombreUsuario: this.nombreUsuario,
       precioTotalPedido: this.cesta.total
     };
-
+    console.log(this.pedido);
     this.pedidoService.createPedido(this.pedido,this.idUsuario).subscribe(
-      id => {this.idPedido = id}
+      id => {this.idPedido = id
+        console.log('IdPedido , id::::'+id)
+      }
     );
   }
 
