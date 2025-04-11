@@ -1,6 +1,6 @@
 package com.miguel.vendix.presentation.restcontrollers;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.miguel.vendix.business.model.Producto;
 import com.miguel.vendix.business.model.dtos.CestaDTO;
+import com.miguel.vendix.business.model.dtos.ProductoDTO;
 import com.miguel.vendix.business.services.CestaProductoService;
 import com.miguel.vendix.business.services.ProductoService;
 import com.miguel.vendix.presentation.config.PresentationException;
@@ -77,8 +78,10 @@ public class CestaProductosController {
 		}	
 	}
 	
+
+	//TODO ARREGLAR  => DEVUELVA LISTA DE PRODUCTOS EN VEZ DE UN MAPA
 	@GetMapping("/{idCesta}/productos")
-	public Map<Producto,Integer> getAllProductos(@PathVariable Long idCesta){
+	public List<ProductoDTO> getAllProductos(@PathVariable Long idCesta){
 		
 		Optional<CestaDTO> optional = cestaService.read(idCesta);
 		

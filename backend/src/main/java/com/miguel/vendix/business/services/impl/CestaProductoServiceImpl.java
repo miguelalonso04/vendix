@@ -111,7 +111,7 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 	}
 
 	@Override
-	public Map<Producto,Integer> getAllProductos(Long idCesta) {
+	public List<ProductoDTO> getAllProductos(Long idCesta) {
 		
 		CestaProductos cesta = cestaRepository.findById(idCesta)
 				.orElseThrow(() -> new IllegalStateException("NO SE HA ENCONTRADO LA CESTA DEL USUARIO "+idCesta));	
@@ -120,7 +120,9 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 			throw new IllegalStateException("NO HAY PRODUCTOS EN LA CESTA");
 		}
 		
-		return cesta.getProductos();
+		CestaDTO cestaDTO = convertirACestaDTO(cesta);
+		
+		return cestaDTO.getProductos();
 	}
 
 	@Override

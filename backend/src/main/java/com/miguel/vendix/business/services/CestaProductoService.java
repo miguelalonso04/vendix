@@ -1,11 +1,13 @@
 package com.miguel.vendix.business.services;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import com.miguel.vendix.business.model.CestaProductos;
 import com.miguel.vendix.business.model.Producto;
 import com.miguel.vendix.business.model.dtos.CestaDTO;
+import com.miguel.vendix.business.model.dtos.ProductoDTO;
 
 public interface CestaProductoService {
 	
@@ -37,7 +39,7 @@ public interface CestaProductoService {
 	 */
 	void eliminarUnProductoEnCesta(Long idProducto, Long idCesta);
 	
-	Map<Producto,Integer> getAllProductos(Long idCesta);
+	List<ProductoDTO> getAllProductos(Long idCesta);
 	
 	/**
 	 * Si la id es null o no existe lanza IllegalStateException
