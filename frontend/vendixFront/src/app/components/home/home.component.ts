@@ -6,6 +6,7 @@ import { UsersService } from '../../services/users.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { Router } from '@angular/router';
 import { CestaService } from '../../services/cesta.service';
+import { ProductosComponent } from "../productos/productos.component";
 
 @Component({
   selector: 'app-home',

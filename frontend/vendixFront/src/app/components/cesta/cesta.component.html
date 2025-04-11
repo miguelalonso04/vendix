@@ -1,7 +1,11 @@
+
+
+<app-home></app-home>
 <div class="cesta" *ngIf="cesta">
-    <div *ngFor="let item of cesta.productos">
-      <p>{{ item.producto }}</p>
-      <p>Cantidad: {{ item.cantidad }}</p>
+    <div *ngFor="let p of cesta.productos">
+      <p>{{ p.nombre }}</p>
+      <p>Cantidad: {{ p.cantidad }}</p>
+      <p>Precio: {{p.cantidad * p.precio}}€</p>
     </div>
     <p>Total: {{ cesta.total }}€</p>
   </div>

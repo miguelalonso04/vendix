@@ -2,51 +2,82 @@ import { Component, OnInit } from '@angular/core';
 import { CestaService } from '../../services/cesta.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { CommonModule } from '@angular/common';
+import { HomeComponent } from "../home/home.component";
+import { PedidoService } from '../../services/pedido.service';
+import { Router } from '@angular/router';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-cesta',
-  imports: [CommonModule],
+  imports: [CommonModule, HomeComponent],
   templateUrl: './cesta.component.html',
   styleUrl: './cesta.component.css'
 })
 export class CestaComponent implements OnInit {
 
   idUsuario!: number;
-  cesta: any = {
-    id: null,
-    total: 0,
-    productos: [] // aquí irán los productos procesados
-  };
-  
+  idPedido!: number;
+  idDireccion!: number;
+
+  cesta: any;
+  pedido !: any;
+  productos!: any[];
+  direccion!: any;
+  nombreUsuario !: string;
+
   constructor(
     private cestaService: CestaService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private pedidoService: PedidoService,
+    private userService: UsersService,
+    private route: Router
   ) {}
 
   ngOnInit(): void {
     this.idUsuario = this.localStorage.getItem('idUsuario');
     this.getCesta(this.idUsuario);
+    this.getProductosCesta(this.idUsuario);
   }
+
+  btnPedido(){
+    this.crearPedido();
+
+    this.route.navigate(
+      ['/home/pedidos'], {queryParams: {idPedido: this.idPedido} }
+      );
+  }
+
+  /*
+
+  METODOS PRIVADOS
+
+  */
 
   private getCesta(idUsuario: number) {
     this.cestaService.getCesta(idUsuario).subscribe(data => {
-      // Inicializamos cesta
-      this.cesta.id = data.id;
-      this.cesta.total = data.total;
-      this.cesta.productos = [];
-
-      // Recorremos las claves para encontrar productos
-      for (let key in data) {
-        if (key !== 'id' && key !== 'total') {
-          this.cesta.productos.push({
-            producto: key,     // el string toString() del producto
-            cantidad: data[key]      // valor del map (la cantidad)
-          });
-        }
-      }
-
+      this.cesta = data;
       console.log(this.cesta);
     });
+  }
+
+  private getProductosCesta(idUsuario: number){
+   this.cestaService.getAllProductosCesta(idUsuario).subscribe(
+      data => {data = this.productos}
+    );
+  }
+
+  private crearPedido(){
+
+    this.pedido = {
+      productos:  this.productos,
+      direccion: this.direccion,
+      nombreUsuario: this.nombreUsuario,
+      precioTotalPedido: this.cesta.total
+    };
+
+    this.pedidoService.createPedido(this.pedido,this.idUsuario).subscribe(
+      id => {this.idPedido = id}
+    );
   }
 
 }
