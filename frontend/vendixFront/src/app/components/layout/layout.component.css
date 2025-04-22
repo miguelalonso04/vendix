@@ -1,0 +1,126 @@
+/* Fuente general */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right bottom, #a0f0e0, #53c4f7);
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  
+  /* Tarjeta general de layout */
+  header, nav, aside {
+    background-color: #0220a1;
+    background-image: 
+        radial-gradient(at 47% 33%, hsl(0, 0%, 100%) 0, transparent 59%), 
+        radial-gradient(at 82% 65%, hsl(0, 0%, 15%) 0, transparent 55%);
+    border-radius: 16px;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header */
+  header {
+    text-align: center;
+    font-size: 2rem;
+    color: #ffffff;
+    font-weight: 600;
+  }
+  
+  /* Nav */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .barra-busqueda {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .barra {
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 1rem;
+  }
+  
+  .btn-buscar {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+  }
+  .btn-buscar:hover {
+    background-color: #218838;
+  }
+  
+  /* Sidebar */
+  aside {
+    max-width: 250px;
+    float: left;
+    
+  }
+  
+  aside h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  aside a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  aside a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Main */
+  main {
+    min-height: 400px;
+    margin-top: 40px;
+    margin-left: 200px;
+  }
+  
+  /* Titulares */
+  h3 {
+    margin-top: 1.5rem;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Enlaces */
+  a {
+    color: #000000;
+    transition: color 0.3s;
+  }
+  
+  a:hover {
+    color: #efff0a;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav {
+      flex-direction: column;
+    }
+    aside {
+      width: 100%;
+    }
+    main {
+      margin-top: 20px;
+    }
+  }
+  

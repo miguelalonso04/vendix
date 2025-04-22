@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
-import { LocalStorageService } from '../../services/local-storage.service';
-import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/users.service';
 import { CategoriaService } from '../../services/categoria.service';
-import { Router } from '@angular/router';
+import { LocalStorageService } from '../../services/local-storage.service';
 import { CestaService } from '../../services/cesta.service';
+import { Router, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-home',
-  imports: [CommonModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  selector: 'app-layout',
+  imports: [CommonModule, RouterOutlet],
+  templateUrl: './layout.component.html',
+  styleUrl: './layout.component.css'
 })
-export class HomeComponent implements OnInit{
+export class LayoutComponent {
 
-  rol!: string;
+rol!: string;
   idUsuario!: number;
 
   usuario!: any;
@@ -60,10 +60,6 @@ export class HomeComponent implements OnInit{
   btnCategoria(idCategoria: number){
     this.router.navigate(['home/categoria/productos'],
       {queryParams: {idCategoria: idCategoria} });
-  }
-
-  addACesta(producto: any){
-    this.cestaService.addProducto(this.idUsuario,producto).subscribe();
 
   }
 
@@ -71,6 +67,10 @@ export class HomeComponent implements OnInit{
     this.router.navigate(['productos/producto'],
       {queryParams: {idProducto : idProducto} });
 
+  }
+
+  buscarProducto(){
+    
   }
 
 }

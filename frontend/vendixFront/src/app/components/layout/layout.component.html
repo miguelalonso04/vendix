@@ -1,0 +1,56 @@
+
+<header>
+    <h1>VENDIX</h1>
+
+</header>
+<nav>
+    <div class="barra-busqueda">
+        <input type="text" class="barra" placeholder="Buscar por productos">
+        <button class="btn-buscar">Buscar</button>
+    </div>
+
+    <div class="carrito">
+        <a href="usuario/cesta" class="btn-carrito"> Cesta 🛒</a>
+    </div>
+
+    <div class="pedidos">
+        <a href="home/pedidos" class="btn-pedidos">Pedidos 🛍️</a>
+    </div>
+</nav>
+
+<aside>
+
+    <div *ngIf="usuario">
+        <h2> {{ usuario.username }}</h2>
+    </div>
+
+    <p><a href="" >Mi cuenta</a></p>
+    <p><a href="/login"> Iniciar Sesion</a></p>
+    <p><a href="/register">Registrate</a></p>
+    
+
+    <hr>
+
+    <h3>Categorias: </h3>
+
+    <p *ngFor="let c of categorias">
+        <a (click)="btnCategoria(c.id)">{{ c.nombre }}</a>
+    </p>
+    
+    
+    <hr>
+
+    <h3>Productos: </h3>
+
+    <p><a href="">Mis productos</a></p>
+    <p><a href="home/productos/form">Añadir producto</a></p>
+    <p>Buscar por precio</p>
+
+
+</aside>
+
+<main>
+    <router-outlet></router-outlet>
+</main>
+
+
