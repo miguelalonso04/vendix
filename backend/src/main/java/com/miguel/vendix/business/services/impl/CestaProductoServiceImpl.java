@@ -56,7 +56,7 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 		
 		Double total = cesta.getTotal();
 		
-		if(p.getStock() > 1) {
+		if(p.getStock() > 0) {
 			cesta.setTotal(total + p.getPrecio());
 			
 			if(productos.containsKey(p)) {
