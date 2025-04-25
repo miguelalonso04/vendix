@@ -4,13 +4,13 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/users.service';
 import { CategoriaService } from '../../services/categoria.service';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { CestaService } from '../../services/cesta.service';
 import { ProductosComponent } from "../productos/productos.component";
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, ProductosComponent],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

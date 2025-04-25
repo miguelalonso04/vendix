@@ -20,7 +20,7 @@ export const routes: Routes = [
     path: 'home',
     component: LayoutComponent,
     children: [
-      { path: '', component: HomeComponent },
+      { path: '', component: ProductosComponent },
       { path: 'productos/form', component: ProductosFormComponent },
       { path: 'productos/producto', component: ViewProductoComponent },
       { path: 'productos', component: ProductosComponent },
