@@ -116,5 +116,21 @@ public class ProductoController {
 		return lista;
     }
 	
+    @GetMapping("/nombre/{nombreProducto}")
+    public List<Producto> getAllByNombre(@PathVariable String nombreProducto){
+    	
+    	if(nombreProducto == null || nombreProducto.isEmpty()) {
+    		throw new PresentationException("No se ha recibido ningun nombre", HttpStatus.BAD_REQUEST);
+    	}
+    	
+    	List<Producto> lista = productoService.getAllByNombre(nombreProducto);
+    	
+    	if(lista.isEmpty()) {
+    		throw new PresentationException("No existe ningun producto que empiece por ["+nombreProducto+"].", HttpStatus.NO_CONTENT);
+    	}
+    	
+    	return lista;
+    	
+    }
 	
 }

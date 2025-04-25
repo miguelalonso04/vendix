@@ -40,4 +40,6 @@ public interface ProductoService {
 
 	List<Producto> getlAllByCategoria(Long idCategoria);
 	
+	List<Producto> getAllByNombre(String nombreProducto);
+	
 }

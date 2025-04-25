@@ -110,4 +110,10 @@ public class ProductoServiceImpl implements ProductoService {
 		return productoRepository.findByCategoriaId(idCategoria);
 	}
 
+	@Override
+	public List<Producto> getAllByNombre(String nombreProducto) {
+	    return productoRepository.findByNombreStartingWithIgnoreCase(nombreProducto);
+	}
+
+
 }
