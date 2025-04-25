@@ -224,7 +224,7 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 
 	    for (Producto p : cesta.getProductos().keySet()) {
 	    	Integer cantidad = this.getCantidadXProducto(p.getId(), cesta.getId());
-	        ProductoDTO item = new ProductoDTO(p.getNombre(),p.getPrecio(), cantidad);
+	        ProductoDTO item = new ProductoDTO(p.getId(),p.getNombre(),p.getPrecio(), cantidad);
 	        lista.add(item);
 	    }
 

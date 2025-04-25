@@ -51,8 +51,9 @@ public class PedidoServiceImpl implements PedidoService {
 				.orElseThrow(() -> new IllegalArgumentException("Usuario con id ["+idUsuario+"] no encontrado"));
 		
 		for (ProductoDTO productoDTO : pedidoDTO.getProductos()) {
+	        System.out.println(productoDTO);
 	        
-	        Producto producto = productoRepository.findByNombre(productoDTO.getNombre())
+	        Producto producto = productoRepository.findById(productoDTO.getId())
 	                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + productoDTO.getNombre()));
 
 	        total += productoDTO.getPrecio() * productoDTO.getCantidad();
