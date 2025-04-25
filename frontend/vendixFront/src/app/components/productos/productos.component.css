@@ -1,0 +1,120 @@
+.productos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .producto {
+    background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+    border-radius: 16px;
+    width: 320px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .producto:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .product-image {
+    background: rgba(255, 255, 255, 0.4);
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .product-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+  
+  .product-details {
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .product-title {
+    font-size: 1.4rem;
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .product-description {
+    font-size: 1rem;
+    color: #555;
+    margin: 8px 0 10px;
+  }
+  
+  .product-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+  }
+  
+  .stars {
+    color: #ffc107;
+    font-size: 1.2rem;
+  }
+  
+  .rating-badge {
+    background-color: #4caf50;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: bold;
+  }
+  
+  .product-price {
+    margin-bottom: 16px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e91e63;
+  }
+  
+  .original-price {
+    color: #00b670;
+    margin-right: 10px;
+  }
+  
+  .add-to-cart {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-to-cart:hover {
+    background-color: #218838;
+  }
+  
+  .estrella {
+      font-size: 1.2rem;
+      color: #ffc107;
+    }
+    
+    .estrella.half {
+      background: linear-gradient(to right, #ffc107 50%, #ddd 50%);
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: #ffc107;
+      
+    }
+    
+    .estrella.empty {
+      color: #ccc;
+    }
+    

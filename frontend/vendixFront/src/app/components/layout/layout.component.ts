@@ -6,21 +6,23 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { CestaService } from '../../services/cesta.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-layout',
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, FormsModule],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
 
-rol!: string;
+  rol!: string;
   idUsuario!: number;
 
   usuario!: any;
   productos!: any[];
   categorias!: any[];
+  nombreProducto !: string;
 
   constructor(private productoService: ProductoService,
               private userService: UsersService,
@@ -58,18 +60,23 @@ rol!: string;
   }
 
   btnCategoria(idCategoria: number){
-    this.router.navigate(['home/categoria/productos'],
+    this.router.navigate(['home/productos'],
       {queryParams: {idCategoria: idCategoria} });
 
   }
 
-  btnProducto(idProducto: number){
-    this.router.navigate(['productos/producto'],
-      {queryParams: {idProducto : idProducto} });
-
+  btnBuscarProducto(){
+    this.router.navigate(['home/productos'],
+    {
+      queryParams: {
+        nombreProducto : this.nombreProducto,
+        buscado : true
+      }
+    });
+    console.log(this.nombreProducto)
   }
 
-  buscarProducto(){
+  cerrarSesion(){
     
   }
 

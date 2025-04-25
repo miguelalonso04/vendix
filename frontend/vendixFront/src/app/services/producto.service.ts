@@ -49,4 +49,10 @@ export class ProductoService {
 
     return this.http.get(`${this.productoUrl}/categoria`, {params});
   }
+
+  getAllByNombre(nombreProducto: string): Observable<any>{
+
+    return this.http.get(`${this.productoUrl}/nombre/${nombreProducto}`)
+
+  }
 }

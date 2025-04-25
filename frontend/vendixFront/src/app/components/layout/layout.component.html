@@ -5,8 +5,12 @@
 </header>
 <nav>
     <div class="barra-busqueda">
-        <input type="text" class="barra" placeholder="Buscar por productos">
-        <button class="btn-buscar">Buscar</button>
+        <input type="text" [(ngModel)]="nombreProducto" class="barra" placeholder="Buscar por productos">
+        <button class="btn-buscar" (click)="btnBuscarProducto()">Buscar</button>
+    </div>
+
+    <div class="inicio">
+        <a href="/home" class="btn-inicio"> Inicio</a>
     </div>
 
     <div class="carrito">
@@ -25,9 +29,7 @@
     </div>
 
     <p><a href="" >Mi cuenta</a></p>
-    <p><a href="/login"> Iniciar Sesion</a></p>
-    <p><a href="/register">Registrate</a></p>
-    
+    <p><a href="/login"> Cerrar Sesion</a></p>  
 
     <hr>
 
