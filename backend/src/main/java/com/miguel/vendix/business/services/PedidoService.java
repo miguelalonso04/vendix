@@ -16,7 +16,7 @@ public interface PedidoService {
 	 */
 	Long create(PedidoDTO pedido, Long idUsuario);
 	
-	Optional<Pedido> read(Long id);
+	Optional<PedidoDTO> read(Long id);
 	
 	/**
 	 * Si la id es null o no existe lanza IllegalStateException

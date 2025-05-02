@@ -48,9 +48,9 @@ public class PedidoController {
 	}
 	
 	@GetMapping("/{id}")
-	public Pedido getPedido(@PathVariable Long id) {
+	public PedidoDTO getPedido(@PathVariable Long id) {
 		
-		Optional<Pedido> optional = pedidoService.read(id);
+		Optional<PedidoDTO> optional = pedidoService.read(id);
 		
 		if(optional.isEmpty()) {
 			throw new PresentationException("No existe el pedido con id " + id, HttpStatus.NOT_FOUND);

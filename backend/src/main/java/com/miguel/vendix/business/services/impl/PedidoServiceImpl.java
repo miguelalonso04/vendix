@@ -1,7 +1,9 @@
 package com.miguel.vendix.business.services.impl;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -62,12 +64,12 @@ public class PedidoServiceImpl implements PedidoService {
 	    }
 		
 		cesta.setProductos(productos);
-		pedidoDTO.setPrecioTotalPedido(total);;
+		pedidoDTO.setPrecioTotalPedido(total);
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		LocalDateTime now = LocalDateTime.now();
 		now.format(formatter);
-		Date fechaPedido = java.sql.Timestamp.valueOf(now);
+		Date fechaPedido = Timestamp.valueOf(now);
 		
 		pedido.setCestaProductos(cesta);
 		pedido.setDireccion(pedidoDTO.getDireccion());
@@ -84,11 +86,10 @@ public class PedidoServiceImpl implements PedidoService {
 	}
 
 	@Override
-	public Optional<Pedido> read(Long id) {
-		
-		Optional<Pedido> optional = pedidoRepository.findById(id);
-		
-		return optional.isEmpty() ? Optional.empty() : Optional.of(optional.get());
+	public Optional<PedidoDTO> read(Long id) {
+	    Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
+
+	    return optionalPedido.map(this::convertirPedidoToDTO);
 	}
 
 	@Override
@@ -187,6 +188,33 @@ public class PedidoServiceImpl implements PedidoService {
 		Optional<Usuario> optional = pedidoRepository.findUsuarioByid(id);
 		
 		return optional.isEmpty() ? Optional.empty() : Optional.of(optional.get());
+	}
+	
+	private PedidoDTO convertirPedidoToDTO(Pedido pedido) {
+		PedidoDTO pedidoDTO = new PedidoDTO();
+		ArrayList<ProductoDTO> lista = new ArrayList<>();
+		
+		pedidoDTO.setDireccion(pedido.getDireccion());
+		pedidoDTO.setNombreUsuario(pedido.getUsuario().getUsername());
+		pedidoDTO.setPrecioTotalPedido(pedido.getPrecioTotal());
+		pedidoDTO.setFechaPedido(pedido.getFechaPedido());
+		pedidoDTO.setId(pedido.getId());
+		pedidoDTO.setEstado(pedido.getEstado());
+
+		for (Producto p :pedido.getCestaProductos().getProductos().keySet() ) {
+			
+			ProductoDTO productoDTO = new ProductoDTO();
+			productoDTO.setId(p.getId());
+			productoDTO.setNombre(p.getNombre());
+			productoDTO.setPrecio(p.getPrecio());
+			productoDTO.setCantidad(pedido.getCestaProductos().getProductos().get(p));
+			
+			lista.add(productoDTO);
+		}
+		pedidoDTO.setProductos(lista);
+		
+		return pedidoDTO;
+		
 	}
 
 }
