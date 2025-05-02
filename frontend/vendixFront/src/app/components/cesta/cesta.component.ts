@@ -30,7 +30,7 @@ export class CestaComponent implements OnInit {
     private localStorage: LocalStorageService,
     private pedidoService: PedidoService,
     private userService: UsersService,
-    private route: Router
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -41,12 +41,8 @@ export class CestaComponent implements OnInit {
   }
 
   btnPedido(){
-    this.crearPedido();
-
-    this.route.navigate(
-      ['/home/pedidos'], {queryParams: {idPedido: this.idPedido} }
-      );    
-  }
+    this.crearPedido();  
+  }  
 
   /*
 
@@ -84,8 +80,14 @@ export class CestaComponent implements OnInit {
     };
     console.log(this.pedido);
     this.pedidoService.createPedido(this.pedido,this.idUsuario).subscribe(
-      id => {this.idPedido = id
-        console.log('IdPedido , id::::'+id)
+      id => {
+        this.idPedido = id;
+        console.log("Pedido creado con id:", this.idPedido);
+
+        this.router.navigate(
+          ['/home/pedidos'], 
+          { queryParams: { idPedido: this.idPedido } }
+        );
       }
     );
   }

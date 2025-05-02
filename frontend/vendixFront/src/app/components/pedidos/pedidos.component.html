@@ -1,1 +1,31 @@
-<app-home></app-home>
+<div class="pedidos">
+    <div *ngIf="pedido">
+        <h2>Detalles del Pedido</h2>
+        
+        <div class="pedido-info">
+            <h3>Pedido #{{ pedido.id }}</h3>
+            <p><strong>Nobre usuario: </strong>{{pedido.nombreUsuario}}</p>
+            <p><strong>Fecha de Pedido:</strong> {{ pedido.fechaPedido | date: 'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Estado del Pedido:</strong> {{ pedido.estado }}</p>
+            <p><strong>Precio Total:</strong> {{ pedido.precioTotalPedido | currency }}</p>
+        </div>
+
+        <div class="productos-info">
+            <h4>Productos en la Cesta</h4>
+            <div class="productos" *ngFor="let p of pedido.productos">
+              <p>{{p.id}}</p>
+            </div>
+          </div>
+      
+        <div class="direccion-info">
+          <h4>Dirección de Envío</h4>
+          <p><strong>Calle:</strong> {{ pedido.direccion.calle }}</p>
+          <p><strong>Ciudad:</strong> {{ pedido.direccion.ciudad }}</p>
+          <p><strong>Provincia:</strong> {{ pedido.direccion.provincia }}</p>
+          <p><strong>Código Postal:</strong> {{ pedido.direccion.codigoPostal }}</p>
+          <p><strong>País:</strong> {{ pedido.direccion.pais }}</p>
+        </div>
+      
+      </div>
+      
+</div>
