@@ -86,7 +86,7 @@ export class CestaComponent implements OnInit {
 
         this.router.navigate(
           ['/home/pedidos'], 
-          { queryParams: { idPedido: this.idPedido } }
+          { queryParams: { idPedido: this.idPedido} }
         );
       }
     );

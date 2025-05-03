@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { PedidoService } from '../../services/pedido.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,8 +16,13 @@ export class PedidosComponent implements OnInit {
   idUsuario !: number;
   idPedido !: number;
   pedido: any;
+  lPedidos!: any[];
+  usuario: any;
 
-  constructor(private localStorage: LocalStorageService, private pedidoService: PedidoService, private route: ActivatedRoute){}
+  constructor(private localStorage: LocalStorageService,
+              private pedidoService: PedidoService,
+              private route: ActivatedRoute,
+              private router: Router){}
 
   ngOnInit(): void {
 
@@ -25,7 +30,22 @@ export class PedidosComponent implements OnInit {
       params => {this.idPedido = params['idPedido']}
     );
     this.idUsuario = this.localStorage.getItem('idUsuario');
-    this.getPedido(this.idPedido);
+
+
+
+    if(this.idPedido){
+      this.getPedido(this.idPedido);
+      this.getUsuarioPedido(this.idPedido);
+    }else{
+      this.getAllPedidosByUsuario(this.idUsuario);
+    }
+  }
+
+  btnVerPedido(idPedido: number){
+    this.router.navigate(
+      ['/home/pedidos'], 
+      { queryParams: { idPedido: idPedido} }
+    );
   }
 
   private getPedido(idPedido: number){
@@ -35,7 +55,23 @@ export class PedidosComponent implements OnInit {
       } 
      );
   }
+  
+  private getAllPedidos(){
+    this.pedidoService.getAllPedidos().subscribe(
+      data => {this.lPedidos = data}
+    );
+  }
 
+  private getUsuarioPedido(idPedido: number){
+    this.pedidoService.getUsuario(idPedido).subscribe(
+      data => {this.usuario = data}
+    );
+  }
 
+  private getAllPedidosByUsuario(idUsuario: number){
+    this.pedidoService.getAllPedidosByUsuario(idUsuario).subscribe(
+      data => {this.lPedidos = data}
+    );
+  }
 
 }

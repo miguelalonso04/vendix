@@ -26,6 +26,20 @@
           <p><strong>País:</strong> {{ pedido.direccion.pais }}</p>
         </div>
       
+    </div>
+
+    <div class="lista-pedidos" *ngIf="lPedidos">
+      <div *ngFor="let p of lPedidos">
+        <ul>
+          <li>
+            <p><strong>#</strong>{{p.id}},
+              <strong>Fecha Pedido:</strong> {{p.fechaPedido}},
+              <strong>Estado Pedido: </strong> {{p.estado}}, 
+              <button (click)="btnVerPedido(p.id)">Ver Pedido</button>
+            </p>
+            </li>
+        </ul>
       </div>
+    </div>
       
 </div>
