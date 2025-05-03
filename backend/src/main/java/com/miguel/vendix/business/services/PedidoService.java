@@ -43,4 +43,6 @@ public interface PedidoService {
 	void cancelarPedido(Long id);
 	
 	Optional<Usuario> getUsuarioByPedido(Long id);
+	
+	List<Pedido> getAllPedidosByUsuario(Long idUsuario);
 }

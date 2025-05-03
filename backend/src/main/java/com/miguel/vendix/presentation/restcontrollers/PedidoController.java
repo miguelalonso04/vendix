@@ -136,4 +136,16 @@ public class PedidoController {
 		
 	}	
 	
+	@GetMapping("/usuario/{idUsuario}")
+	public List<Pedido> getAllPedidosByUsuario(@PathVariable Long idUsuario){
+		
+		List<Pedido> lista = pedidoService.getAllPedidosByUsuario(idUsuario);
+		
+		if(lista.isEmpty()) {
+			throw new PresentationException("Aun no has hecho ningun pedido", HttpStatus.NOT_FOUND);
+		}
+		return lista;
+		
+	}
+	
 }

@@ -190,6 +190,12 @@ public class PedidoServiceImpl implements PedidoService {
 		return optional.isEmpty() ? Optional.empty() : Optional.of(optional.get());
 	}
 	
+
+	@Override
+	public List<Pedido> getAllPedidosByUsuario(Long idUsuario) {		
+		return pedidoRepository.findPedidosByUsuarioId(idUsuario);
+	}
+	
 	private PedidoDTO convertirPedidoToDTO(Pedido pedido) {
 		PedidoDTO pedidoDTO = new PedidoDTO();
 		ArrayList<ProductoDTO> lista = new ArrayList<>();
@@ -216,5 +222,6 @@ public class PedidoServiceImpl implements PedidoService {
 		return pedidoDTO;
 		
 	}
+
 
 }
