@@ -79,7 +79,6 @@ public class CestaProductosController {
 	}
 	
 
-	//TODO ARREGLAR  => DEVUELVA LISTA DE PRODUCTOS EN VEZ DE UN MAPA
 	@GetMapping("/{idCesta}/productos")
 	public List<ProductoDTO> getAllProductos(@PathVariable Long idCesta){
 		

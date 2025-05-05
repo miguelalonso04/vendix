@@ -16,7 +16,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 	
 	List<Pedido> findByFechaPedidoBetweenOrderByFechaPedidoDesc(Date desde, Date hasta);
 	
-	Optional<Usuario> findUsuarioByid(Long id);
+	@Query("SELECT p.usuario FROM Pedido p WHERE p.id = :id")
+	Optional<Usuario> findUsuarioByid(@Param("id") Long id);
 	
 	@Query("SELECT p FROM Pedido p WHERE p.usuario.id = :usuarioId")
     List<Pedido> findPedidosByUsuarioId(@Param("usuarioId") Long usuarioId);

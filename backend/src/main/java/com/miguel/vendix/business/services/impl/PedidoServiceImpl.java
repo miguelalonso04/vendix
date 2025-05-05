@@ -19,6 +19,7 @@ import com.miguel.vendix.business.model.Producto;
 import com.miguel.vendix.business.model.dtos.PedidoDTO;
 import com.miguel.vendix.business.model.dtos.ProductoDTO;
 import com.miguel.vendix.business.services.PedidoService;
+import com.miguel.vendix.business.services.email.EmailService;
 import com.miguel.vendix.integration.repositories.CestaProductosRepository;
 import com.miguel.vendix.integration.repositories.PedidoRepository;
 import com.miguel.vendix.integration.repositories.ProductoRepository;
@@ -39,6 +40,9 @@ public class PedidoServiceImpl implements PedidoService {
 	
 	@Autowired
 	private CestaProductosRepository cestaRepository;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@Override
 	public Long create(PedidoDTO pedidoDTO, Long idUsuario) {
@@ -81,6 +85,9 @@ public class PedidoServiceImpl implements PedidoService {
 		System.out.println(fechaPedido);
 		
 		Pedido pedidoCreado = pedidoRepository.save(pedido);
+		
+		//Enviamos el correo al usuario una vez se ha creado el pedido
+		enviarCorreo(pedidoCreado);
 		
 		return pedidoCreado.getId();
 	}
@@ -221,6 +228,20 @@ public class PedidoServiceImpl implements PedidoService {
 		
 		return pedidoDTO;
 		
+	}
+	
+	private void enviarCorreo(Pedido pedido) {
+		this.emailService.enviarCorreo(
+				//Destinatario
+				pedido.getUsuario().getEmail(),
+				
+				//Asunto
+				"GRACIAS POR SU PEDIDO - VENDIX",
+				
+				//Mensaje
+				"Pedido #"+pedido.getId()+" recibido correctamente \n"
+				+pedido.getCestaProductos().toString()+""
+				+ "- Lo recibirá en un periodo de 2 dias maximo.");
 	}
 
 
