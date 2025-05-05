@@ -21,8 +21,10 @@ export class ProductosComponent implements OnInit{
 
   nombreProducto!: string;
   buscado : boolean = false;
+  mostrarMisProductos: boolean = false;
   idCategoria !: number;
   idUsuario !: number;
+  rol !: string;
   mensaje: string = '';
   mediasValoracion: { [idProducto: number]: number } = {};
 
@@ -40,8 +42,10 @@ export class ProductosComponent implements OnInit{
       this.nombreProducto = params['nombreProducto'];
       this.buscado = params['buscado'] === 'true';
       this.idCategoria = params['idCategoria'];
+      this.mostrarMisProductos = params['productosUsuarios'] === 'true';
     });
 
+    this.rol=this.localStorage.getItem('roles');
     this.idUsuario = this.localStorage.getItem('idUsuario');
 
     this.controlProductos();
@@ -72,6 +76,12 @@ export class ProductosComponent implements OnInit{
 
   }
 
+  irADetalleProducto(idProducto: number){
+    this.router.navigate(['/home/productos/producto'], {
+      queryParams: { idProducto: idProducto }
+    });
+  }
+
   // METODOS PRIVADOS
 
   private controlProductos(){
@@ -80,9 +90,11 @@ export class ProductosComponent implements OnInit{
       this.getProductosByNombre();
     }
     else if(this.idCategoria){
-      console.log("ajsdjawdjawj")
       this.getCategoria(this.idCategoria);
       this.getProductosByCategoria(this.idCategoria);      
+    }
+    else if(this.mostrarMisProductos){
+
     }
     else{
       this.mensaje = 'Todos los productos';

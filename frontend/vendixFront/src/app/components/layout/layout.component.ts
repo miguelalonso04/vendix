@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { ProductoService } from '../../services/producto.service';
 import { UsersService } from '../../services/users.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { CestaService } from '../../services/cesta.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,15 +18,12 @@ export class LayoutComponent {
   idUsuario!: number;
 
   usuario!: any;
-  productos!: any[];
   categorias!: any[];
   nombreProducto !: string;
 
-  constructor(private productoService: ProductoService,
-              private userService: UsersService,
+  constructor(private userService: UsersService,
               private categoriaService: CategoriaService, 
               private localStorage: LocalStorageService,
-              private cestaService: CestaService,
               private router: Router){ }
 
   ngOnInit(): void {
@@ -36,16 +31,10 @@ export class LayoutComponent {
     this.idUsuario = this.localStorage.getItem('idUsuario');
     
     console.log(this.rol)
-    this.getAllProductos();
     this.getUsuarioById(this.idUsuario);
     this.getAllCategorias();
   }
 
-  private getAllProductos(){
-    this.productoService.getAll().subscribe(
-      data => {this.productos = data} 
-    );
-  }
 
   private getUsuarioById(idUsuario: number){
     this.userService.getUser(idUsuario).subscribe(
@@ -76,8 +65,15 @@ export class LayoutComponent {
     console.log(this.nombreProducto)
   }
 
+  btnMisProductos(){
+    this.router.navigate(['/home/productos'],
+      {queryParams: {productosUsuarios: true}}
+    );
+  }
+
   cerrarSesion(){
-    
+    localStorage.clear();
+    this.router.navigate(['/login'], { replaceUrl: true });
   }
 
 }

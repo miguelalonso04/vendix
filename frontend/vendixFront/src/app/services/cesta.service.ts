@@ -23,13 +23,13 @@ export class CestaService {
 
     const params = new HttpParams().set('idCesta', idUsuario);
 
-    return this.http.put(`${this.cestaUrl}/vaciar`, {params});
+    return this.http.put(`${this.cestaUrl}/vaciar`,null, {params});
   }
 
   eliminarUnProductoCesta(idProducto: number, idUsuario: number):Observable<any>{
 
     const params = new HttpParams().set('idCesta', idUsuario);
-    return this.http.put(`${this.cestaUrl}/eliminar/${idProducto}`, {params});
+    return this.http.put(`${this.cestaUrl}/eliminar/${idProducto}`,null, {params});
   }
 
   getAllProductosCesta(idUsuario: number):Observable<any>{
@@ -46,11 +46,11 @@ export class CestaService {
 
   sumarCantidadProducto(idUsuario: number, idProducto: number):Observable<any>{
     const params = new HttpParams().set('idCesta', idUsuario);
-    return this.http.put(`${this.cestaUrl}/productos/sumar/${idProducto}` , {params});
+    return this.http.put(`${this.cestaUrl}/productos/sumar/${idProducto}`,null , {params});
   }
 
   restarCantidadProducto(idUsuario: number, idProducto: number):Observable<any>{
     const params = new HttpParams().set('idCesta', idUsuario);
-    return this.http.put(`${this.cestaUrl}/productos/restar/${idProducto}` , {params});
+    return this.http.put(`${this.cestaUrl}/productos/restar/${idProducto}` ,null, {params});
   }
 }

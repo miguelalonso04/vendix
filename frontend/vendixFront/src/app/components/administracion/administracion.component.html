@@ -1,0 +1,72 @@
+<div class="container">
+
+    <div class="usuario" *ngIf="usuario && rol == 'ROLE_USER'">
+        <p>{{usuario.firstName}} {{usuario.lastName}}</p>
+        <p>{{usuario.username}}</p>
+        <p>{{usuario.password}}</p>
+        <p>{{usuario.email}}</p>
+        <p>{{usuario.telefono}}</p>
+    </div>
+
+    <div class="usuarios" *ngIf="lUsuarios">
+        <div *ngFor="let u of lUsuarios">
+            <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                <thead>
+                  <tr>
+                    <th>Campo</th>
+                    <th>Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Nombre</td>
+                    <td>{{u.firstName}}</td>
+                  </tr>
+                  <tr>
+                    <td>Apellido</td>
+                    <td>{{u.lastName}}</td>
+                  </tr>
+                  <tr>
+                    <td>Username</td>
+                    <td>{{u.username}}</td>
+                  </tr>
+                  <tr>
+                    <td>Contraseña</td>
+                    <td>
+                        <span *ngIf="!mostrarPassword">******</span>
+                        <span *ngIf="mostrarPassword">{{ u.password }}</span>
+                        <button (click)="togglePassword()" type="button" class="btn btn-link btn-sm">
+                        <span *ngIf="!mostrarPassword">Mostrar</span>
+                        <span *ngIf="mostrarPassword">Ocultar</span>
+                        </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>{{u.email}}</td>
+                  </tr>
+                  <tr>
+                    <td>¿Activo?</td>
+                    <td *ngIf="u.enabled">
+                        SI
+                    </td>
+                    <td *ngIf="!u.enabled">
+                        NO
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Último cambio de contraseña</td>
+                    <td>{{u.lastPasswordResetDate}}</td>
+                  </tr>
+                  <tr>
+                    <td>Rol</td>
+                    <td>{{rol}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+        </div>
+    </div>
+</div>
+
+

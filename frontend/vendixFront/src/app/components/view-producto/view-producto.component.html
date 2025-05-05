@@ -1,12 +1,22 @@
 <div class="producto" *ngIf="productoElegido">
 
-    <p>{{productoElegido.nombre}}</p>
-    <p>{{productoElegido.descripcion}}</p>
-    <p>{{productoElegido.precio}}€</p>
-    <p>{{productoElegido.categoria?.nombre}}</p>
-
-    <div class="btn-anadirACesta" *ngIf="rol?.includes('ROLE_USER')">
-        <button (click)="addACesta(productoElegido)" >Añadir</button>
+    <div class="product-image">
+      <img src="" alt="imagen producto {{idProducto}}">
     </div>
-
-</div>
+  
+    <p>{{ productoElegido.nombre }}</p>
+    <p>{{ productoElegido.descripcion }}</p>
+    <p>{{ productoElegido.precio }}€</p>
+    <p>{{ productoElegido.categoria?.nombre }}</p>
+  
+    <div class="btn-anadirACesta" *ngIf="rol?.includes('ROLE_USER')">
+      <button (click)="addACesta(productoElegido)">🛒 Añadir a cesta</button>
+    </div>
+  
+    <div class="admin-actions" *ngIf="rol?.includes('ROLE_ADMIN')">
+      <button (click)="updateProducto(productoElegido)" class="btn-actualizar">✏️ Actualizar</button>
+      <button (click)="deleteProducto(productoElegido.id)" class="btn-borrar">🗑️ Borrar</button>
+    </div>
+  
+  </div>
+  

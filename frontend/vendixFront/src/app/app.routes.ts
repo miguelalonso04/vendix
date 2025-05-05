@@ -8,6 +8,7 @@ import { CestaComponent } from './components/cesta/cesta.component';
 import { ProductosComponent } from './components/productos/productos.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { AdministracionComponent } from './components/administracion/administracion.component';
 
 export const routes: Routes = [
     // Rutas sin layout
@@ -25,6 +26,7 @@ export const routes: Routes = [
       { path: 'productos/producto', component: ViewProductoComponent },
       { path: 'productos', component: ProductosComponent },
       { path: 'pedidos', component: PedidosComponent },
+      { path: 'administracion', component: AdministracionComponent}
     ]
   },
   {

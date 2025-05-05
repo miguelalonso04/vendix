@@ -42,7 +42,32 @@ export class CestaComponent implements OnInit {
 
   btnPedido(){
     this.crearPedido();  
+    this.vaciarCesta(this.idUsuario);
+    console.log("vaciando cesta")
   }  
+
+  eliminarProducto(producto: any): void {
+    this.cestaService.eliminarUnProductoCesta(producto.id, this.idUsuario).subscribe({
+      next: () => this.getCesta(this.idUsuario),
+      error: err => console.error('Error al eliminar producto:', err)
+    });
+  }
+
+  restarCantidad(producto: any): void {
+    if (producto.cantidad > 1) {
+      this.cestaService.restarCantidadProducto(this.idUsuario, producto.id).subscribe({
+        next: () => this.getCesta(this.idUsuario),
+        error: err => console.error('Error al restar cantidad:', err)
+      });
+    }
+  }
+
+  sumarCantidad(producto: any): void {
+    this.cestaService.sumarCantidadProducto(this.idUsuario, producto.id).subscribe({
+      next: () => this.getCesta(this.idUsuario),
+      error: err => console.error('Error al sumar cantidad:', err)
+    });
+  }
 
   /*
 
@@ -70,6 +95,10 @@ export class CestaComponent implements OnInit {
     );
   }
 
+  private vaciarCesta(idUsuario: number){
+    this.cestaService.vaciarCesta(idUsuario).subscribe();
+  }
+
   private crearPedido(){
 
     this.pedido = {
@@ -78,7 +107,7 @@ export class CestaComponent implements OnInit {
       nombreUsuario: this.nombreUsuario,
       precioTotalPedido: this.cesta.total
     };
-    console.log(this.pedido);
+    
     this.pedidoService.createPedido(this.pedido,this.idUsuario).subscribe(
       id => {
         this.idPedido = id;
@@ -89,6 +118,8 @@ export class CestaComponent implements OnInit {
           { queryParams: { idPedido: this.idPedido} }
         );
       }
+
+
     );
   }
 

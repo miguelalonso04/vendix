@@ -28,7 +28,7 @@
         <h2> {{ usuario.username }}</h2>
     </div>
 
-    <p><a href="" >Mi cuenta</a></p>
+    <p><a href="/home/administracion" >Mi cuenta</a></p>
     <p><a href="/login"> Cerrar Sesion</a></p>  
 
     <hr>
@@ -44,10 +44,9 @@
 
     <h3>Productos: </h3>
 
-    <p><a href="">Mis productos</a></p>
+    
+    <p *ngIf="rol== 'ROLE_USER'"><a (click)="btnMisProductos()">Mis productos</a></p>
     <p><a href="home/productos/form">Añadir producto</a></p>
-    <p>Buscar por precio</p>
-
 
 </aside>
 

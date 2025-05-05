@@ -1,14 +1,34 @@
-
-
 <app-home></app-home>
 <div class="cesta" *ngIf="cesta">
+  <ng-container *ngIf="cesta.productos && cesta.productos.length > 0; else vacia">
     <div *ngFor="let p of cesta.productos">
       <p>{{ p.nombre }}</p>
       <p>Cantidad: {{ p.cantidad }}</p>
-      <p>Precio: {{p.cantidad * p.precio}}€</p>
+      <p>Precio: {{ p.cantidad * p.precio }}€</p>
+
+      <button (click)="eliminarProducto(p)">
+        🗑️ <!-- Papelera estilo Windows -->
+      </button>
+  
+      <button (click)="restarCantidad(p)" [disabled]="p.cantidad <= 1">
+        -
+      </button>
+  
+      <button (click)="sumarCantidad(p)">
+        +
+      </button>
+    
     </div>
     <p>Total: {{ cesta.total }}€</p>
 
     <button class="btn-tramitarPedido" (click)="btnPedido()">Tramitar Pedido</button>
-  </div>
+  </ng-container>
+
+  <ng-template #vacia>
+    <p>Aún no tienes nada en la cesta.</p>
+    <a href="home/productos">Ver productos</a>
+  </ng-template>
+</div>
+
+
   
