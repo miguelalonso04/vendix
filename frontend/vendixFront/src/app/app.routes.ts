@@ -9,9 +9,11 @@ import { ProductosComponent } from './components/productos/productos.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { AdministracionComponent } from './components/administracion/administracion.component';
+import { ValoracionComponent } from './components/valoracion/valoracion.component';
+import { ValoracionFormComponent } from './components/valoracion-form/valoracion-form.component';
 
 export const routes: Routes = [
-    // Rutas sin layout
+  // Rutas sin layout
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -26,7 +28,9 @@ export const routes: Routes = [
       { path: 'productos/producto', component: ViewProductoComponent },
       { path: 'productos', component: ProductosComponent },
       { path: 'pedidos', component: PedidosComponent },
-      { path: 'administracion', component: AdministracionComponent}
+      { path: 'administracion', component: AdministracionComponent},
+      { path: 'productos/valoracion', component: ValoracionComponent },
+      { path: 'productos/valoracion/form', component: ValoracionFormComponent },
     ]
   },
   {
@@ -37,6 +41,6 @@ export const routes: Routes = [
     ]
   },
 
-  // Wildcard
+  // Redirección de rutas no encontradas
   { path: '**', redirectTo: '/login' }
 ];

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CestaService } from '../../services/cesta.service';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { CommonModule } from '@angular/common';
+import { ValoracionesService } from '../../services/valoraciones.service';
 
 @Component({
   selector: 'app-view-producto',
@@ -17,10 +18,14 @@ export class ViewProductoComponent implements OnInit {
   productoElegido!: any;
   idUsuario!: number;
   rol!: string;
+  valoraciones!: any[];
+  mediaValoracion!: number;
+  indiceActual: number = 0;
 
   constructor(private productoService: ProductoService,
               private route: ActivatedRoute,
               private cestaService: CestaService,
+              private valoracionesService: ValoracionesService,
               private localStorage: LocalStorageService,
               private router: Router){}
 
@@ -33,13 +38,40 @@ export class ViewProductoComponent implements OnInit {
     this.idUsuario = this.localStorage.getItem('idUsuario');
     if(this.idProducto){
       this.getProducto(this.idProducto);
+      this.getAllByProducto(this.idProducto);
+      this.cargarMediasValoracion(this.idProducto);
     }
+
   }
 
   private getProducto(idProducto:number){
     this.productoService.getProducto(idProducto).subscribe(
       data => {this.productoElegido = data}
     );
+  }
+  private getAllByProducto(idProducto: number){
+    this.valoracionesService.getAllByProducto(idProducto).subscribe(
+      data => {this.valoraciones = data}
+    );
+  }
+  private cargarMediasValoracion(idProducto: number) {
+    this.valoracionesService.mediaValoracionesXProducto(idProducto).subscribe(
+      data => { this.mediaValoracion = data; }
+    );
+  }
+
+  getEstrellas(rating: number): string[] {
+    const estrellas = [];
+    for (let i = 1; i <= 5; i++) {
+      if (rating >= i) {
+        estrellas.push('full');
+      } else if (rating > i - 1 && rating < i) {
+        estrellas.push('half');
+      } else {
+        estrellas.push('empty');
+      }
+    }
+    return estrellas;
   }
 
   addACesta(producto: any){
@@ -48,7 +80,10 @@ export class ViewProductoComponent implements OnInit {
   }
 
   updateProducto(Producto: any){
-
+    this.router.navigate(['home/productos/form'],
+      {queryParams: {
+        actualizar : true,
+        idProducto: this.idProducto} });
   }
 
   deleteProducto(idProducto: number){
@@ -56,7 +91,7 @@ export class ViewProductoComponent implements OnInit {
       this.productoService.deleteProducto(idProducto).subscribe({
         next: () => {
           alert('Producto eliminado correctamente.');
-          this.router.navigate(['/productos']); // o donde sea que quieras redirigir
+          this.router.navigate(['/home/productos']);
         },
         error: err => {
           console.error('Error al eliminar producto:', err);
@@ -66,5 +101,22 @@ export class ViewProductoComponent implements OnInit {
     }
   }
 
+  dejarValoracion(){
+    this.router.navigate(['home/productos/valoracion/form'],
+      {queryParams: {
+        idProducto: this.idProducto} }
+    );
+  }
 
+  anterior() {
+    if (this.indiceActual > 0) {
+      this.indiceActual--;
+    }
+  }
+  
+  siguiente() {
+    if (this.indiceActual < this.valoraciones.length - 1) {
+      this.indiceActual++;
+    }
+  }
 }

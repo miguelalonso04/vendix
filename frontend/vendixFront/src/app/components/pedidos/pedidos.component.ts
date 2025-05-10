@@ -3,6 +3,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { PedidoService } from '../../services/pedido.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ValoracionesService } from '../../services/valoraciones.service';
 
 @Component({
   selector: 'app-pedidos',
@@ -31,8 +32,6 @@ export class PedidosComponent implements OnInit {
     );
     this.idUsuario = this.localStorage.getItem('idUsuario');
 
-
-
     if(this.idPedido){
       this.getPedido(this.idPedido);
       this.getUsuarioPedido(this.idPedido);
@@ -54,12 +53,6 @@ export class PedidosComponent implements OnInit {
         console.log(data)
       } 
      );
-  }
-  
-  private getAllPedidos(){
-    this.pedidoService.getAllPedidos().subscribe(
-      data => {this.lPedidos = data}
-    );
   }
 
   private getUsuarioPedido(idPedido: number){

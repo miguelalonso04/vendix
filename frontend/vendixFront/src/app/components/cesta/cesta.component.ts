@@ -41,9 +41,17 @@ export class CestaComponent implements OnInit {
   }
 
   btnPedido(){
-    this.crearPedido();  
-    this.vaciarCesta(this.idUsuario);
-    console.log("vaciando cesta")
+    if(this.direccion) {
+      this.crearPedido();  
+      this.vaciarCesta(this.idUsuario);
+      console.log("vaciando cesta")
+    }else{
+      console.error("No hay direcciones disponibles para crear el pedido.");
+      if (confirm("No hay direcciones disponibles. Desea añadir una?")) {
+        this.router.navigate(['/home/administracion'],
+           { queryParams: { idUsuario: this.idUsuario } });
+      }
+    }
   }  
 
   eliminarProducto(producto: any): void {

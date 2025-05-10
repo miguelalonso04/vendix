@@ -1,11 +1,69 @@
 <div class="container">
 
     <div class="usuario" *ngIf="usuario && rol == 'ROLE_USER'">
-        <p>{{usuario.firstName}} {{usuario.lastName}}</p>
-        <p>{{usuario.username}}</p>
-        <p>{{usuario.password}}</p>
-        <p>{{usuario.email}}</p>
-        <p>{{usuario.telefono}}</p>
+        <p><strong>Nombre completo: </strong>{{usuario.firstName}} {{usuario.lastName}}</p>
+        <p><strong>Username: </strong>{{usuario.username}}</p>
+        <p><strong>Email: </strong>{{usuario.email}}</p>
+        <p><strong>Telefono: </strong>{{usuario.telefono}}</p>
+
+        <div class="direccion" *ngIf="direcciones && !mostrarFormularioDireccion">
+          <ng-container *ngFor="let direccion of direcciones">
+            <div class="direccion-item">
+              <p><strong>Calle: </strong>{{direccion.calle}}</p>
+              <p><strong>Ciudad: </strong>{{direccion.ciudad}}</p>
+              <p><strong>Provincia: </strong>{{direccion.provincia}}</p>
+              <p><strong>Código Postal: </strong>{{direccion.codigoPostal}}</p>
+              <p><strong>Pais: </strong>{{direccion.pais}}</p>
+              <div class="direccion-actions">
+                  <button (click)="editarDireccion(direccion)">Editar</button>
+                  <button (click)="deleteDireccion(direccion.id)">Eliminar</button>
+              </div>
+          </div>
+          </ng-container>
+        </div>
+
+        <div class="btn-addDireccion" *ngIf="!direcciones && !mostrarFormularioDireccion">
+          <p><strong>Dirección: </strong></p>
+          <p>Sin dirección asignada</p>
+          <button (click)="mostrarFormularioDireccion = true">Agregar dirección</button>
+      </div>
+
+      <div class="direccion-form" *ngIf="mostrarFormularioDireccion">
+          <h3>Añadir direccion</h3>
+          <form [formGroup]="direccionForm" (ngSubmit)="onSUbmit()">
+              <div class="form-group">
+                  <label for="calle">Calle:</label>
+                  <input id="calle" formControlName="calle" type="text" required>
+              </div>
+              
+              <div class="form-group">
+                  <label for="ciudad">Ciudad:</label>
+                  <input id="ciudad" formControlName="ciudad" type="text" required>
+              </div>
+              
+              <div class="form-group">
+                  <label for="provincia">Provincia:</label>
+                  <input id="provincia" formControlName="provincia" type="text" required>
+              </div>
+              
+              <div class="form-group">
+                  <label for="codigoPostal">Código Postal:</label>
+                  <input id="codigoPostal" formControlName="codigoPostal" type="text" required>
+              </div>
+
+              <div class="form-group">
+                <label for="codigoPostal">Pais:</label>
+                <input id="pais" formControlName="pais" type="text" required>
+            </div>
+              
+              <div class="form-actions">
+                  <button type="submit" [disabled]="direccionForm.invalid">Guardar</button>
+                  <button type="button" (click)="mostrarFormularioDireccion = false">Cancelar</button>
+              </div>
+          </form>
+        </div>
+      </div>
+
     </div>
 
     <div class="usuarios" *ngIf="lUsuarios">
@@ -31,15 +89,8 @@
                     <td>{{u.username}}</td>
                   </tr>
                   <tr>
-                    <td>Contraseña</td>
-                    <td>
-                        <span *ngIf="!mostrarPassword">******</span>
-                        <span *ngIf="mostrarPassword">{{ u.password }}</span>
-                        <button (click)="togglePassword()" type="button" class="btn btn-link btn-sm">
-                        <span *ngIf="!mostrarPassword">Mostrar</span>
-                        <span *ngIf="mostrarPassword">Ocultar</span>
-                        </button>
-                    </td>
+                    <td>Telefono</td>
+                    <td>{{u.telefono}}</td>
                   </tr>
                   <tr>
                     <td>Email</td>
@@ -66,7 +117,7 @@
               </table>
               
         </div>
-    </div>
 </div>
+
 
 

@@ -1,17 +1,66 @@
 <div class="producto" *ngIf="productoElegido">
+  <div class="producto-info-contenedor">
 
+    <div class="producto-detalles">
+      <p><strong>Nombre: </strong>{{ productoElegido.nombre }}</p>
+      <p><strong>Descripción: </strong>{{ productoElegido.descripcion }}</p>
+      <p><strong>Precio: </strong>{{ productoElegido.precio }}€</p>
+      <p><strong>Categoría: </strong>{{ productoElegido.categoria?.nombre }}</p>
+  
+      <div *ngIf="mediaValoracion">
+        <p><strong>Media de valoraciones:</strong> {{ mediaValoracion | number:'1.1-1' }} / 5</p>
+        <div class="estrellas">
+          <ng-container *ngFor="let estrella of getEstrellas(mediaValoracion)">
+            <span *ngIf="estrella === 'full'">★</span>
+            <span *ngIf="estrella === 'half'">☆</span>
+            <span *ngIf="estrella === 'empty'">✩</span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  
     <div class="product-image">
       <img src="" alt="imagen producto {{idProducto}}">
     </div>
   
-    <p>{{ productoElegido.nombre }}</p>
-    <p>{{ productoElegido.descripcion }}</p>
-    <p>{{ productoElegido.precio }}€</p>
-    <p>{{ productoElegido.categoria?.nombre }}</p>
-  
-    <div class="btn-anadirACesta" *ngIf="rol?.includes('ROLE_USER')">
-      <button (click)="addACesta(productoElegido)">🛒 Añadir a cesta</button>
+  </div>
+
+    <h3>Valoraciones:</h3>
+    <div class="valoracion-carrusel" *ngIf="valoraciones?.length">
+    
+      <div class="valoracion-item">
+        <p><strong>Usuario:</strong> {{ valoraciones[indiceActual]?.usuario.username }}</p>
+        <p><strong>Comentario:</strong> {{ valoraciones[indiceActual]?.comentario }}</p>
+        
+        <div class="estrellas">
+          <ng-container *ngFor="let estrella of getEstrellas(valoraciones[indiceActual]?.valoracion)">
+            <span *ngIf="estrella === 'full'">★</span>
+            <span *ngIf="estrella === 'half'">☆</span>
+            <span *ngIf="estrella === 'empty'">✩</span>
+          </ng-container>
+        </div>
+      </div>
+    
+       
+       <button (click)="anterior()" [disabled]="indiceActual === 0">←</button>
+     
+      <button (click)="siguiente()" [disabled]="indiceActual === valoraciones.length - 1">→</button>
     </div>
+    
+    <!-- Si no hay valoraciones -->
+    <div *ngIf="valoraciones?.length === 0">
+      No hay valoraciones para este producto.
+    </div>
+  
+    <div class="acciones-usuario" *ngIf="rol?.includes('ROLE_USER')">
+      <div class="btn-dejarValoracion">
+        <button (click)="dejarValoracion()">⭐ Dejar valoración</button>
+      </div>
+      <div class="btn-anadirACesta">
+        <button (click)="addACesta(productoElegido)">🛒 Añadir a cesta</button>
+      </div>
+    </div>
+    
   
     <div class="admin-actions" *ngIf="rol?.includes('ROLE_ADMIN')">
       <button (click)="updateProducto(productoElegido)" class="btn-actualizar">✏️ Actualizar</button>

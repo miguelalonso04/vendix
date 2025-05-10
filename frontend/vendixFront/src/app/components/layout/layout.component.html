@@ -46,6 +46,7 @@
 
     
     <p *ngIf="rol== 'ROLE_USER'"><a (click)="btnMisProductos()">Mis productos</a></p>
+    <p *ngIf="rol === 'ROLE_ADMIN'"><a href="home/productos/valoracion">Valoraciones</a></p>
     <p><a href="home/productos/form">Añadir producto</a></p>
 
 </aside>

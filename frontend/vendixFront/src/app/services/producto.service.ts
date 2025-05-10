@@ -55,4 +55,10 @@ export class ProductoService {
     return this.http.get(`${this.productoUrl}/nombre/${nombreProducto}`)
 
   }
+
+  uploadImage(productId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('imagen', file);
+    return this.http.post(`${this.productoUrl}/${productId}/upload-image`, formData);
+  }
 }

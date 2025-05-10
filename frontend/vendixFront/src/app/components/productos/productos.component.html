@@ -1,7 +1,8 @@
 <p>{{ mensaje }}</p>
 
-<div class="productos">
-    <div class="producto" *ngFor="let p of productos" (click)="irADetalleProducto(p.id)">
+<ng-container *ngFor="let p of productos">
+  <div class="producto" *ngIf="p.disponible">
+    <div class="click" (click)="irADetalleProducto(p.id)">
       <div class="product-image">
         <img src="" alt="imagen producto {{p.id}}">
       </div>
@@ -22,10 +23,10 @@
         <div class="product-price">
           <span class="original-price">{{p.precio}}€</span>
         </div>
-        <button class="add-to-cart" (click)="addACesta(p)" *ngIf="rol == 'ROLE_USER'">
-          🛒 Añadir a cesta
-        </button>
-        
       </div>
     </div>
+    <button class="add-to-cart" (click)="addACesta(p)" *ngIf="rol == 'ROLE_USER'">
+      🛒 Añadir a cesta
+    </button>
   </div>
+</ng-container>
