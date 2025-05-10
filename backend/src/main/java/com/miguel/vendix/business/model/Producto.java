@@ -1,5 +1,8 @@
 package com.miguel.vendix.business.model;
 
+import com.miguel.vendix.security.model.Usuario;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,4 +33,10 @@ public class Producto {
 	@JoinColumn(name = "categoria_id")
 	private Categoria categoria;
 
+	@ManyToOne
+    @JoinColumn(name = "usuario_id") 
+    private Usuario usuario;
+	
+	@Column(name = "ruta_imagen")
+    private String rutaImagen; 
 }

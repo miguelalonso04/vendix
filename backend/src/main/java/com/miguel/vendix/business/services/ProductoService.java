@@ -42,4 +42,6 @@ public interface ProductoService {
 	
 	List<Producto> getAllByNombre(String nombreProducto);
 	
+	void actualizarRutaImagen(Long productoId, String rutaImagen);
+	
 }

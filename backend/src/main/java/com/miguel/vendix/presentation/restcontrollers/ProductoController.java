@@ -1,5 +1,6 @@
 package com.miguel.vendix.presentation.restcontrollers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.miguel.vendix.business.model.Producto;
 import com.miguel.vendix.business.services.ProductoService;
+import com.miguel.vendix.business.services.impl.LocalStorageService;
 import com.miguel.vendix.presentation.config.PresentationException;
 
 @RestController
@@ -27,8 +30,11 @@ public class ProductoController {
 
 	private ProductoService productoService;
 	
-	public ProductoController(ProductoService productosServices) {
+    private LocalStorageService localStorageService;
+	
+	public ProductoController(ProductoService productosServices, LocalStorageService localStorageService) {
 		this.productoService = productosServices;
+		this.localStorageService = localStorageService;
 	}
 	
 	@GetMapping
@@ -131,6 +137,15 @@ public class ProductoController {
     	
     	return lista;
     	
+    }
+    
+    @PostMapping("/{id}/upload-image")
+    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam MultipartFile imagen) throws IOException {
+        
+        String rutaImagen = localStorageService.guardarImagen(imagen, id);
+        productoService.actualizarRutaImagen(id, rutaImagen);
+        
+        return ResponseEntity.ok("Imagen subida. Ruta: " + rutaImagen);
     }
 	
 }

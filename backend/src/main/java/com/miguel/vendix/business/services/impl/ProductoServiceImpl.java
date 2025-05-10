@@ -80,7 +80,7 @@ public class ProductoServiceImpl implements ProductoService {
 		
 		optional.get().setDisponible(false); 
 		
-		productoRepository.delete(optional.get());
+		productoRepository.save(optional.get());
 	}
 
 	@Override
@@ -114,6 +114,13 @@ public class ProductoServiceImpl implements ProductoService {
 	public List<Producto> getAllByNombre(String nombreProducto) {
 	    return productoRepository.findByNombreStartingWithIgnoreCase(nombreProducto);
 	}
+	
+	@Override
+    @Transactional
+    public void actualizarRutaImagen(Long productoId, String rutaImagen) {
+		productoRepository.actualizarRutaImagen(productoId, rutaImagen);
+    }
+
 
 
 }
