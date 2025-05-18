@@ -36,8 +36,20 @@ export class ValoracionComponent implements OnInit{
 
   if (!username) return;
 
+  if (this.valoraciones.length === 0) {
+      this.mensajeError = `No se encontraron valoraciones para el usuario "${this.usernameBuscado}"`;
+    } else {
+      this.mensajeError = '';
+    }
+
   this.getValoracionesByUsername(username);
 }
+
+resetSearch() {
+    this.usernameBuscado = '';
+    this.mensajeError = '';
+    this.getValoraciones();
+  }
 
   private getValoraciones() {
     this.valoracionesService.getAll().subscribe(
@@ -46,9 +58,11 @@ export class ValoracionComponent implements OnInit{
   }
 
   eliminarValoracion(idValoracion: number) {
-    this.valoracionesService.deleteValoracion(idValoracion).subscribe(
-      data => { this.valoraciones = data; }
-    );
+    if (confirm('¿Estás seguro de que deseas eliminar esta valoración?')) {
+      this.valoracionesService.deleteValoracion(idValoracion).subscribe(
+        data => { this.valoraciones = data; }
+      );
+    }
   }
 
   private getValoracionesByProducto(idProducto: number) {

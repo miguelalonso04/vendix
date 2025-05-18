@@ -16,7 +16,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 })
 export class ProductosComponent implements OnInit{
 
-  productos!: any[];
+  productos: any[] = [];
   categoria !: any;
 
   nombreProducto!: string;
@@ -27,6 +27,8 @@ export class ProductosComponent implements OnInit{
   rol !: string;
   mensaje: string = '';
   mediasValoracion: { [idProducto: number]: number } = {};
+  rutasImagenes: { [id: number]: string } = {};
+  showAddToCartMessage = false;
 
   constructor(private productoService: ProductoService,
               private router: Router,
@@ -51,10 +53,12 @@ export class ProductosComponent implements OnInit{
     this.controlProductos();
   }
 
-  btnProducto(idProducto: number){
-    this.router.navigate(['productos/producto'],
-      {queryParams: {idProducto : idProducto} });
-
+  private getImagenesUrl() {
+    this.productos.forEach(p => {
+      this.productoService.getRutaImagen(p.id).subscribe(
+        ruta => this.rutasImagenes[p.id] = ruta,
+      );
+    });
   }
 
   getEstrellas(rating: number): string[] {
@@ -73,7 +77,11 @@ export class ProductosComponent implements OnInit{
 
   addACesta(producto: any){
     this.cestaService.addProducto(this.idUsuario,producto).subscribe();
-
+    this.mensaje = `"${producto.nombre}" se ha añadido a tu cesta`;
+    this.showAddToCartMessage = true;
+     setTimeout(() => {
+      this.showAddToCartMessage = false;
+    }, 3000);
   }
 
   irADetalleProducto(idProducto: number){
@@ -94,7 +102,14 @@ export class ProductosComponent implements OnInit{
       this.getProductosByCategoria(this.idCategoria);      
     }
     else if(this.mostrarMisProductos){
-
+      this.mensaje = 'Mis productos';
+      this.productoService.getProductosByUsuario(this.idUsuario).subscribe(
+        data => {
+          this.productos = data
+          this.cargarMediasValoracion();
+          this.getImagenesUrl();
+        }
+      );
     }
     else{
       this.mensaje = 'Todos los productos';
@@ -107,6 +122,7 @@ export class ProductosComponent implements OnInit{
       data => {
         this.productos = data
         this.cargarMediasValoracion();
+        this.getImagenesUrl();
       } 
     );
   }
@@ -116,6 +132,7 @@ export class ProductosComponent implements OnInit{
       data => {
         this.productos = data
         this.cargarMediasValoracion();
+        this.getImagenesUrl();
       }
     );
   }
@@ -131,7 +148,11 @@ export class ProductosComponent implements OnInit{
 
   private getProductosByCategoria(idCategoria: number){
     this.productoService.getAllByCategoria(idCategoria).subscribe(
-      data => {this.productos = data}
+      data => {this.productos = data
+        this.cargarMediasValoracion();
+        this.getImagenesUrl();
+      }
+      
     );
   }
   

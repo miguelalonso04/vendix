@@ -1,42 +1,67 @@
-<div class="valoraciones-container">
-    <h2>Listado de Valoraciones</h2>
-
-    <div class="search-bar">
-        <label for="username">Buscar por nombre de usuario:</label>
+<div class="ratings-container">
+  <div class="ratings-header">
+    <h2><i class="bi bi-star-fill"></i> Listado de Valoraciones</h2>
+    <div class="search-container">
+      <div class="search-box">
+        <i class="bi bi-search"></i>
         <input
           type="text"
-          id="username"
           [(ngModel)]="usernameBuscado"
-          placeholder="Ej. juan123"
+          placeholder="Buscar por nombre de usuario..."
+          (keyup.enter)="buscarPorUsername()"
         />
-        <button (click)="buscarPorUsername()">Buscar</button>
-    </div>
-
-    <div *ngIf="mensajeError" class="mensaje-error">
-        {{ mensajeError }}
+        <button class="btn-search" (click)="buscarPorUsername()">
+          Buscar
+        </button>
       </div>
-  
-    <ul class="valoraciones-lista">
-      <li *ngFor="let val of valoraciones">
-        <div class="valoracion">
-          <p><strong>Usuario:</strong> {{ val.usuario.username }}</p>
-          <p><strong>Producto:</strong> {{val.producto.nombre}}</p>
-          <p><strong>Comentario:</strong> {{ val.comentario }}</p>
-          <p><strong>Puntuación:</strong> {{ val.valoracion }} ★</p>
-  
-          <button
-            *ngIf="rol === 'ROLE_ADMIN'"
-            (click)="eliminarValoracion(val.id)"
-            class="btn-eliminar"
-          >
-            Eliminar
-          </button>
-        </div>
-      </li>
-    </ul>
-  
-    <div *ngIf="valoraciones.length === 0">
-      <p>No se encontraron valoraciones.</p>
     </div>
   </div>
-  
+
+  <div *ngIf="mensajeError" class="alert alert-error">
+    <i class="bi bi-exclamation-triangle"></i> {{ mensajeError }}
+  </div>
+
+  <div *ngIf="valoraciones.length === 0" class="empty-ratings">
+    <i class="bi bi-emoji-frown"></i>
+    <h3>No se encontraron valoraciones</h3>
+    <p *ngIf="usernameBuscado">No hay resultados para "{{usernameBuscado}}"</p>
+    <button class="btn-reset" *ngIf="usernameBuscado" (click)="resetSearch()">
+      Mostrar todas las valoraciones
+    </button>
+  </div>
+
+  <div class="ratings-grid">
+    <div *ngFor="let val of valoraciones" class="rating-card">
+      <div class="rating-header">
+        <div class="user-info">
+          <i class="bi bi-person-circle"></i>
+          <span class="username">{{ val.usuario.username }}</span>
+        </div>
+        <div class="rating-stars">
+          <span *ngFor="let star of [1,2,3,4,5]">
+            <i class="bi" [class.bi-star-fill]="star <= val.valoracion" [class.bi-star]="star > val.valoracion"></i>
+          </span>
+          <span class="rating-value">{{ val.valoracion }}</span>
+        </div>
+      </div>
+
+      <div class="product-info">
+        <i class="bi bi-box-seam"></i>
+        <span>{{ val.producto.nombre }}</span>
+      </div>
+
+      <div class="comment">
+        <i class="bi bi-chat-left-text"></i>
+        <p>"{{ val.comentario }}"</p>
+      </div>
+
+      <button
+        *ngIf="rol === 'ROLE_ADMIN'"
+        (click)="eliminarValoracion(val.id)"
+        class="btn-delete"
+      >
+        <i class="bi bi-trash"></i> Eliminar
+      </button>
+    </div>
+  </div>
+</div>

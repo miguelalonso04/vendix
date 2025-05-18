@@ -48,7 +48,7 @@ export class ValoracionFormComponent implements OnInit {
   onSubmit() {
     if (this.valoracionForm.valid) {
       this.createValoracion(this.valoracionForm.value);
-      this.message = 'Valoración creada correctamente. Redirigiendo...';
+      this.message = '¡Gracias por tu valoración!';
   
       setTimeout(() => {
         this.router.navigate(['/home/productos/producto'],
@@ -59,6 +59,9 @@ export class ValoracionFormComponent implements OnInit {
     console.log(this.valoracionForm.value);
   }
 
+   setRating(val: number) {
+    this.valoracionForm.get('valoracion')?.setValue(val);
+  }
 
   private createValoracion(valoracion: any){
     this.valoracionesService.createValoracion(valoracion,this.idProducto,this.idUsuario).subscribe();

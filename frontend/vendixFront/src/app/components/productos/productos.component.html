@@ -1,32 +1,46 @@
-<p>{{ mensaje }}</p>
-
-<ng-container *ngFor="let p of productos">
-  <div class="producto" *ngIf="p.disponible">
-    <div class="click" (click)="irADetalleProducto(p.id)">
-      <div class="product-image">
-        <img src="" alt="imagen producto {{p.id}}">
-      </div>
-      <div class="product-details">
-        <h2 class="product-title">{{p.nombre}}</h2>
-        <p class="product-description">{{p.descripcion}}</p>
-        <div class="product-rating">
-          <ng-container *ngFor="let estrella of getEstrellas(mediasValoracion[p.id])">
-            <ng-container [ngSwitch]="estrella">
-              <span *ngSwitchCase="'full'" class="estrella">★</span>
-              <span *ngSwitchCase="'half'" class="estrella half">☆</span>
-              <span *ngSwitchCase="'empty'" class="estrella empty">☆</span>
-            </ng-container>
-          </ng-container>
-          <span class="rating-badge">{{mediasValoracion[p.id]}}</span>
-          <span>{{p.categoria.nombre}}</span>
-        </div>
-        <div class="product-price">
-          <span class="original-price">{{p.precio}}€</span>
-        </div>
-      </div>
-    </div>
-    <button class="add-to-cart" (click)="addACesta(p)" *ngIf="rol == 'ROLE_USER'">
-      🛒 Añadir a cesta
-    </button>
+<div class="products-container">
+  <!-- Mensaje de confirmación -->
+  <div *ngIf="showAddToCartMessage" class="alert alert-success add-to-cart-alert">
+    <i class="bi bi-check-circle"></i> {{ mensaje }}
+    <button type="button" class="btn-close" (click)="showAddToCartMessage = false"></button>
   </div>
-</ng-container>
+
+  <div class="products-grid">
+    <ng-container *ngFor="let p of productos">
+      <div class="product-card" *ngIf="p.disponible">
+        <div class="clickable-area" (click)="irADetalleProducto(p.id)">
+          <div class="product-image">
+            <img [src]="rutasImagenes[p.id]" alt="imagen producto {{p.id}}" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+no+disponible'">
+          </div>
+          
+          <div class="product-details">
+            <h3 class="product-title">{{p.nombre}}</h3>
+            <p class="product-description">{{p.descripcion}}</p>
+            
+            <div class="product-rating">
+              <div class="stars">
+                <ng-container *ngFor="let estrella of getEstrellas(mediasValoracion[p.id]); let i = index">
+                  <ng-container [ngSwitch]="estrella">
+                    <i *ngSwitchCase="'full'" class="bi bi-star-fill"></i>
+                    <i *ngSwitchCase="'half'" class="bi bi-star-half"></i>
+                    <i *ngSwitchCase="'empty'" class="bi bi-star"></i>
+                  </ng-container>
+                </ng-container>
+                <span class="rating-value">{{mediasValoracion[p.id] | number:'1.1-1'}}</span>
+              </div>
+              <span class="product-category">{{p.categoria.nombre}}</span>
+            </div>
+            
+            <div class="product-price">
+              <span class="current-price">{{ p.precio  | number:'1.2-2' }}€</span>
+            </div>
+          </div>
+        </div>
+        
+        <button class="btn-add-to-cart" (click)="addACesta(p); $event.stopPropagation()" *ngIf="rol == 'ROLE_USER'">
+          <i class="bi bi-cart-plus"></i> Añadir a cesta
+        </button>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -20,8 +20,11 @@ export class ProductosFormComponent implements OnInit {
   message: string;
   actualizar!: boolean;
   idProducto!: number;
+  idUsuario: number = Number(localStorage.getItem('idUsuario'));
+  showSuccessMessage = false;
+  successMessage = '';
   
-  selectedFile: File | null = null;
+  selectedFile!: File;
   uploadProgress: number = 0;
   isUploading: boolean = false;
   imagePreview: string | ArrayBuffer | null = null;
@@ -32,14 +35,13 @@ export class ProductosFormComponent implements OnInit {
     private categoriaService: CategoriaService,
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
   ) {
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: [''],
-      precio: ['', Validators.required],
-      stock: [''],
-      categoria: ['', Validators.required],
+      precio: [0, [Validators.required, Validators.min(0)]],
+      stock: [0, [Validators.required, Validators.min(0)]],
+      categoria: [null as number | null, Validators.required],
       imagen: ['']
     });
     this.message = '';
@@ -50,6 +52,21 @@ export class ProductosFormComponent implements OnInit {
       this.actualizar = params['actualizar'] === 'true';
       this.idProducto = params['idProducto'];
     });
+
+    if(this.actualizar) {
+      this.productoService.getProducto(this.idProducto).subscribe(
+        data => {
+          this.productoForm.patchValue({
+            nombre: data.nombre,
+            descripcion: data.descripcion,
+            precio: data.precio,
+            stock: data.stock,
+            categoria: data.categoria.idCategoria
+          });
+          this.imagePreview = data.imagen;
+        }
+      );
+    }
 
     this.getAllCategorias();
   }
@@ -76,66 +93,65 @@ export class ProductosFormComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.productoForm.valid) {
       this.isUploading = true;
+      try {
+        if (this.actualizar) {
+          this.productoService.updateProducto(this.idProducto, this.productoForm.value).subscribe();
+          this.successMessage = this.actualizar 
+          ? `Producto "${this.productoForm.value.nombre}" actualizado correctamente` 
+          : `Producto "${this.productoForm.value.nombre}" creado correctamente`;
       
-      if (this.selectedFile) {
-        this.uploadImage().then(imageUrl => {
-          this.createProductoWithImage(imageUrl);
-        }).catch(error => {
-          this.message = 'Error al subir la imagen: ' + error.message;
+        this.showSuccessMessage = true;
+
+        } else {
+          const idProducto = await this.createProducto(this.productoForm.value, this.idUsuario);
+          this.idProducto = idProducto;
+          this.message = 'Producto creado correctamente. Redirigiendo...';
+        }
+
+        if (this.selectedFile) {
+          this.uploadImage();
+        }
+
+        setTimeout(() => this.router.navigate(['/home/productos']), 2000);
+        } catch (error: any) {
+          this.message = 'Error: ' + error.message;
           this.isUploading = false;
-        });
-      } else {
-        this.createProducto(this.productoForm.value);
-      }
+          
+        }
+
+        if (!this.actualizar) {
+          this.productoForm.reset();
+          this.imagePreview = null;
+        }
+
+    } else {
+      console.log(this.productoForm.value);
     }
   }
 
-  private uploadImage(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const formData = new FormData();
-      formData.append('imagen', this.selectedFile!);
+  removeImage(fileInput: HTMLInputElement) {
+    this.imagePreview = null;
+    fileInput.value = '';
+  }
 
-      this.http.post<any>(
-        `http://tu-backend/api/productos/upload-image`,
-        formData,
-        { reportProgress: true, observe: 'events' }
-      ).subscribe({
-        next: (event) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.uploadProgress = Math.round(100 * (event.loaded / (event.total || 1)));
-          } else if (event.type === HttpEventType.Response) {
-            resolve(event.body.rutaImagen);
-          }
-        },
-        error: (err) => reject(err)
+  private createProducto(producto: any, idUsuario: number): Promise<number> {
+    return new Promise((resolve) => {
+      this.productoService.createProducto(producto,idUsuario).subscribe({
+        next: (idProducto: number) => resolve(idProducto),
       });
     });
   }
 
-  private createProductoWithImage(imageUrl: string): void {
-    const productoData = {
-      ...this.productoForm.value,
-      imagenUrl: imageUrl,
-      categoria: { id: this.productoForm.value.categoria }
-    };
-    this.createProducto(productoData);
-  }
 
-  private createProducto(producto: any): void {
-    this.productoService.createProducto(producto).subscribe({
-      next: () => {
-        this.message = 'Producto creado correctamente. Redirigiendo...';
-        setTimeout(() => {
-          this.router.navigate(['/home/productos']);
-        }, 2000);
-      },
-      error: (err) => {
-        this.message = 'Error al crear producto: ' + err.message;
-        this.isUploading = false;
-      }
+  private uploadImage(): Promise<string> {
+    return new Promise((resolve) => {
+      const formData = new FormData();
+      formData.append('imagen', this.selectedFile!);
+
+      this.productoService.uploadImage(this.idProducto,this.selectedFile).subscribe();
     });
   }
 
@@ -145,9 +161,8 @@ export class ProductosFormComponent implements OnInit {
     );
   }
 
-  private getCategoria(idCategoria: number): void {
-    this.categoriaService.getCategoria(idCategoria).subscribe(
-      data => { this.categoria = data; }
-    );
+  btnCancelar() {
+    this.router.navigate(['/home/productos']);
   }
+
 }

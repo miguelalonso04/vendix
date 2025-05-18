@@ -38,6 +38,7 @@ export class CestaComponent implements OnInit {
     this.getCesta(this.idUsuario);
     this.getProductosCesta(this.idUsuario);
     this.getNombreUsuario(this.idUsuario);
+    this.getDireccion(this.idUsuario);
   }
 
   btnPedido(){
@@ -107,11 +108,17 @@ export class CestaComponent implements OnInit {
     this.cestaService.vaciarCesta(idUsuario).subscribe();
   }
 
+  private getDireccion(idUsuario: number){
+    this.userService.getAllDirecciones(idUsuario).subscribe(
+      data => {this.direccion = data}
+    );
+  }
+
   private crearPedido(){
 
     this.pedido = {
       productos:  this.productos,
-      direccion: this.direccion,
+      direccion: this.direccion[0],
       nombreUsuario: this.nombreUsuario,
       precioTotalPedido: this.cesta.total
     };

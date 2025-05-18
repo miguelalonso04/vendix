@@ -21,6 +21,8 @@ export class ViewProductoComponent implements OnInit {
   valoraciones!: any[];
   mediaValoracion!: number;
   indiceActual: number = 0;
+  urlImagen!: string;
+  showAddToCartMessage = false;
 
   constructor(private productoService: ProductoService,
               private route: ActivatedRoute,
@@ -40,6 +42,7 @@ export class ViewProductoComponent implements OnInit {
       this.getProducto(this.idProducto);
       this.getAllByProducto(this.idProducto);
       this.cargarMediasValoracion(this.idProducto);
+      this.getImagenUrl(this.idProducto);
     }
 
   }
@@ -60,6 +63,13 @@ export class ViewProductoComponent implements OnInit {
     );
   }
 
+  private getImagenUrl(idProducto: number) {
+    this.productoService.getRutaImagen(idProducto).subscribe(
+      data => {
+        this.urlImagen = data;
+      });
+  }
+
   getEstrellas(rating: number): string[] {
     const estrellas = [];
     for (let i = 1; i <= 5; i++) {
@@ -76,7 +86,10 @@ export class ViewProductoComponent implements OnInit {
 
   addACesta(producto: any){
     this.cestaService.addProducto(this.idUsuario,producto).subscribe();
-
+    this.showAddToCartMessage = true;
+    setTimeout(() => {
+      this.showAddToCartMessage = false;
+    }, 3000);
   }
 
   updateProducto(Producto: any){

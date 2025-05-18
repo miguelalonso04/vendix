@@ -1,34 +1,63 @@
-<app-home></app-home>
-<div class="cesta" *ngIf="cesta">
-  <ng-container *ngIf="cesta.productos && cesta.productos.length > 0; else vacia">
-    <div *ngFor="let p of cesta.productos">
-      <p>{{ p.nombre }}</p>
-      <p>Cantidad: {{ p.cantidad }}</p>
-      <p>Precio: {{ p.cantidad * p.precio }}€</p>
-
-      <button (click)="eliminarProducto(p)">
-        🗑️ <!-- Papelera estilo Windows -->
-      </button>
+<div class="cart-container">
+  <app-home></app-home>
   
-      <button (click)="restarCantidad(p)" [disabled]="p.cantidad <= 1">
-        -
-      </button>
-  
-      <button (click)="sumarCantidad(p)">
-        +
-      </button>
-    
+  <div class="cart-content" *ngIf="cesta">
+    <div class="cart-header">
+      <h2><i class="bi bi-cart3"></i> Mi Cesta</h2>
+      <span class="item-count">{{cesta.productos?.length || 0}} artículos</span>
     </div>
-    <p>Total: {{ cesta.total }}€</p>
 
-    <button class="btn-tramitarPedido" (click)="btnPedido()">Tramitar Pedido</button>
-  </ng-container>
+    <ng-container *ngIf="cesta.productos && cesta.productos.length > 0; else emptyCart">
+      <div class="cart-items">
+        <div class="cart-item" *ngFor="let p of cesta.productos">
+          <div class="item-info">
+            <h3>{{ p.nombre }}</h3>
+            <div class="item-price">{{ p.precio | number:'1.2-2' }}€</div>
+          </div>
+          
+          <div class="item-actions">
+            <div class="quantity-control">
+              <button class="btn-quantity" (click)="restarCantidad(p)" [disabled]="p.cantidad <= 1">
+                <i class="bi bi-dash"></i>
+              </button>
+              <span class="quantity">{{ p.cantidad }}</span>
+              <button class="btn-quantity" (click)="sumarCantidad(p)">
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+            
+            <div class="subtotal">
+              {{ p.cantidad * p.precio | number:'1.2-2' }}€
+            </div>
+            
+            <button class="btn-remove" (click)="eliminarProducto(p)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="cart-summary">
+        <div class="total-section">
+          <span>Total:</span>
+          <span class="total-amount">{{ cesta.total | number:'1.2-2' }}€</span>
+        </div>
+        
+        <button class="btn-checkout" (click)="btnPedido()">
+          <i class="bi bi-credit-card"></i> Tramitar Pedido
+        </button>
+      </div>
+    </ng-container>
 
-  <ng-template #vacia>
-    <p>Aún no tienes nada en la cesta.</p>
-    <a href="home/productos">Ver productos</a>
-  </ng-template>
+    <ng-template #emptyCart>
+      <div class="empty-cart">
+        <i class="bi bi-cart-x"></i>
+        <h3>Tu cesta está vacía</h3>
+        <p>Aún no has añadido ningún producto</p>
+        <a href="home/productos" class="btn-continue-shopping">
+          <i class="bi bi-arrow-left"></i> Ver productos
+        </a>
+      </div>
+    </ng-template>
+  </div>
 </div>
-
-
-  

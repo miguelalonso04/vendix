@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { UsersService } from '../../services/users.service';
 import { CategoriaService } from '../../services/categoria.service';
 import { LocalStorageService } from '../../services/local-storage.service';
@@ -20,6 +20,7 @@ export class LayoutComponent {
   usuario!: any;
   categorias!: any[];
   nombreProducto !: string;
+  isAsideCollapsed : boolean = false;
 
   constructor(private userService: UsersService,
               private categoriaService: CategoriaService, 
@@ -50,7 +51,8 @@ export class LayoutComponent {
 
   btnCategoria(idCategoria: number){
     this.router.navigate(['home/productos'],
-      {queryParams: {idCategoria: idCategoria} });
+      {queryParams: {idCategoria: idCategoria} }).then(() => {
+    window.location.reload()});
 
   }
 
@@ -61,19 +63,34 @@ export class LayoutComponent {
         nombreProducto : this.nombreProducto,
         buscado : true
       }
-    });
+    }).then(() => {
+    window.location.reload()});
     console.log(this.nombreProducto)
   }
 
   btnMisProductos(){
     this.router.navigate(['/home/productos'],
       {queryParams: {productosUsuarios: true}}
-    );
+    ).then(() => {
+    window.location.reload()});
   }
 
   cerrarSesion(){
     localStorage.clear();
     this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+   toggleAside() {
+    this.isAsideCollapsed = !this.isAsideCollapsed;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (event.target.innerWidth <= 992) {
+      this.isAsideCollapsed = true;
+    } else {
+      this.isAsideCollapsed = false;
+    }
   }
 
 }

@@ -56,8 +56,8 @@ export class UsersService {
   deleteDireccion(idDireccion: Number): Observable<any>{
     return this.http.delete(`${this.userUrl}/direccion/${idDireccion}`);
   }
-
-  //REVISAR BACK
+  
+  //ROL
   getRol(idUsuario: Number): Observable<any>{
     return this.http.get(`${this.userUrl}/${idUsuario}/rol`)
   }

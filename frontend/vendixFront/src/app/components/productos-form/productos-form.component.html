@@ -1,56 +1,121 @@
-<h2>{{actualizar ? 'Actualizando producto '+idProducto : 'Nuevo producto' }}</h2>
-
-<form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
-
-  <div class="form-group">
-    <label for="nombre">Nombre</label>
-    <input id="nombre" formControlName="nombre" class="form-control">
+<div class="product-form-container">
+  <div class="product-form-header">
+    <h2>
+      <i class="bi" [class.bi-pencil-square]="actualizar" [class.bi-plus-circle]="!actualizar"></i>
+      {{actualizar ? 'Actualizando producto '+idProducto : 'Nuevo producto' }}
+    </h2>
   </div>
 
-  <div class="form-group">
-    <label for="descripcion">Descripción</label>
-    <textarea id="descripcion" formControlName="descripcion" class="form-control"></textarea>
+  <!-- Mensaje de éxito -->
+  <div *ngIf="showSuccessMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle-fill"></i> {{successMessage}}
+    <button type="button" class="btn-close" (click)="showSuccessMessage = false"></button>
   </div>
 
-  <div class="form-group">
-    <label for="precio">Precio</label>
-    <input type="number" id="precio" formControlName="precio" class="form-control" step="0.01">
-  </div>
+  <form [formGroup]="productoForm" (ngSubmit)="onSubmit()" class="product-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="nombre">
+          <i class="bi bi-tag"></i> Nombre
+        </label>
+        <input id="nombre" formControlName="nombre" class="form-control" placeholder="Ej: Smartphone X200">
+        <div *ngIf="productoForm.get('nombre')?.invalid && (productoForm.get('nombre')?.dirty || productoForm.get('nombre')?.touched)"
+             class="form-error">
+          <small *ngIf="productoForm.get('nombre')?.errors?.['required']">El nombre es requerido</small>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <label for="stock">Stock</label>
-    <input type="number" id="stock" formControlName="stock" class="form-control">
-  </div>
-
-  <div class="form-group">
-    <label for="categoria">Categoría</label>
-    <select id="categoria" formControlName="categoria" class="form-control">
-      <option *ngFor="let categoria of categorias" [value]="categoria.id">
-        {{ categoria.nombre }}
-      </option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="imagen">Imagen del producto</label>
-    <input type="file" id="imagen" (change)="onFileSelected($event)" accept="image/*" class="form-control">
-    
-    <div *ngIf="imagePreview" class="image-preview">
-      <img [src]="imagePreview" alt="Previsualización" class="img-thumbnail" style="max-width: 200px; margin-top: 10px;">
+      <div class="form-group">
+        <label for="precio">
+          <i class="bi bi-currency-euro"></i> Precio
+        </label>
+        <div class="input-group">
+          <input type="number" id="precio" formControlName="precio" class="form-control" step="0.01" min="0" placeholder="0.00">
+          <span class="input-group-text">€</span>
+        </div>
+        <div *ngIf="productoForm.get('precio')?.invalid && (productoForm.get('precio')?.dirty || productoForm.get('precio')?.touched)"
+             class="form-error">
+          <small *ngIf="productoForm.get('precio')?.errors?.['required']">El precio es requerido</small>
+          <small *ngIf="productoForm.get('precio')?.errors?.['min']">El precio debe ser positivo</small>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div *ngIf="isUploading" class="progress" style="margin: 15px 0;">
-    <div class="progress-bar" role="progressbar" [style.width]="uploadProgress + '%'">
-      {{ uploadProgress }}%
+    <div class="form-group">
+      <label for="descripcion">
+        <i class="bi bi-card-text"></i> Descripción
+      </label>
+      <textarea id="descripcion" formControlName="descripcion" class="form-control" rows="4"
+                placeholder="Descripción detallada del producto"></textarea>
+      <div *ngIf="productoForm.get('descripcion')?.invalid && (productoForm.get('descripcion')?.dirty || productoForm.get('descripcion')?.touched)"
+           class="form-error">
+        <small *ngIf="productoForm.get('descripcion')?.errors?.['required']">La descripción es requerida</small>
+      </div>
     </div>
-  </div>
 
-  <div *ngIf="message" class="alert" [class.alert-success]="!isUploading" [class.alert-info]="isUploading">
-    {{ message }}
-  </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="stock">
+          <i class="bi bi-box-seam"></i> Stock
+        </label>
+        <input type="number" id="stock" formControlName="stock" class="form-control" min="0" placeholder="0">
+        <div *ngIf="productoForm.get('stock')?.invalid && (productoForm.get('stock')?.dirty || productoForm.get('stock')?.touched)"
+             class="form-error">
+          <small *ngIf="productoForm.get('stock')?.errors?.['required']">El stock es requerido</small>
+          <small *ngIf="productoForm.get('stock')?.errors?.['min']">El stock no puede ser negativo</small>
+        </div>
+      </div>
 
-  <button type="submit" class="btn btn-primary" [disabled]="isUploading || !productoForm.valid">
-    {{ isUploading ? 'Subiendo...' : (actualizar ? 'Actualizar Producto' : 'Crear Producto') }}
-  </button>
-</form>
+      <div class="form-group">
+        <label for="categoria">
+          <i class="bi bi-bookmarks"></i> Categoría
+        </label>
+        <select id="categoria" formControlName="categoria" class="form-control">
+          <option [ngValue]="null" disabled>Seleccione una categoría</option>
+          <option *ngFor="let categoria of categorias" [ngValue]="categoria">
+            {{ categoria.nombre }}
+          </option>
+        </select>
+        <div *ngIf="productoForm.get('categoria')?.invalid && (productoForm.get('categoria')?.dirty || productoForm.get('categoria')?.touched)"
+             class="form-error">
+          <small>Debe seleccionar una categoría</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="imagen">
+        <i class="bi bi-image"></i> Imagen del producto
+      </label>
+      <input type="file" id="imagen" (change)="onFileSelected($event)" accept="image/*" class="form-control" #fileInput>
+
+         <div *ngIf="imagePreview" class="image-preview mt-3">
+        <img [src]="imagePreview" alt="Previsualización" class="img-preview mb-2">
+      
+        <button type="button" class="btn btn-danger" (click)="removeImage(fileInput)">
+          <i class="bi bi-x"></i> Eliminar imagen
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="isUploading" class="upload-progress">
+      <div class="progress-text">
+        Subiendo imagen... {{ uploadProgress }}%
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="uploadProgress"></div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-submit" [disabled]="isUploading || !productoForm.valid">
+        <i class="bi" [class.bi-arrow-repeat]="isUploading" [class.bi-check-lg]="!isUploading"></i>
+        {{ isUploading ? 'Guardando...' : (actualizar ? 'Actualizar Producto' : 'Crear Producto') }}
+      </button>
+      
+      <button type="button" class="btn-cancel" (click)="btnCancelar()" [disabled]="isUploading">
+        <i class="bi bi-x-lg"></i> Cancelar
+      </button>
+    </div>
+  </form>
+</div>

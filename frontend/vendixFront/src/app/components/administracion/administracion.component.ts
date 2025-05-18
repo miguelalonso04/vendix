@@ -4,6 +4,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { DireccionService } from '../../services/direccion.service';
 import { CommonModule } from '@angular/common';
 import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-administracion',
@@ -16,6 +17,7 @@ export class AdministracionComponent implements OnInit{
   idUsuario !: number;
   rol !: string;
 
+  rolUsuario: { [id: number]: string } = {};
   lUsuarios !: any[];
   usuario : any;
   direcciones !: any[];
@@ -25,7 +27,6 @@ export class AdministracionComponent implements OnInit{
 
   constructor(private usersService: UsersService,
               private localStorage: LocalStorageService,
-              private direccionService: DireccionService,
               private fb: FormBuilder){
     this.direccionForm = this.fb.group({
     calle: ['', Validators.required],
@@ -45,15 +46,12 @@ export class AdministracionComponent implements OnInit{
     }else{
       this.getAllUsers();
     }
-
     this.getAllDirecciones(this.idUsuario);
-
   }
 
-  onSUbmit(){
+  onSubmit(){
     if(this.direccionForm.valid){
       this.guardarDireccion();
-      this.direccionForm.reset();
       this.mostrarFormularioDireccion = false;
     }else{
       alert('Error al añadir la dirección');
@@ -68,8 +66,14 @@ export class AdministracionComponent implements OnInit{
 
   private getAllUsers(){
     this.usersService.getAll().subscribe(
-      data => {this.lUsuarios = data}
-    );
+      data => {this.lUsuarios = data
+        console.log(this.lUsuarios);
+        this.lUsuarios.forEach(u => {
+          this.usersService.getRol(u.id).subscribe(data => {
+            this.rolUsuario[u.id] = data.tipo;
+          });
+        })
+      });
   }
 
   private getAllDirecciones(idUsuario: number){
@@ -97,22 +101,23 @@ export class AdministracionComponent implements OnInit{
     this.mostrarFormularioDireccion = true;
   }
 
-  guardarDireccion() {
-    if (this.direccionForm.valid) {
-        if (this.direccionEditando) {
-            // Primero elimina la dirección antigua
-            this.usersService.deleteDireccion(this.direccionEditando.id).subscribe({
-                next: () => {
-                    // Luego crea la nueva
-                    this.crearNuevaDireccion();
-                },
-                error: (err) => console.error('Error al eliminar dirección', err)
-            });
-        } else {
-            this.crearNuevaDireccion();
-        }
+ guardarDireccion() {
+  if (this.direccionForm.valid) {
+    if (this.direccionEditando) {
+      this.usersService.deleteDireccion(this.direccionEditando.id).pipe(
+        switchMap(async () => this.crearNuevaDireccion())
+      ).subscribe({
+        next: () => {
+          this.actualizarListaDirecciones();
+          this.resetFormulario();
+        },
+        error: err => console.error('Error al editar dirección', err)
+      });
+    } else {
+      this.crearNuevaDireccion();
     }
   }
+ }
 
   crearNuevaDireccion() {
     this.usersService.addDireccion(this.usuario.id, this.direccionForm.value)

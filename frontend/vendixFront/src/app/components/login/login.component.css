@@ -1,82 +1,188 @@
-body {
-    background:no-repeat center center fixed;
-    background-size: cover;
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
+
+.login-page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #2d3748;
+}
+
+.brand-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2563eb;
+  letter-spacing: -0.5px;
+  margin-bottom: 5px;
+}
+
+.tagline {
+  font-size: 1rem;
+  color: #4a5568;
+  font-weight: 400;
+}
+
+.login-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-field {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 15px 15px 15px 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  background-color: #f8fafc;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  background-color: white;
+}
+
+.input-field label {
+  position: absolute;
+  left: 40px;
+  top: 15px;
+  color: #718096;
+  transition: all 0.2s;
+  pointer-events: none;
+  background-color: #f8fafc;
+  padding: 0 5px;
+}
+
+.form-input:focus + label,
+.form-input:not(:placeholder-shown) + label {
+  transform: translateY(-25px) scale(0.9);
+  left: 20px;
+  color: #2563eb;
+  background-color: white;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  font-size: 1.1rem;
+}
+
+.error-message {
+  margin-top: 5px;
+  font-size: 0.85rem;
+  color: #e53e3e;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.error-icon {
+  font-weight: bold;
+}
+
+.server-error {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #fff5f5;
+  border-radius: 8px;
+  color: #e53e3e;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #fed7d7;
+}
+
+.submit-btn {
+  margin-top: 10px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submit-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.submit-btn:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.submit-btn:hover .arrow {
+  transform: translateX(3px);
+}
+
+.register-prompt {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.register-link {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 25px;
   }
   
-  .login-container {
-    max-width: 400px;
-    margin: 100px auto;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 40px 30px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    color: #fff;
+  .logo {
+    font-size: 2rem;
   }
-  
-  .login-container h2 {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 8px;
-    color: #fff;
-  }
-  
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: none;
-    border-bottom: 2px solid #fff;
-    background: transparent;
-    color: #fff;
-    margin-bottom: 20px;
-  }
-  
-  input[type="text"]::placeholder,
-  input[type="password"]::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #fff;
-    color: #000;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s ease;
-  }
-  
-  button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
-  
-  button:hover:not(:disabled) {
-    background: #f0f0f0;
-  }
-  
-  .error {
-    color: #ff6b6b;
-    font-size: 0.85em;
-    margin-bottom: 15px;
-  }
-  
-  a {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-    color: #fff;
-    text-decoration: underline;
-  }
-  
+}

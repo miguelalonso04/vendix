@@ -1,23 +1,54 @@
-<div class="login-container">
-    <h2>Inicia Sesion</h2>
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-      <label for="username">Usuario:</label>
-      <input type="text" id="username" formControlName="username">
-      <p *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="error">
-        El usuario es obligatorio
-      </p>
-  
-      <label for="password">Contraseña:</label>
-      <input type="password" id="password" formControlName="password">
-      <p *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="error">
-        La contraseña es obligatoria
-      </p>
-  
-      <button type="submit" [disabled]="userForm.invalid">Iniciar Sesión</button>
-    </form>
-  
-    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-
-    <a href="/register">Registrate</a>
+<div class="login-page">
+  <div class="brand-header">
+    <div class="logo">VENDIX</div>
+    <div class="tagline">Innovación Tecnológica</div>
   </div>
-  
+
+  <div class="login-card">
+    <h2>Iniciar Sesión</h2>
+    
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="input-field">
+        <input 
+          type="text" 
+          id="username" 
+          formControlName="username" 
+          required
+          class="form-input"
+        >
+        <label for="username">Usuario</label>
+        <span class="input-icon">👤</span>
+        <div *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="error-message">
+          <span class="error-icon">!</span> Usuario requerido
+        </div>
+      </div>
+
+      <div class="input-field">
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="password" 
+          required
+          class="form-input"
+        >
+        <label for="password">Contraseña</label>
+        <span class="input-icon">🔒</span>
+        <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="error-message">
+          <span class="error-icon">!</span> Contraseña requerida
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="userForm.invalid">
+        Acceder <span class="arrow">→</span>
+      </button>
+    </form>
+
+    <div *ngIf="errorMessage" class="server-error">
+      <span class="error-icon">⚠</span> {{ errorMessage }}
+    </div>
+
+    <div class="register-prompt">
+      ¿No tienes cuenta? <a href="/register" class="register-link">Regístrate</a>
+    </div>
+  </div>
+</div>

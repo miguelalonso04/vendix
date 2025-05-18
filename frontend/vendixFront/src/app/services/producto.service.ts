@@ -19,8 +19,9 @@ export class ProductoService {
     return this.http.get(`${this.productoUrl}/${idProducto}`);
   }
 
-  createProducto(producto: any):Observable<any>{
-    return this.http.post(this.productoUrl, producto);
+  createProducto(producto: any, idUsuario:number):Observable<any>{
+    const params = new HttpParams().set('idUsuario', idUsuario);
+    return this.http.post(this.productoUrl, producto, {params});
   }
 
   updateProducto(idProducto: number, producto: any):Observable<any>{
@@ -60,5 +61,13 @@ export class ProductoService {
     const formData = new FormData();
     formData.append('imagen', file);
     return this.http.post(`${this.productoUrl}/${productId}/upload-image`, formData);
+  }
+
+  getRutaImagen(id: number): Observable<string> {
+    return this.http.get<string>(`${this.productoUrl}/${id}/imagen`, { responseType: 'text' as 'json' });
+  }
+
+  getProductosByUsuario(usuarioId: number): Observable<any> {
+    return this.http.get(`${this.productoUrl}/usuario/${usuarioId}`);
   }
 }

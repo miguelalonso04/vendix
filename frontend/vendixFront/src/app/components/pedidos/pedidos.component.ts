@@ -14,6 +14,7 @@ import { ValoracionesService } from '../../services/valoraciones.service';
 })
 export class PedidosComponent implements OnInit {
 
+  rol !: string;
   idUsuario !: number;
   idPedido !: number;
   pedido: any;
@@ -31,21 +32,25 @@ export class PedidosComponent implements OnInit {
       params => {this.idPedido = params['idPedido']}
     );
     this.idUsuario = this.localStorage.getItem('idUsuario');
+    this.rol = this.localStorage.getItem('roles');
 
     if(this.idPedido){
       this.getPedido(this.idPedido);
       this.getUsuarioPedido(this.idPedido);
+    }else if(this.rol == 'ROLE_ADMIN'){
+      this.pedidoService.getAllPedidos().subscribe(
+        data => {this.lPedidos = data}
+      );
     }else{
       this.getAllPedidosByUsuario(this.idUsuario);
     }
   }
 
-  btnVerPedido(idPedido: number){
-    this.router.navigate(
-      ['/home/pedidos'], 
-      { queryParams: { idPedido: idPedido} }
-    );
-  }
+  btnVerPedido(idPedido: number) {
+  this.router.navigate(['/home/pedidos'], { queryParams: { idPedido } }).then(() => {
+    window.location.reload();
+  });
+}
 
   private getPedido(idPedido: number){
     this.pedidoService.getPedido(idPedido).subscribe(

@@ -1,117 +1,180 @@
-/* Contenedor principal del formulario */
-.valoracion-form-container {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  /* Títulos */
-  .valoracion-form-container h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-  
-  .valoracion-form-container h3 {
-    margin-bottom: 0.5rem;
-    color: #555;
-  }
-  
-  .valoracion-form-container p {
-    margin-bottom: 1.5rem;
-    color: #777;
-  }
-  
-  /* Grupos del formulario */
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Campos del formulario */
-  .form-control {
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-  }
-  
-  textarea.form-control {
-    resize: vertical;
-    min-height: 100px;
-  }
-  
-  /* Botón de envío */
-  .btn {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: bold;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .btn:disabled {
-    background-color: #a0a0a0;
-    cursor: not-allowed;
-  }
-  
-  /* Estrellas de valoración */
-  .estrellas-wrapper {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-start;
-    gap: 0.25rem;
-  }
-  
-  .estrellas-wrapper input[type="radio"] {
-    display: none;
-  }
-  
-  .estrellas-wrapper label {
-    font-size: 2rem;
-    color: #ccc;
-    cursor: pointer;
-    transition: color 0.2s ease-in-out;
-  }
-  
-  /* Estrellas seleccionadas o al pasar el ratón */
-  .estrellas-wrapper input[type="radio"]:checked ~ label,
-  .estrellas-wrapper label:hover,
-  .estrellas-wrapper label:hover ~ label {
-    color: gold;
-  }
-  
-  /* Validaciones y mensajes */
-  .error {
-    color: red;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
-  
-  .alert {
-    padding: 1rem;
-    border-radius: 6px;
-    font-size: 1rem;
-    margin-top: 1rem;
-  }
-  
-  .alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-  }
-  
+.rating-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.rating-header {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.rating-header h2 {
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.product-info {
+  margin-top: 20px;
+}
+
+.product-info h3 {
+  color: #343a40;
+  margin-bottom: 5px;
+}
+
+.product-description {
+  color: #6c757d;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+.rating-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1em;
+  transition: all 0.2s;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-control:focus {
+  border-color: #6a11cb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+}
+
+.form-error {
+  color: #dc3545;
+  font-size: 0.85em;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.star-rating label {
+  cursor: pointer;
+  font-size: 1.8em;
+  color: #ddd;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.star-rating label:hover,
+.star-rating label.active,
+.star-rating label:hover ~ label {
+  color: #ffc107;
+}
+
+.star-rating label:hover ~ label:not(.active) {
+  color: #ddd;
+}
+
+.rating-text {
+  margin-left: 15px;
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+.form-actions {
+  margin-top: 15px;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-submit:hover {
+  background: #218838;
+}
+
+.btn-submit:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.alert {
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: fadeIn 0.3s;
+}
+
+.alert-success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  display: flex;
+  align-items: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bi {
+  font-size: 1.1em;
+}
