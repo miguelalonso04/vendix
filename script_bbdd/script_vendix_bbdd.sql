@@ -106,10 +106,10 @@ INSERT INTO ROLES (ID, TIPO) VALUES (1, 'ADMIN');
 INSERT INTO ROLES (ID, TIPO) VALUES (2, 'USER');
 
 INSERT INTO USUARIOS (id,username, password, email, FIRST_NAME, LAST_NAME, telefono, enabled, lastPasswordResetDate)  
-VALUES (1,'admin', '$2a$10$27wkx.cJ8xJCGWVCY3dg/.OcnvhPWK9rQhMDDKWdJZBno77tyVrK6', 'admin@gmail.com', 'Miguel', 'Alonso', '123456789', TRUE, NOW()),
-(2,'miguel', '$2a$10$27wkx.cJ8xJCGWVCY3dg/.OcnvhPWK9rQhMDDKWdJZBno77tyVrK6', 'app.vendix@gmail.com', 'Miguel', 'Alonso', '123456789', TRUE, NOW());
+VALUES (1,'admin', '$2a$10$27wkx.cJ8xJCGWVCY3dg/.OcnvhPWK9rQhMDDKWdJZBno77tyVrK6', 'admin@gmail.com', 'Miguel', 'Alonso', '+34 634 12 31 23', TRUE, NOW()),
+(2,'miguel', '$2a$10$27wkx.cJ8xJCGWVCY3dg/.OcnvhPWK9rQhMDDKWdJZBno77tyVrK6', 'app.vendix@gmail.com', 'Miguel', 'Alonso', '+34 682 63 52 31', TRUE, NOW());
 
-INSERT INTO USUARIOS_ROLES(ID_USER,ID_ROL) VALUES (1,1);
+INSERT INTO USUARIOS_ROLES(ID_USER,ID_ROL) VALUES (1,1),(2,2);
 
 INSERT INTO CATEGORIAS (nombre, descripcion) VALUES
 ('Libros', 'Categoría dedicada a libros de todo tipo, incluyendo novelas, educación y más.'),
@@ -148,29 +148,29 @@ INSERT INTO PRODUCTOS (nombre, descripcion, precio, stock, disponible, categoria
 INSERT INTO VALORACIONES_PRODUCTO (producto_id, usuario_id, comentario, valoracion) VALUES
 -- Comentarios para 'El Principito' (ID 1)
 (1, 2, 'Un clásico que todo el mundo debería leer. La historia es simple pero profunda.', 5),
-(1, 2, 'La edición es muy bonita, con buenas ilustraciones. Lo recomiendo para niños y adultos.', 4),
+(1, 2, 'La edición es muy bonita, con buenas ilustraciones. Lo recomiendo para niños y adultos.', 3),
 (1, 2, 'Me llegó con una pequeña abolladura en la portada, pero por lo demás perfecto.', 3),
 
 -- Comentarios para 'Cien años de soledad' (ID 2)
 (2, 2, 'Obra maestra de la literatura latinoamericana. García Márquez es un genio.', 5),
 (2, 2, 'La narrativa es compleja pero fascinante. Requiere atención para seguir los personajes.', 4),
-(2, 2, 'El libro llegó con las páginas un poco amarillentas, parece una edición antigua.', 3),
+(2, 2, 'El libro llegó con las páginas un poco amarillentas, parece una edición antigua.', 2),
 
 -- Comentarios para 'Aprende SQL en 10 días' (ID 3)
-(3, 2, 'Excelente para principiantes. Los ejemplos prácticos son muy útiles.', 5),
-(3, 2, 'Buen contenido pero la traducción al español tiene algunos errores.', 4),
+(3, 2, 'Excelente para principiantes. Los ejemplos prácticos son muy útiles.', 4),
+(3, 2, 'Buen contenido pero la traducción al español tiene algunos errores.', 3),
 (3, 2, 'Esperaba más ejercicios avanzados, pero cumple para lo básico.', 3),
 
 -- Comentarios para productos de Electrónica (IDs 4-6)
 -- Comentarios para 'iPhone 13' (ID 4)
 (4, 2, 'El mejor teléfono que he tenido. La cámara es espectacular.', 5),
-(4, 2, 'Buen rendimiento pero la batería podría durar más.', 4),
-(4, 2, 'Demasiado caro para lo que ofrece. Hay alternativas Android mejores.', 3),
+(4, 2, 'Buen rendimiento pero la batería podría durar más.', 3),
+(4, 2, 'Demasiado caro para lo que ofrece. Hay alternativas Android mejores.', 1),
 
 -- Comentarios para 'Portátil HP Pavilion' (ID 5)
 (5, 2, 'Muy buen rendimiento para el precio. Ideal para trabajo y estudios.', 5),
-(5, 2, 'El teclado es cómodo pero la pantalla podría tener mejor brillo.', 4),
-(5, 2, 'Se calienta bastante con uso intensivo. Necesita un cooler adicional.', 3),
+(5, 2, 'El teclado es cómodo pero la pantalla podría tener mejor brillo.', 3),
+(5, 2, 'Se calienta bastante con uso intensivo. Necesita un cooler adicional.', 1),
 
 -- Comentarios para 'Auriculares Sony WH-1000XM4' (ID 6)
 (6, 2, 'La cancelación de ruido es increíble. Sonido de alta calidad.', 5),
@@ -240,6 +240,11 @@ INSERT INTO VALORACIONES_PRODUCTO (producto_id, usuario_id, comentario, valoraci
 (18, 2, 'Muy suave y perfecto para regalar a niños.', 5),
 (18, 2, 'El relleno podría ser más consistente, se aplasta fácil.', 4),
 (18, 2, 'El hilo de la costura parece de baja calidad.', 3);
+
+insert into Cesta_Productos (id,total) Values (2,0);
+
+insert into DIRECCION (id,ID_USER,calle,ciudad,provincia,CODIGO_POSTAL,pais) 
+VALUES (1,2,"AV Antonio Hurtado", "Caceres","Caceres","10002","España");
 
 ALTER TABLE CESTA_PRODUCTOS AUTO_INCREMENT = 2;
 
