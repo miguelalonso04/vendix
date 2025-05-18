@@ -1,7 +1,9 @@
 package com.miguel.vendix.presentation.restcontrollers;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ import com.miguel.vendix.business.model.Producto;
 import com.miguel.vendix.business.services.ProductoService;
 import com.miguel.vendix.business.services.impl.LocalStorageService;
 import com.miguel.vendix.presentation.config.PresentationException;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -55,17 +59,17 @@ public class ProductoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createProducto(@RequestBody Producto producto, UriComponentsBuilder ucb){
+	public ResponseEntity<?> createProducto(@RequestBody Producto producto, @RequestParam Long idUsuario, UriComponentsBuilder ucb){
 		
 		Long id = null;
 		
 		try {
-			id = productoService.create(producto);
+			id = productoService.create(producto,idUsuario);
 		} catch(IllegalStateException e) {
 			throw new PresentationException(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 
-		return ResponseEntity.created(ucb.path("/productos/{id}").build(id)).build();
+		return ResponseEntity.created(ucb.path("/productos/{id}").build(id)).body(id);
 	}
 	
 	@PutMapping("/{id}")
@@ -139,13 +143,44 @@ public class ProductoController {
     	
     }
     
-    @PostMapping("/{id}/upload-image")
-    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam MultipartFile imagen) throws IOException {
+    @PostMapping("/{idProducto}/upload-image")
+    public ResponseEntity<Map<String, String>> uploadImage(@PathVariable Long idProducto, @RequestParam MultipartFile imagen) throws IOException {
         
-        String rutaImagen = localStorageService.guardarImagen(imagen, id);
-        productoService.actualizarRutaImagen(id, rutaImagen);
+        String rutaImagen = localStorageService.guardarImagen(imagen, idProducto);
+        productoService.actualizarRutaImagen(idProducto, rutaImagen);
         
-        return ResponseEntity.ok("Imagen subida. Ruta: " + rutaImagen);
+        Map<String, String> response = new HashMap<>();
+        response.put("rutaImagen", rutaImagen);
+
+        return ResponseEntity.ok(response);
     }
-	
+    
+    @GetMapping("{idProducto}/imagen")
+	public ResponseEntity<String> getImagen(@PathVariable Long idProducto, HttpServletRequest request){
+    	String rutaImagen = productoService.getRutaImagen(idProducto);
+    	if (rutaImagen != null) {
+            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            String imagenUrl = baseUrl + "/uploads/" + rutaImagen;
+
+            return ResponseEntity.ok(imagenUrl);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @GetMapping("/usuario/{usuarioId}")
+    public List<Producto> getProductosByUsuario(@PathVariable Long usuarioId) {
+    	
+    	if(usuarioId == null) {
+    		throw new PresentationException("El id del usuario no puede ser null", HttpStatus.BAD_REQUEST);
+    	}
+    	
+        List<Producto> productos = productoService.getAllByUsuario(usuarioId);
+        
+        if(productos.isEmpty()) {
+        	throw new PresentationException("El usuario con id: ["+usuarioId+"]. No tiene ningun producto.", HttpStatus.NO_CONTENT);
+        }
+        return productos;
+    }
+    
 }

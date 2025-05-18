@@ -26,6 +26,8 @@ import com.miguel.vendix.integration.repositories.ProductoRepository;
 import com.miguel.vendix.security.model.Usuario;
 import com.miguel.vendix.security.repositories.UsuarioRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class PedidoServiceImpl implements PedidoService {
 	
@@ -45,6 +47,7 @@ public class PedidoServiceImpl implements PedidoService {
 	private EmailService emailService;
 
 	@Override
+	@Transactional
 	public Long create(PedidoDTO pedidoDTO, Long idUsuario) {
 		
 		Pedido pedido = new Pedido();
@@ -64,7 +67,15 @@ public class PedidoServiceImpl implements PedidoService {
 
 	        total += productoDTO.getPrecio() * productoDTO.getCantidad();
 	        
-	        productos.put(producto, productoDTO.getCantidad());
+	        producto.setStock(producto.getStock() - productoDTO.getCantidad());
+	        
+	        if(producto.getStock() > 0) {
+	        	productos.put(producto, productoDTO.getCantidad());
+	        }else {
+	        	throw new IllegalStateException("No hay suficiente stock de "+productoDTO.getNombre());
+	        }
+	        
+	        
 	    }
 		
 		cesta.setProductos(productos);

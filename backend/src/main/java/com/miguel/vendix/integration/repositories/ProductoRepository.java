@@ -24,5 +24,10 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
 	@Modifying
     @Query("UPDATE Producto p SET p.rutaImagen = :rutaImagen WHERE p.id = :productoId")
     void actualizarRutaImagen(@Param("productoId") Long productoId, @Param("rutaImagen") String rutaImagen);
+	
+	@Query("SELECT p.rutaImagen FROM Producto p WHERE p.id = :idProducto")
+	String getRutaImagenPorId(@Param("idProducto") Long idProducto);
+	
+	List<Producto> findByUsuarioId(Long usuarioId);
 
 }

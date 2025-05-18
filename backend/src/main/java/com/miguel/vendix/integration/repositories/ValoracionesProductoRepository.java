@@ -19,6 +19,6 @@ public interface ValoracionesProductoRepository extends JpaRepository<Valoracion
 	@Query("SELECT COUNT(v) FROM ValoracionesProducto v WHERE v.producto.id = :idProducto")
     Integer numeroValoracionesXProducto(@Param("idProducto") Long idProducto);
 	
-	@Query("SELECT AVG(v.valoracion) FROM ValoracionesProducto v WHERE v.producto.id = :idProducto")
-    Double mediaValoracionesPorProducto(@Param("idProducto") Long idProducto);
+	@Query("SELECT ROUND(AVG(v.valoracion), 1) FROM ValoracionesProducto v WHERE v.producto.id = :idProducto")
+	Double mediaValoracionesPorProducto(@Param("idProducto") Long idProducto);
 }

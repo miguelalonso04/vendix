@@ -9,6 +9,8 @@ import com.miguel.vendix.business.model.Producto;
 import com.miguel.vendix.business.services.ProductoService;
 import com.miguel.vendix.integration.repositories.CategoriaRepository;
 import com.miguel.vendix.integration.repositories.ProductoRepository;
+import com.miguel.vendix.security.model.Usuario;
+import com.miguel.vendix.security.repositories.UsuarioRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -19,21 +21,28 @@ public class ProductoServiceImpl implements ProductoService {
 	
 	private final CategoriaRepository categoriaRepository;
 	
-	public ProductoServiceImpl(ProductoRepository productoRepository, CategoriaRepository categoriaRepository) {
+	private final UsuarioRepository usuarioRepository;
+	
+	public ProductoServiceImpl(ProductoRepository productoRepository, CategoriaRepository categoriaRepository, UsuarioRepository usuarioRepository) {
 		this.productoRepository = productoRepository;
 		this.categoriaRepository = categoriaRepository;
+		this.usuarioRepository = usuarioRepository;
 	}
 	
 	@Override
 	@Transactional 
 	//Transactional: si ocurre una exception las operaciones de la base de datos se revertiran
-	public Long create(Producto producto) {
+	public Long create(Producto producto, Long idUsuario) {
 		
 		if(producto.getId() != null) {
 			throw new IllegalStateException("Para crear un producto el id ha de ser null");
 		}
 		
+		Usuario usuario = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new IllegalStateException("No se ha encontrado el usuario con id ["+idUsuario+"]"));
+		
 		producto.setDisponible(true);
+		producto.setUsuario(usuario);
 		
 		Producto productoCreado = productoRepository.save(producto);
 		
@@ -61,6 +70,8 @@ public class ProductoServiceImpl implements ProductoService {
 		if(!existe) {
 			throw new IllegalStateException("El producto con ID ["+ id +"] no existe ");
 		}
+		
+		producto.setDisponible(true);
 		
 		productoRepository.save(producto);
 		
@@ -120,6 +131,16 @@ public class ProductoServiceImpl implements ProductoService {
     public void actualizarRutaImagen(Long productoId, String rutaImagen) {
 		productoRepository.actualizarRutaImagen(productoId, rutaImagen);
     }
+
+	@Override
+	public String getRutaImagen(Long productoId) {
+		return productoRepository.getRutaImagenPorId(productoId);
+	}
+
+	@Override
+	public List<Producto> getAllByUsuario(Long idUsuario) {
+		return productoRepository.findByUsuarioId(idUsuario);
+	}
 
 
 
