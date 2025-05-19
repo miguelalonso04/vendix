@@ -56,7 +56,7 @@
       </div>
 
       <button
-        *ngIf="rol === 'ROLE_ADMIN'"
+        *ngIf="rol == 'ROLE_ADMIN'"
         (click)="eliminarValoracion(val.id)"
         class="btn-delete"
       >
