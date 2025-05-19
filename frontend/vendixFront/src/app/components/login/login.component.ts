@@ -34,7 +34,6 @@ export class LoginComponent {
         if (response && response.status === 200) {
           this.errorMessage = '';
 
-          //guardamos en el LocalStorage los roles y el id del usuario
           this.localStorage.setItem('roles', response.body.roles);
           this.localStorage.setItem('idUsuario', response.body.id);
 

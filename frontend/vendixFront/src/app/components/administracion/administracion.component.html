@@ -119,6 +119,15 @@
                         <p><i class="bi bi-person-rolodex"></i> <strong>Rol:</strong> {{ rolUsuario[u.id] || 'Cargando...' }}</p>
                     </div>
                 </div>
+
+                <div class="user-actions">
+                    <button *ngIf="u.enabled && u.id != 1" class="btn-disable" (click)="btnDeshabilitar(u.id)">
+                        <i class="bi bi-person-x"></i> Deshabilitar
+                    </button>
+                    <button *ngIf="!u.enabled" class="btn-enable" (click)="btnHabilitar(u.id)">
+                        <i class="bi bi-person-check"></i> Habilitar
+                    </button>
+                </div>
             </div>
         </div>
     </div>

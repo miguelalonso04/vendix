@@ -315,3 +315,36 @@ button {
 .bi {
     font-size: 1.1em;
 }
+
+.user-actions {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.btn-disable {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-disable:hover {
+    background-color: #c82333;
+}
+
+.btn-enable {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-enable:hover {
+    background-color: #218838;
+}

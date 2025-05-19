@@ -9,15 +9,9 @@
     
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="register-form">
       <div class="form-grid">
-        <!-- Nombre -->
+
         <div class="input-field">
-          <input 
-            id="firstName" 
-            type="text" 
-            formControlName="firstName" 
-            required
-            class="form-input"
-          >
+          <input id="firstName" type="text" formControlName="firstName" required class="form-input">
           <label for="firstName">Nombre</label>
           <span class="input-icon">👤</span>
           <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="error-message">
@@ -25,15 +19,8 @@
           </div>
         </div>
 
-        <!-- Apellido -->
         <div class="input-field">
-          <input 
-            id="lastName" 
-            type="text" 
-            formControlName="lastName" 
-            required
-            class="form-input"
-          >
+          <input id="lastName" type="text" formControlName="lastName" required class="form-input">
           <label for="lastName">Apellido</label>
           <span class="input-icon">👥</span>
           <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="error-message">
@@ -41,15 +28,8 @@
           </div>
         </div>
 
-        <!-- Teléfono -->
         <div class="input-field">
-          <input 
-            id="telefono" 
-            type="text" 
-            formControlName="telefono" 
-            required
-            class="form-input"
-          >
+          <input id="telefono" type="text" formControlName="telefono" required class="form-input">
           <label for="telefono">Teléfono</label>
           <span class="input-icon">📱</span>
           <div *ngIf="userForm.get('telefono')?.errors?.['required'] && userForm.get('telefono')?.touched" class="error-message">
@@ -60,15 +40,8 @@
           </div>
         </div>
 
-        <!-- Email -->
         <div class="input-field">
-          <input 
-            id="email" 
-            type="email" 
-            formControlName="email" 
-            required
-            class="form-input"
-          >
+          <input id="email" type="email" formControlName="email" required class="form-input">
           <label for="email">Correo Electrónico</label>
           <span class="input-icon">✉️</span>
           <div *ngIf="userForm.get('email')?.errors?.['required'] && userForm.get('email')?.touched" class="error-message">
@@ -79,15 +52,8 @@
           </div>
         </div>
 
-        <!-- Usuario -->
         <div class="input-field">
-          <input 
-            id="username" 
-            type="text" 
-            formControlName="username" 
-            required
-            class="form-input"
-          >
+          <input id="username" type="text" formControlName="username" required class="form-input">
           <label for="username">Usuario</label>
           <span class="input-icon">👨‍💻</span>
           <div *ngIf="userForm.get('username')?.errors?.['required'] && userForm.get('username')?.touched" class="error-message">
@@ -97,21 +63,77 @@
             <span class="error-icon">!</span> Mínimo 5 caracteres
           </div>
         </div>
+      </div>
 
-        <!-- Contraseña -->
-        <div class="input-field">
-          <input 
-            id="password" 
-            type="password" 
-            formControlName="password" 
-            required
-            class="form-input"
-          >
-          <label for="password">Contraseña</label>
-          <span class="input-icon">🔒</span>
-          <div *ngIf="userForm.get('password')?.errors?.['required'] && userForm.get('password')?.touched" class="error-message">
-            <span class="error-icon">!</span> Contraseña requerida
+      <div class="password-section">
+        <div class="password-row">
+          <div class="input-field password-field">
+            <div class="password-input-container">
+              <input 
+                id="password" 
+                [type]="showPassword ? 'text' : 'password'" 
+                formControlName="password" 
+                required
+                class="form-input"
+                (input)="checkPasswordStrength()"
+              >
+              <label for="password">Contraseña</label>
+              <span class="input-icon">🔒</span>
+              <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+                <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+              </button>
+            </div>
+            
+            <div class="password-strength" *ngIf="userForm.get('password')?.value">
+              <div class="strength-meter">
+                <div class="strength-bar" [ngClass]="passwordStrengthClass"></div>
+              </div>
+              <div class="strength-info">
+                <span class="strength-label">Seguridad: {{passwordStrengthText}}</span>
+              </div>
+            </div>
+            
+            <div *ngIf="userForm.get('password')?.errors?.['required'] && userForm.get('password')?.touched" class="error-message">
+              <span class="error-icon">!</span> Contraseña requerida
+            </div>
+            <div *ngIf="userForm.get('password')?.errors?.['minlength'] && userForm.get('password')?.touched" class="error-message">
+              <span class="error-icon">!</span> Mínimo 8 caracteres
+            </div>
           </div>
+
+          <div class="input-field confirm-password-field">
+            <div class="password-input-container">
+              <input 
+                id="confirmPassword" 
+                [type]="showConfirmPassword ? 'text' : 'password'" 
+                formControlName="confirmPassword" 
+                required
+                class="form-input"
+              >
+              <label for="confirmPassword">Confirmar Contraseña</label>
+              <span class="input-icon">🔒</span>
+              <button type="button" class="toggle-password" (click)="toggleConfirmPasswordVisibility()">
+                <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+              </button>
+            </div>
+            <div *ngIf="userForm.get('confirmPassword')?.errors?.['required'] && userForm.get('confirmPassword')?.touched" class="error-message">
+              <span class="error-icon">!</span> Confirma tu contraseña
+            </div>
+            <div *ngIf="userForm.hasError('mismatch') && userForm.get('confirmPassword')?.touched" class="error-message">
+              <span class="error-icon">!</span> Las contraseñas no coinciden
+            </div>
+          </div>
+        </div>
+
+        <div class="password-requirements" *ngIf="userForm.get('password')?.value">
+          <p>La contraseña debe contener:</p>
+          <ul>
+            <li [class.requirement-met]="hasMinLength">✓ Al menos 8 caracteres</li>
+            <li [class.requirement-met]="hasUpperCase">✓ Una letra mayúscula</li>
+            <li [class.requirement-met]="hasLowerCase">✓ Una letra minúscula</li>
+            <li [class.requirement-met]="hasNumber">✓ Un número</li>
+            <li [class.requirement-met]="hasSpecialChar">✓ Un carácter especial</li>
+          </ul>
         </div>
       </div>
 
@@ -123,6 +145,9 @@
         <span class="error-icon">⚠</span> {{ errorMessage }}
       </div>
 
+      <div *ngIf="successMessage" class="success-message">
+        <span class="success-icon">✔</span> {{ successMessage }}
+      </div>
       <div class="login-prompt">
         ¿Ya tienes cuenta? <a href="/login" class="login-link">Iniciar Sesión</a>
       </div>

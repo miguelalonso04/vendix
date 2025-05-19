@@ -29,7 +29,7 @@
         <h2><i class="bi bi-receipt"></i> Detalles del Pedido</h2>
         <span class="order-status" [ngClass]="{
           'status-pending': pedido.estado === 'PENDIENTE',
-          'status-processing': pedido.estado === 'PROCESANDO',
+          'status-confirmed': pedido.estado === 'CONFIRMADO',
           'status-shipped': pedido.estado === 'ENVIADO',
           'status-delivered': pedido.estado === 'ENTREGADO',
           'status-cancelled': pedido.estado === 'CANCELADO'
@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <button class="btn-back" (click)="pedido = null">
+      <button class="btn-back" (click)="btnVolverPedidos()">
         <i class="bi bi-arrow-left"></i> Volver a mis pedidos
       </button>
     </div>
@@ -100,7 +100,7 @@
           </div>
           <div class="order-status" [ngClass]="{
             'status-pending': p.estado === 'PENDIENTE',
-            'status-processing': p.estado === 'PROCESANDO',
+            'status-confirmed': p.estado === 'CONFIRMADO',
             'status-shipped': p.estado === 'ENVIADO',
             'status-delivered': p.estado === 'ENTREGADO',
             'status-cancelled': p.estado === 'CANCELADO'
@@ -126,7 +126,7 @@
     </div>
 
     <ng-template #noOrders>
-      <div class="empty-orders" *ngIf="!isLoading">
+      <div class="empty-orders" *ngIf="!isLoading && lPedidos">
         <i class="bi bi-box-seam"></i>
         <h3>No se encontraron pedidos</h3>
         <p *ngIf="!fechaDesde && !fechaHasta">Aún no has realizado ningún pedido en nuestra tienda</p>

@@ -40,13 +40,7 @@ export class AdministracionComponent implements OnInit{
   ngOnInit(): void {
     this.rol = this.localStorage.getItem('roles');
     this.idUsuario = this.localStorage.getItem('idUsuario');
-
-    if(this.rol == 'ROLE_USER'){
-      this.getUsuario();
-    }else{
-      this.getAllUsers();
-    }
-    this.getAllDirecciones(this.idUsuario);
+    this.control();
   }
 
   onSubmit(){
@@ -56,6 +50,15 @@ export class AdministracionComponent implements OnInit{
     }else{
       alert('Error al añadir la dirección');
     }
+  }
+
+  private control(){
+    if(this.rol == 'ROLE_USER'){
+      this.getUsuario();
+    }else{
+      this.getAllUsers();
+    }
+    this.getAllDirecciones(this.idUsuario);
   }
 
   private getUsuario(){
@@ -142,5 +145,18 @@ export class AdministracionComponent implements OnInit{
     this.mostrarFormularioDireccion = false;
   }
 
+  btnDeshabilitar(id: number){
+    this.usersService.deshabilitarUser(id).subscribe({
+      next: () => window.location.reload(),
+      error: err => console.error('Error al deshabilitar usuario:', err)
+    });
+  }
+
+  btnHabilitar(id: number){
+    this.usersService.habilitarUser(id).subscribe({
+      next: () => window.location.reload(),
+      error: err => console.error('Error al habilitar usuario:', err)
+    });
+  }
 
 }

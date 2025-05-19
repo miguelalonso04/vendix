@@ -59,10 +59,16 @@ export class PedidosComponent implements OnInit {
   }
 
   btnVerPedido(idPedido: number) {
-  this.router.navigate(['/home/pedidos'], { queryParams: { idPedido } }).then(() => {
-    window.location.reload();
-  });
-}
+    this.router.navigate(['/home/pedidos'], { queryParams: { idPedido } }).then(() => {
+      window.location.reload();
+    });
+  }
+
+  btnVolverPedidos(){
+    this.router.navigate(['/home/pedidos']).then(() => {
+      window.location.reload();
+    });
+  }
 
    buscarPorFechas(): void {
     if (!this.fechaDesde || !this.fechaHasta) {
@@ -124,10 +130,10 @@ export class PedidosComponent implements OnInit {
         next: () => {
           const pedido = this.lPedidos.find(p => p.id === idPedido);
           if (pedido) {
-            pedido.estado = 'PROCESANDO';
+            pedido.estado = 'CONFIRMADO';
           }
           if (this.pedido?.id === idPedido) {
-            this.pedido.estado = 'PROCESANDO';
+            this.pedido.estado = 'CONFIRMADO';
           }
         },
         error: (err) => {

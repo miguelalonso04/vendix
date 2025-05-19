@@ -60,15 +60,11 @@ resetSearch() {
   eliminarValoracion(idValoracion: number) {
     if (confirm('¿Estás seguro de que deseas eliminar esta valoración?')) {
       this.valoracionesService.deleteValoracion(idValoracion).subscribe(
-        data => { this.valoraciones = data; }
+        data => { this.valoraciones = data; 
+          this.getValoraciones();
+        }
       );
     }
-  }
-
-  private getValoracionesByProducto(idProducto: number) {
-    this.valoracionesService.getAllByProducto(idProducto).subscribe(
-      data => { this.valoraciones = data; }
-    );
   }
 
   private getValoracionesByUsername(username: string) {
