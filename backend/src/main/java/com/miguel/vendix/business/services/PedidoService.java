@@ -45,4 +45,6 @@ public interface PedidoService {
 	Optional<Usuario> getUsuarioByPedido(Long id);
 	
 	List<Pedido> getAllPedidosByUsuario(Long idUsuario);
+	
+	 void actualizarPedidosPendientes();
 }

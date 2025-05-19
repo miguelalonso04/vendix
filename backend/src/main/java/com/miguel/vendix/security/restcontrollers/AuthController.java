@@ -74,6 +74,7 @@ public class AuthController {
             // Autentica al usuario con el nombre de usuario y contraseña proporcionados
             authentication = authenticationManager.authenticate(
             		new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            
         } catch(Exception e) {
             // Si la autenticación falla, registra el error y lanza una excepción con código 401 (Unauthorized)
             logger.error("Error de autenticación para el usuario {}", loginRequest.getUsername());
@@ -82,11 +83,12 @@ public class AuthController {
 
         // Guarda la autenticación en el contexto de seguridad de Spring
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        // Genera un token JWT para el usuario autenticado
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
+        
         // Obtiene los detalles del usuario autenticado
         Usuario usuario = (Usuario) authentication.getPrincipal();
+        
+        // Genera un token JWT para el usuario autenticado
+        String jwt = jwtUtils.generateJwtToken(authentication);
 
         // Extrae los roles del usuario y los convierte en una lista de strings
         List<String> roles = usuario.getAuthorities().stream()

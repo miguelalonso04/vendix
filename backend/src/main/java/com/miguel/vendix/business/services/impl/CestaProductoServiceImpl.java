@@ -15,6 +15,8 @@ import com.miguel.vendix.business.services.CestaProductoService;
 import com.miguel.vendix.integration.repositories.CestaProductosRepository;
 import com.miguel.vendix.integration.repositories.ProductoRepository;
 
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class CestaProductoServiceImpl implements CestaProductoService {
@@ -29,11 +31,11 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 		this.productoRepository = productoRepository;
 	}
 
+	@Transactional
 	@Override
 	public Long create(CestaProductos cesta) {
-		CestaProductos cestaCreada = cestaRepository.save(cesta);
 		
-		return cestaCreada.getId();
+	    return cestaRepository.save(cesta).getId();
 	}
 	
 	@Override

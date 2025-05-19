@@ -35,7 +35,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Override
 	public Optional<Usuario> login(String email, String password) {
-		return Optional.ofNullable(usuarioRepository.findByEmailAndPassword(email, password));
+		Usuario usuario = usuarioRepository.findByEmailAndPassword(email, password);
+
+	    if (usuario == null) {
+	        return Optional.empty();
+	    }
+
+	    if (!usuario.isEnabled()) {
+	        System.out.println("El usuario existe pero no está activo.");
+	        return Optional.empty();
+	    }
+
+	    return Optional.of(usuario);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.miguel.vendix.business.model.CestaProductos;
@@ -70,7 +71,7 @@ public class PedidoServiceImpl implements PedidoService {
 	        producto.setStock(producto.getStock() - productoDTO.getCantidad());
 	        
 	        if(producto.getStock() > 0) {
-	        	productos.put(producto, productoDTO.getCantidad());
+	        	productos.merge(producto, productoDTO.getCantidad(), Integer::sum);
 	        }else {
 	        	throw new IllegalStateException("No hay suficiente stock de "+productoDTO.getNombre());
 	        }
@@ -176,7 +177,10 @@ public class PedidoServiceImpl implements PedidoService {
 		
 		optional.get().setFechaPedido(fechaActual);
 		
-		optional.get().setEstado(EstadoPedido.ENVIADO);
+		optional.get().setEstado(EstadoPedido.CONFIRMADO);
+		System.out.println("PEDIDO CONFIMADO");
+		
+		pedidoRepository.save(optional.get());
 		
 	}
 
@@ -190,7 +194,15 @@ public class PedidoServiceImpl implements PedidoService {
 		
 		Optional<Pedido> optional = pedidoRepository.findById(id);
 		
+		Date fechaActual = new Date();
+		
+		optional.get().setFechaPedido(fechaActual);
+		
 		optional.get().setEstado(EstadoPedido.CANCELADO);
+		
+		System.out.println("PEDIDO CANCELADO");
+		
+		pedidoRepository.save(optional.get());
 		
 	}
 
@@ -213,6 +225,19 @@ public class PedidoServiceImpl implements PedidoService {
 	public List<Pedido> getAllPedidosByUsuario(Long idUsuario) {		
 		return pedidoRepository.findPedidosByUsuarioId(idUsuario);
 	}
+	
+	@Scheduled(fixedRate = 600000)
+    @Transactional
+    @Override
+    public void actualizarPedidosPendientes() {
+        LocalDateTime hace30Minutos = LocalDateTime.now().minusMinutes(30);
+        List<Pedido> pedidos = pedidoRepository.findPedidosPendientesAntiguos(hace30Minutos);
+
+        for (Pedido pedido : pedidos) {
+            pedido.setEstado(EstadoPedido.CONFIRMADO);
+        }
+        pedidoRepository.saveAll(pedidos);
+    }
 	
 	private PedidoDTO convertirPedidoToDTO(Pedido pedido) {
 		PedidoDTO pedidoDTO = new PedidoDTO();

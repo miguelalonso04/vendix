@@ -1,5 +1,6 @@
 package com.miguel.vendix.integration.repositories;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,5 +30,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 	
 	@Query("SELECT COUNT(p) > 0 FROM Pedido p WHERE p.direccion.id = :direccionId")
     boolean existePedidoConDireccion(@Param("direccionId") Long direccionId);
+	
+	@Query("SELECT p FROM Pedido p WHERE p.estado = 'PENDIENTE' AND p.fechaPedido <= :fechaLimite")
+	List<Pedido> findPedidosPendientesAntiguos(@Param("fechaLimite") LocalDateTime fechaLimite);
 
 }
