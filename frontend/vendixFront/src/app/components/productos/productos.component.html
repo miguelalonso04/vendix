@@ -1,8 +1,12 @@
 <div class="products-container">
-  <!-- Mensaje de confirmación -->
+
   <div *ngIf="showAddToCartMessage" class="alert alert-success add-to-cart-alert">
     <i class="bi bi-check-circle"></i> {{ mensaje }}
     <button type="button" class="btn-close" (click)="showAddToCartMessage = false"></button>
+  </div>
+
+   <div *ngIf="buscado && !productos" class="alert alert-danger text-center">
+    <i class="bi bi-exclamation-triangle"></i> {{ mensajeErrorBusqueda }}
   </div>
 
   <div class="products-grid">
@@ -10,7 +14,7 @@
       <div class="product-card" *ngIf="p.disponible">
         <div class="clickable-area" (click)="irADetalleProducto(p.id)">
           <div class="product-image">
-            <img [src]="rutasImagenes[p.id]" alt="imagen producto {{p.id}}" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+no+disponible'">
+            <img [src]="rutasImagenes[p.id]" alt="imagen producto {{p.id}}">
           </div>
           
           <div class="product-details">

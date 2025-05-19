@@ -1,10 +1,9 @@
 body {
-    padding-left: 280px; /* Espacio para el aside */
+    padding-left: 280px;
     transition: all 0.3s ease;
     background-color: #f5f7fa;
 }
 
-/* Cuando el aside está colapsado */
 body.aside-collapsed {
     padding-left: 0;
 }
@@ -26,6 +25,7 @@ aside {
     transition: all 0.3s ease;
     z-index: 1000;
     color: white;
+    transform: translateX(0);
 }
 
 aside a {
@@ -104,6 +104,7 @@ main {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     min-height: 70vh;
+    transition: padding-left 0.3s ease;
 }
 
 .btn-buscar {
@@ -116,21 +117,29 @@ main {
     background: linear-gradient(to right, #4ca1af, #2c3e50);
 }
 
-@media (max-width: 992px) {
+@media (max-width: 400px) {
+    aside {
+        width: 150px;
+        height: 100dvh;
+    }
+
     body {
+        padding-left: 150px;
+    }
+
+    main {
         padding-left: 0;
     }
-    
-    aside {
-        transform: translateX(-100%);
-        width: 260px;
-    }
-    
-    body.aside-visible aside {
-        transform: translateX(0);
-    }
-    
+
     .toggle-aside-btn {
+        left: 160px;
+    }
+
+    body.aside-collapsed {
+        padding-left: 0;
+    }
+
+    body.aside-collapsed .toggle-aside-btn {
         left: 20px;
     }
 }

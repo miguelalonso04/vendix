@@ -1,6 +1,29 @@
 <div class="orders-container">
   <div class="orders-content">
-    <!-- Vista detallada de un pedido -->
+
+    <div class="search-container">
+      <h2><i class="bi bi-calendar-range"></i> Buscar Pedidos por Fecha</h2>
+      <div class="date-search">
+        <div class="date-input">
+          <label for="fechaDesde">Desde:</label>
+          <input type="date" id="fechaDesde" [(ngModel)]="fechaDesde">
+        </div>
+        <div class="date-input">
+          <label for="fechaHasta">Hasta:</label>
+          <input type="date" id="fechaHasta" [(ngModel)]="fechaHasta">
+        </div>
+        <button class="btn-search" (click)="buscarPorFechas()" [disabled]="isLoading">
+          <i class="bi bi-search"></i> Buscar
+        </button>
+        <button class="btn-reset" (click)="resetBusqueda()" [disabled]="isLoading">
+          <i class="bi bi-arrow-counterclockwise"></i> Resetear
+        </button>
+      </div>
+      <div *ngIf="searchError" class="search-error">
+        <i class="bi bi-exclamation-triangle"></i> {{ searchError }}
+      </div>
+    </div>
+
     <div class="order-detail" *ngIf="pedido">
       <div class="order-header">
         <h2><i class="bi bi-receipt"></i> Detalles del Pedido</h2>
@@ -60,8 +83,11 @@
       </button>
     </div>
 
-    <!-- Lista de pedidos -->
-    <div class="orders-list" *ngIf="lPedidos && lPedidos.length > 0; else noOrders">
+    <div *ngIf="isLoading" class="loading-spinner">
+      <i class="bi bi-arrow-repeat"></i> Cargando...
+    </div>
+
+    <div class="orders-list" *ngIf="!isLoading && lPedidos && lPedidos.length > 0; else noOrders">
       <h2><i class="bi bi-list-ul"></i> Mis Pedidos</h2>
       
       <div class="order-list-item" *ngFor="let p of lPedidos">
@@ -70,7 +96,7 @@
             <i class="bi bi-hash"></i> {{p.id}}
           </div>
           <div class="order-date">
-            <i class="bi bi-calendar"></i> {{p.fechaPedido | date: 'dd/MM/yyyy'}}
+            <i class="bi bi-calendar"></i> {{p.fechaPedido}}
           </div>
           <div class="order-status" [ngClass]="{
             'status-pending': p.estado === 'PENDIENTE',
@@ -85,21 +111,30 @@
             {{p.precioTotalPedido | currency:'EUR':'symbol':'1.2-2'}}
           </div>
         </div>
-        <button class="btn-view" (click)="btnVerPedido(p.id)">
-          <i class="bi bi-eye"></i> Ver Detalles
-        </button>
+        <div class="order-actions">
+          <button class="btn-view" (click)="btnVerPedido(p.id)">
+            <i class="bi bi-eye"></i> Ver
+          </button>
+          <button *ngIf="p.estado === 'PENDIENTE' && rol == 'ROLE_USER'" class="btn-confirm" (click)="confirmarPedido(p.id)">
+            <i class="bi bi-check-circle"></i> Confirmar
+          </button>
+          <button *ngIf="(p.estado === 'PENDIENTE' || p.estado === 'PROCESANDO') && rol == 'ROLE_USER'" class="btn-cancel" (click)="cancelarPedido(p.id)">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </button>
+        </div>
       </div>
     </div>
 
     <ng-template #noOrders>
-      <div class="empty-orders">
+      <div class="empty-orders" *ngIf="!isLoading">
         <i class="bi bi-box-seam"></i>
-        <h3>No tienes pedidos realizados</h3>
-        <p>Aún no has realizado ningún pedido en nuestra tienda</p>
+        <h3>No se encontraron pedidos</h3>
+        <p *ngIf="!fechaDesde && !fechaHasta">Aún no has realizado ningún pedido en nuestra tienda</p>
         <a href="/home/productos" class="btn-shop">
           <i class="bi bi-cart"></i> Ver productos
         </a>
       </div>
     </ng-template>
+
   </div>
 </div>

@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { PedidoService } from '../../services/pedido.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { ValoracionesService } from '../../services/valoraciones.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pedidos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './pedidos.component.html',
   styleUrl: './pedidos.component.css'
 })
@@ -20,6 +21,12 @@ export class PedidosComponent implements OnInit {
   pedido: any;
   lPedidos!: any[];
   usuario: any;
+
+  errorMessage: string = '';
+  searchError: string = '';
+  fechaDesde: string = '';
+  fechaHasta: string = '';
+  isLoading: boolean = false;
 
   constructor(private localStorage: LocalStorageService,
               private pedidoService: PedidoService,
@@ -34,6 +41,11 @@ export class PedidosComponent implements OnInit {
     this.idUsuario = this.localStorage.getItem('idUsuario');
     this.rol = this.localStorage.getItem('roles');
 
+    this.cargarPedidos();
+  }
+
+  private cargarPedidos(): void {
+    this.isLoading = false;
     if(this.idPedido){
       this.getPedido(this.idPedido);
       this.getUsuarioPedido(this.idPedido);
@@ -52,6 +64,40 @@ export class PedidosComponent implements OnInit {
   });
 }
 
+   buscarPorFechas(): void {
+    if (!this.fechaDesde || !this.fechaHasta) {
+      this.searchError = 'Debes seleccionar ambas fechas';
+      return;
+    }
+
+    this.isLoading = true;
+    this.searchError = '';
+
+    const desde = formatDate(this.fechaDesde, 'yyyy-MM-dd', 'en-US');
+    const hasta = formatDate(this.fechaHasta, 'yyyy-MM-dd', 'en-US');
+
+    this.pedidoService.getBeetweenFechas(desde, hasta).subscribe({
+      next: (data) => {
+        this.lPedidos = data;
+        if (this.lPedidos.length === 0) {
+          this.searchError = 'No se encontraron pedidos en el rango de fechas seleccionado';
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.searchError = 'Error al buscar pedidos por fechas';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  resetBusqueda(): void {
+    this.fechaDesde = '';
+    this.fechaHasta = '';
+    this.searchError = '';
+    this.cargarPedidos();
+  }
+  
   private getPedido(idPedido: number){
     this.pedidoService.getPedido(idPedido).subscribe(
       data => {this.pedido = data
@@ -70,6 +116,44 @@ export class PedidosComponent implements OnInit {
     this.pedidoService.getAllPedidosByUsuario(idUsuario).subscribe(
       data => {this.lPedidos = data}
     );
+  }
+
+  confirmarPedido(idPedido: number): void {
+    if (confirm('¿Estás seguro de confirmar este pedido?')) {
+      this.pedidoService.confirmarPedido(idPedido).subscribe({
+        next: () => {
+          const pedido = this.lPedidos.find(p => p.id === idPedido);
+          if (pedido) {
+            pedido.estado = 'PROCESANDO';
+          }
+          if (this.pedido?.id === idPedido) {
+            this.pedido.estado = 'PROCESANDO';
+          }
+        },
+        error: (err) => {
+          this.errorMessage = 'Error al confirmar el pedido';
+        }
+      });
+    }
+  }
+
+  cancelarPedido(idPedido: number): void {
+    if (confirm('¿Estás seguro de cancelar este pedido?')) {
+      this.pedidoService.cancelarPedido(idPedido).subscribe({
+        next: () => {
+          const pedido = this.lPedidos.find(p => p.id === idPedido);
+          if (pedido) {
+            pedido.estado = 'CANCELADO';
+          }
+          if (this.pedido?.id === idPedido) {
+            this.pedido.estado = 'CANCELADO';
+          }
+        },
+        error: (err) => {
+          this.errorMessage = 'Error al cancelar el pedido';
+        }
+      });
+    }
   }
 
 }

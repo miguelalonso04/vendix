@@ -29,6 +29,7 @@ export class ProductosComponent implements OnInit{
   mediasValoracion: { [idProducto: number]: number } = {};
   rutasImagenes: { [id: number]: string } = {};
   showAddToCartMessage = false;
+  mensajeErrorBusqueda = '';
 
   constructor(private productoService: ProductoService,
               private router: Router,
@@ -130,11 +131,16 @@ export class ProductosComponent implements OnInit{
   private getProductosByNombre(){
     this.productoService.getAllByNombre(this.nombreProducto).subscribe(
       data => {
-        this.productos = data
+      this.productos = data;
+      if (!this.productos) {
+        this.mensajeErrorBusqueda = `No se encontraron productos que coincidan con '${this.nombreProducto}'`;
+      } else {
+        this.mensajeErrorBusqueda = '';
         this.cargarMediasValoracion();
         this.getImagenesUrl();
       }
-    );
+    }
+  );
   }
 
   private getCategoria(idCategoria: number){
@@ -157,13 +163,15 @@ export class ProductosComponent implements OnInit{
   }
   
   private cargarMediasValoracion() {
-    this.productos.forEach(p => {
-      this.valoracionesService.mediaValoracionesXProducto(p.id).subscribe(
-        media => {
-          this.mediasValoracion[p.id] = media;
-        }
-      );
-    });
+    if(this.productos){
+      this.productos.forEach(p => {
+        this.valoracionesService.mediaValoracionesXProducto(p.id).subscribe(
+          media => {
+            this.mediasValoracion[p.id] = media;
+          }
+        );
+      });
+    }
   }
   
   

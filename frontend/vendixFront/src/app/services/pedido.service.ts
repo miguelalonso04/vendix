@@ -48,13 +48,13 @@ export class PedidoService {
   }
 
   confirmarPedido(idPedido: number):Observable<any>{
-    const params = new HttpParams().set('idPedido', idPedido);
-    return this.http.put(`${this.pedidoUrl}/confirmar`, {params});
+    const params = new HttpParams().set('id', idPedido);
+    return this.http.put(`${this.pedidoUrl}/confirmar`, params);
   }
 
   cancelarPedido(idPedido: number):Observable<any>{
-    const params = new HttpParams().set('idPedido', idPedido);
-    return this.http.put(`${this.pedidoUrl}/cancelar`, {params});
+    const params = new HttpParams().set('id', idPedido);
+    return this.http.put(`${this.pedidoUrl}/cancelar`, params);
   }
 
   getUsuario(idPedido: number):Observable<any>{
