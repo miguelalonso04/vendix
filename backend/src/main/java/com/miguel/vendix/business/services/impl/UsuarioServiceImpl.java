@@ -13,7 +13,10 @@ import com.miguel.vendix.security.model.Role;
 import com.miguel.vendix.security.model.Usuario;
 import com.miguel.vendix.business.services.UsuarioService;
 import com.miguel.vendix.integration.repositories.DireccionRepository;
+import com.miguel.vendix.integration.repositories.PedidoRepository;
 import com.miguel.vendix.security.repositories.UsuarioRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
@@ -23,6 +26,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Autowired
 	private DireccionRepository direccionRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
 	
 	@Autowired
     private PasswordEncoder passwordEncoder;
@@ -149,6 +155,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return usuarioRepository.existsByEmail(email);
 	}
 
+	@Transactional
 	@Override
 	public void deleteDireccion(Long idDireccion) {
 		
@@ -159,6 +166,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}
 		
 		Optional<Direccion> optional = direccionRepository.findById(idDireccion);
+		
+		if(pedidoRepository.existePedidoConDireccion(idDireccion)) {
+			pedidoRepository.limpiarDireccionDePedidos(idDireccion);
+		}
 		
 		direccionRepository.delete(optional.get());
 	}
