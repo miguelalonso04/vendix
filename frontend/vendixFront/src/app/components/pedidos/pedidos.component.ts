@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, formatDate } from '@angular/common';
 import { ValoracionesService } from '../../services/valoraciones.service';
 import { FormsModule } from '@angular/forms';
+import { CestaService } from '../../services/cesta.service';
 
 @Component({
   selector: 'app-pedidos',
@@ -31,6 +32,7 @@ export class PedidosComponent implements OnInit {
   constructor(private localStorage: LocalStorageService,
               private pedidoService: PedidoService,
               private route: ActivatedRoute,
+              private cestaService: CestaService,
               private router: Router){}
 
   ngOnInit(): void {
@@ -42,6 +44,7 @@ export class PedidosComponent implements OnInit {
     this.rol = this.localStorage.getItem('roles');
 
     this.cargarPedidos();
+
   }
 
   private cargarPedidos(): void {
@@ -107,9 +110,14 @@ export class PedidosComponent implements OnInit {
   private getPedido(idPedido: number){
     this.pedidoService.getPedido(idPedido).subscribe(
       data => {this.pedido = data
-        console.log(data)
+        console.log(this.pedido)
+        
       } 
      );
+  }
+
+   private vaciarCesta(idUsuario: number){
+    this.cestaService.vaciarCesta(idUsuario).subscribe();
   }
 
   private getUsuarioPedido(idPedido: number){

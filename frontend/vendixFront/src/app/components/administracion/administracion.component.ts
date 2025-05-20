@@ -86,9 +86,13 @@ export class AdministracionComponent implements OnInit{
   }
 
   deleteDireccion(idDireccion: number){
-    this.usersService.deleteDireccion(idDireccion).subscribe(
-      data => {this.direcciones = data}
-    );
+    if(confirm('¿Está seguro de que desea eliminar esta dirección?')) {
+      this.usersService.deleteDireccion(idDireccion).subscribe(
+        data => {this.direcciones = data
+          this.getAllDirecciones(this.idUsuario);
+        }
+      );
+    }
   }
 
 

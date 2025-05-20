@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="no-address" *ngIf="!direcciones && !mostrarFormularioDireccion">
+            <div class="no-address" *ngIf="!mostrarFormularioDireccion && (!direcciones || direcciones.length == 0)">
                 <p><i class="bi bi-exclamation-circle"></i> No tienes direcciones registradas</p>
                 <button class="btn-add" (click)="mostrarFormularioDireccion = true">
                     <i class="bi bi-plus-circle"></i> Agregar dirección

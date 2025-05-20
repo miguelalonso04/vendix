@@ -43,7 +43,8 @@ export class CestaComponent implements OnInit {
   }
 
   async btnPedido() {
-    if (this.direccion) {
+    if (this.direccion.length > 0) {
+      console.log("Creando pedido...");
       this.isProcessing = true;
       
       try {
@@ -61,6 +62,8 @@ export class CestaComponent implements OnInit {
       if (confirm("No hay direcciones disponibles. Desea añadir una?")) {
         this.router.navigate(['/home/administracion'],
           { queryParams: { idUsuario: this.idUsuario } });
+      }else {
+        alert("No se puede crear el pedido sin una dirección.");
       }
     }
   }
@@ -141,7 +144,6 @@ export class CestaComponent implements OnInit {
       id => {
         this.idPedido = id;
         console.log("Pedido creado con id:", this.idPedido);
-
         this.router.navigate(
           ['/home/pedidos'], 
           { queryParams: { idPedido: this.idPedido} }
