@@ -105,7 +105,7 @@ public class PedidoServiceImpl implements PedidoService {
 	@Override
 	public Optional<PedidoDTO> read(Long id) {
 	    Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
-
+	    System.out.println(optionalPedido.map(this::convertirPedidoToDTO));
 	    return optionalPedido.map(this::convertirPedidoToDTO);
 	}
 
@@ -247,8 +247,11 @@ public class PedidoServiceImpl implements PedidoService {
 		pedidoDTO.setFechaPedido(pedido.getFechaPedido());
 		pedidoDTO.setId(pedido.getId());
 		pedidoDTO.setEstado(pedido.getEstado());
+		
+		System.out.println(pedido.getCestaProductos());
 
-		for (Producto p :pedido.getCestaProductos().getProductos().keySet() ) {
+		for (Map.Entry<Producto, Integer> entry : pedido.getCestaProductos().getProductos().entrySet() ) {
+			Producto p = entry.getKey();
 			
 			ProductoDTO productoDTO = new ProductoDTO();
 			productoDTO.setId(p.getId());
