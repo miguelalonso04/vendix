@@ -24,6 +24,7 @@ export class CestaComponent implements OnInit {
   productos!: any[];
   direccion!: any[];
   nombreUsuario !: string;
+  isProcessing: boolean = false;
 
   constructor(
     private cestaService: CestaService,
@@ -41,19 +42,32 @@ export class CestaComponent implements OnInit {
     this.getDireccion(this.idUsuario);
   }
 
-  btnPedido(){
-    if(this.direccion) {
-      this.crearPedido();  
-      this.vaciarCesta(this.idUsuario);
-      console.log("vaciando cesta")
-    }else{
+  async btnPedido() {
+    if (this.direccion) {
+      this.isProcessing = true;
+      
+      try {
+        await this.delay(3000);
+        await this.crearPedido();
+        await this.vaciarCesta(this.idUsuario);
+        console.log("vaciando cesta");
+      } catch (error) {
+        console.error("Error al procesar el pedido:", error);
+      } finally {
+        this.isProcessing = false;
+      }
+    } else {
       console.error("No hay direcciones disponibles para crear el pedido.");
       if (confirm("No hay direcciones disponibles. Desea añadir una?")) {
         this.router.navigate(['/home/administracion'],
-           { queryParams: { idUsuario: this.idUsuario } });
+          { queryParams: { idUsuario: this.idUsuario } });
       }
     }
-  }  
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   eliminarProducto(producto: any): void {
     this.cestaService.eliminarUnProductoCesta(producto.id, this.idUsuario).subscribe({
