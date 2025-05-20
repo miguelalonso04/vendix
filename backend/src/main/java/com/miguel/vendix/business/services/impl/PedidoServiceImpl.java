@@ -71,7 +71,7 @@ public class PedidoServiceImpl implements PedidoService {
 	        producto.setStock(producto.getStock() - productoDTO.getCantidad());
 	        
 	        if(producto.getStock() > 0) {
-	        	productos.merge(producto, productoDTO.getCantidad(), Integer::sum);
+	        	productos.put(producto, productoDTO.getCantidad());
 	        }else {
 	        	throw new IllegalStateException("No hay suficiente stock de "+productoDTO.getNombre());
 	        }
@@ -93,8 +93,6 @@ public class PedidoServiceImpl implements PedidoService {
 		pedido.setPrecioTotal(total);
 		pedido.setEstado(EstadoPedido.PENDIENTE);   
 		pedido.setFechaPedido(fechaPedido);
-		
-		System.out.println(fechaPedido);
 		
 		Pedido pedidoCreado = pedidoRepository.save(pedido);
 		
