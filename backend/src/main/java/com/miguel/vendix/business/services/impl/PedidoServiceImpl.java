@@ -68,10 +68,9 @@ public class PedidoServiceImpl implements PedidoService {
 
 	        total += productoDTO.getPrecio() * productoDTO.getCantidad();
 	        
-	        producto.setStock(producto.getStock() - productoDTO.getCantidad());
-	        
 	        if(producto.getStock() > 0) {
 	        	productos.put(producto, productoDTO.getCantidad());
+	        	producto.setStock(producto.getStock() - productoDTO.getCantidad());
 	        }else {
 	        	throw new IllegalStateException("No hay suficiente stock de "+productoDTO.getNombre());
 	        }
@@ -94,10 +93,13 @@ public class PedidoServiceImpl implements PedidoService {
 		pedido.setEstado(EstadoPedido.PENDIENTE);   
 		pedido.setFechaPedido(fechaPedido);
 		
+		pedido.getProductos().putAll(cesta.getProductos());
+		
 		Pedido pedidoCreado = pedidoRepository.save(pedido);
 		
-		//Enviamos el correo al usuario una vez se ha creado el pedido
-		enviarCorreo(pedidoCreado);
+		cesta.getProductos().clear();
+		cesta.setTotal(0);
+		cestaRepository.save(cesta);
 		
 		return pedidoCreado.getId();
 	}
@@ -178,6 +180,9 @@ public class PedidoServiceImpl implements PedidoService {
 		optional.get().setEstado(EstadoPedido.CONFIRMADO);
 		System.out.println("PEDIDO CONFIMADO");
 		
+		//Enviamos el correo al usuario una vez se ha confirmado el pedido
+		enviarCorreo(optional.get(),true);
+		
 		pedidoRepository.save(optional.get());
 		
 	}
@@ -199,6 +204,9 @@ public class PedidoServiceImpl implements PedidoService {
 		optional.get().setEstado(EstadoPedido.CANCELADO);
 		
 		System.out.println("PEDIDO CANCELADO");
+		
+		//Enviamos el correo al usuario una vez se ha cancelado el pedido
+		enviarCorreo(optional.get(),false);
 		
 		pedidoRepository.save(optional.get());
 		
@@ -250,14 +258,14 @@ public class PedidoServiceImpl implements PedidoService {
 		
 		System.out.println(pedido.getCestaProductos());
 
-		for (Map.Entry<Producto, Integer> entry : pedido.getCestaProductos().getProductos().entrySet() ) {
+		for (Map.Entry<Producto, Integer> entry : pedido.getProductos().entrySet() ) {
 			Producto p = entry.getKey();
 			
 			ProductoDTO productoDTO = new ProductoDTO();
 			productoDTO.setId(p.getId());
 			productoDTO.setNombre(p.getNombre());
 			productoDTO.setPrecio(p.getPrecio());
-			productoDTO.setCantidad(pedido.getCestaProductos().getProductos().get(p));
+			productoDTO.setCantidad(pedido.getProductos().get(p));
 			
 			lista.add(productoDTO);
 		}
@@ -267,19 +275,31 @@ public class PedidoServiceImpl implements PedidoService {
 		
 	}
 	
-	private void enviarCorreo(Pedido pedido) {
-		this.emailService.enviarCorreo(
-				//Destinatario
-				pedido.getUsuario().getEmail(),
-				
-				//Asunto
-				"GRACIAS POR SU PEDIDO - VENDIX",
-				
-				//Mensaje
-				"Pedido #"+pedido.getId()+" recibido correctamente \n"
-				+pedido.getCestaProductos().toString()+""
-				+ "- Lo recibirá en un periodo de 2 dias maximo.");
+	private void enviarCorreo(Pedido pedido, boolean ok) {
+		if(ok) {
+			this.emailService.enviarCorreo(
+					//Destinatario
+					pedido.getUsuario().getEmail(),
+					
+					//Asunto
+					"GRACIAS POR SU PEDIDO - VENDIX",
+					
+					//Mensaje
+					"Pedido #"+pedido.getId()+" recibido correctamente \n"
+					+pedido.getCestaProductos().toString()+""
+					+ "- Lo recibirá en un periodo de 2 dias maximo.");
+		}else {
+			this.emailService.enviarCorreo(
+					//Destinatario
+					pedido.getUsuario().getEmail(),
+					
+					//Asunto
+					"CANCELACION DE PEDIDO - VENDIX",
+					
+					//Mensaje
+					"Pedido #"+pedido.getId()+" se ha cancelado correctamente");
+		}
+		
 	}
-
 
 }
