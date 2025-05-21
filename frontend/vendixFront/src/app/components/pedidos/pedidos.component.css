@@ -424,3 +424,53 @@
 .btn-cancel:hover {
   background-color: #c82333;
 }
+
+@media (min-width: 992px) {
+  .order-sections {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 480px) {
+  .info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .order-status {
+    margin-top: 0;
+    font-size: 0.85rem;
+  }
+
+  .info-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  .order-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .orders-content {
+    padding: 15px;
+  }
+  
+  .order-card {
+    padding: 12px;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .order-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+}

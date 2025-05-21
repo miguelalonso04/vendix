@@ -4,34 +4,36 @@
     </button>
 
     <aside id="sidebar">
-        <div *ngIf="usuario" class="mb-4">
+        <div *ngIf="usuario" class="mb-1">
             <h2 class="h4">{{ usuario.username }}</h2>
             <small class="text-white-50">Bienvenido/a</small>
         </div>
 
-        <div class="mb-4">
-            <p><a href="/home/administracion" class="text-decoration-none d-block py-2">📝 Mi cuenta</a></p>
-            <p><a href="/login" class="text-decoration-none d-block py-2">🚪 Cerrar Sesión</a></p>  
+        <div class="mb-1">
+            <p><a href="/home/administracion" class="text-decoration-none d-block">📝 Mi cuenta</a></p>
+            <p><a href="/login" class="text-decoration-none d-block">🚪 Cerrar Sesión</a></p>  
         </div>
 
         <hr>
 
-        <div class="mb-4">
-            <h3 class="h5 mb-3">📋 Categorias: </h3>
+        <div class="mb-1">
+            <h3 class="h5 mb-1">📋 Categorias: </h3>
 
             <p *ngFor="let c of categorias">
-                <a (click)="btnCategoria(c.id)" class="text-decoration-none d-block py-2">🔹 {{ c.nombre }}</a>
+                <a (click)="btnCategoria(c.id)" class="text-decoration-none d-block">
+                    <i class="bi bi-layers me-2"></i> {{ c.nombre }}
+                </a>
             </p>
         </div>
         
         <hr>
 
-        <div class="mb-4">
-            <h3 class="h5 mb-3">🛒 Productos: </h3>
+        <div class="mb-1">
+            <h3 class="h5 mb-1">🛒 Productos: </h3>
             
-            <p *ngIf="rol== 'ROLE_USER'"><a (click)="btnMisProductos()" class="text-decoration-none d-block py-2">⭐ Mis productos</a></p>
-            <p *ngIf="rol == 'ROLE_ADMIN'"><a href="home/productos/valoracion" class="text-decoration-none d-block py-2">📊 Valoraciones</a></p>
-            <p><a href="home/productos/form" class="text-decoration-none d-block py-2">➕ Añadir producto</a></p>
+            <p *ngIf="rol== 'ROLE_USER'"><a (click)="btnMisProductos()" class="text-decoration-none d-block">⭐ Mis productos</a></p>
+            <p *ngIf="rol == 'ROLE_ADMIN'"><a (click)="btnValoraciones()" class="text-decoration-none d-block">📊 Valoraciones</a></p>
+            <p><a href="home/productos/form" class="text-decoration-none d-block">➕ Añadir producto</a></p>
         </div>
     </aside>
 

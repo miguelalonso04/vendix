@@ -62,7 +62,9 @@
             <h4><i class="bi bi-cart"></i> Productos</h4>
             <div class="products-list">
               <div class="product-item" *ngFor="let p of pedido.productos">
-                <span class="product-name">{{p.nombre}}</span>
+                <span class="product-name"><strong>{{p.nombre}}</strong></span>
+                <span class="product-quantity">x{{p.cantidad}}</span>
+                <span class="product-price"> - {{p.precio | currency:'EUR':'symbol':'1.2-2'}}</span>
               </div>
             </div>
           </div>

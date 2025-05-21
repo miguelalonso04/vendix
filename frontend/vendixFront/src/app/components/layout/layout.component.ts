@@ -56,6 +56,12 @@ export class LayoutComponent {
 
   }
 
+  btnValoraciones(){
+    this.router.navigate(['home/productos/valoracion']).then(() => {
+      window.location.reload()
+    });
+  }
+
   btnBuscarProducto(){
     this.router.navigate(['home/productos'],
     {

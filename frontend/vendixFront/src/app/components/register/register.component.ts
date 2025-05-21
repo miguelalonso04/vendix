@@ -3,6 +3,8 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validatio
 import { AuthService } from '../../services/auth.service';
 import { catchError, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { routes } from '../../app.routes';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +31,7 @@ export class RegisterComponent {
   hasNumber: boolean = false;
   hasSpecialChar: boolean = false;
 
-  constructor(private authService: AuthService, private fb: FormBuilder){
+  constructor(private authService: AuthService, private fb: FormBuilder,private router: Router) {
 
     this.userForm = this.fb.group({
       firstName: ['',[Validators.required]],
@@ -56,6 +58,7 @@ export class RegisterComponent {
       tap(response => {
        if (response.status === 200) {
           this.successMessage = 'Usuario registrado correctamente'
+          this.router.navigate(['/login']);
         }
       }),
       catchError(error => {

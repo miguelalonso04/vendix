@@ -18,7 +18,7 @@ aside {
     left: 0;
     width: 280px;
     height: 100vh;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    background: linear-gradient(to right, #557ea7, #44aab9);
     padding: 20px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
@@ -36,14 +36,15 @@ aside a {
 aside a:hover {
     color: #ffcc00;
     padding-left: 5px;
+    cursor: pointer;
 }
 
 aside hr {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(59, 47, 47, 0.2);
 }
 
 header {
-    background: linear-gradient(to right, #2c3e50, #4ca1af);
+    background: linear-gradient(to right, #557ea7, #44aab9);
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -76,7 +77,7 @@ nav {
     top: 20px;
     z-index: 1100;
     transition: all 0.3s ease;
-    background: #6a11cb;
+    background: #2575fc;
     color: white;
     border: none;
     width: 40px;
@@ -117,29 +118,95 @@ main {
     background: linear-gradient(to right, #4ca1af, #2c3e50);
 }
 
-@media (max-width: 400px) {
+@media (max-width: 768px) {
     aside {
-        width: 150px;
+        width: 35vw;
         height: 100dvh;
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 1000;
+    }
+
+    aside a {
+        display: block;
+        text-align: middle;
     }
 
     body {
-        padding-left: 150px;
+        padding-left: 0;
     }
 
-    main {
-        padding-left: 0;
+    body:not(.aside-collapsed) main,
+    body:not(.aside-collapsed) header,
+    body:not(.aside-collapsed) nav  {
+        padding: 15px;
+        padding-left: 225px;
     }
 
     .toggle-aside-btn {
-        left: 160px;
+        left: 20px;
+        top: 20px;
     }
 
-    body.aside-collapsed {
+    body.aside-collapsed aside {
+        transform: translateX(-100%);
+        
+    }
+
+    body:not(.aside-collapsed) aside {
+        transform: translateX(0);
+    }
+
+    .toggle-aside-btn {
+        position: fixed;
+        z-index: 1101;
+    }
+
+    
+}
+
+@media (max-width: 400px) {
+    aside {
+        width: 100vw;
+        height: 100dvh;
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 1000;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    aside a {
+        display: block;
+        text-align: middle;
+    }
+
+    body {
         padding-left: 0;
     }
 
-    body.aside-collapsed .toggle-aside-btn {
+    main {
+        padding: 15px;
+    }
+
+    .toggle-aside-btn {
         left: 20px;
+        top: 20px;
+    }
+
+    body.aside-collapsed aside {
+        transform: translateX(0);
+    }
+
+    body:not(.aside-collapsed) aside {
+        transform: translateX(-100%);
+    }
+
+    .toggle-aside-btn {
+        position: fixed;
+        z-index: 1101;
     }
 }

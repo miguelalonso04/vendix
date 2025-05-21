@@ -50,7 +50,6 @@ export class CestaComponent implements OnInit {
       try {
         await this.delay(3000);
         await this.crearPedido();
-        await this.vaciarCesta(this.idUsuario);
         console.log("vaciando cesta");
       } catch (error) {
         console.error("Error al procesar el pedido:", error);
@@ -119,10 +118,6 @@ export class CestaComponent implements OnInit {
     this.userService.getUser(idUsuario).subscribe(
       data => {this.nombreUsuario = data.username}
     );
-  }
-
-  private vaciarCesta(idUsuario: number){
-    this.cestaService.vaciarCesta(idUsuario).subscribe();
   }
 
   private getDireccion(idUsuario: number){
