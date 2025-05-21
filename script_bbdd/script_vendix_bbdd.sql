@@ -70,12 +70,13 @@ CREATE TABLE PEDIDOS (
     FOREIGN KEY (usuario_id) REFERENCES USUARIOS(id)
 );
 
-CREATE TABLE PEDIDO_PRODUCTOS (
-    pedido_id BIGINT,
-    producto_id BIGINT,
+CREATE TABLE pedido_productos (
+    pedido_id BIGINT NOT NULL,
+    producto_id BIGINT NOT NULL,
+    cantidad INT NOT NULL,
     PRIMARY KEY (pedido_id, producto_id),
-    FOREIGN KEY (pedido_id) REFERENCES PEDIDOS(id),
-    FOREIGN KEY (producto_id) REFERENCES PRODUCTOS(id)
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
+    FOREIGN KEY (producto_id) REFERENCES productos(id)
 );
 
 CREATE TABLE VALORACIONES_PRODUCTO (
