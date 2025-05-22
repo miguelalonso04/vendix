@@ -43,29 +43,5 @@ public class CestaProductos {
     public Map<Producto, Integer> getProductos() {
         return this.productos;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Resumen de tu cesta:\n\n");
-        double subtotal = 0;
-
-        if (productos.isEmpty()) {
-            sb.append("Tu cesta está vacía.\n");
-        } else {
-        	for (Producto producto : productos.keySet()) {
-                int cantidad = productos.get(producto);
-                subtotal = producto.getPrecio() * cantidad;
-
-                sb.append("- ").append(producto.getNombre())
-                  .append(" x").append(cantidad)
-                  .append(" - ").append(String.format("%.2f", subtotal)).append(" €\n");
-            }
-        	sb.append("\nTotal: ").append(String.format("%.2f", total)).append(" €");
-        }
-
-        return sb.toString();
-    }
-
     
 }

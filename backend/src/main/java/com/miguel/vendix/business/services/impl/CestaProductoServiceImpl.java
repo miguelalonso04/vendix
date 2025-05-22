@@ -72,6 +72,7 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 			throw new IllegalStateException("NO HAY SUFICIENTE STOCK DE "+p.getNombre());
 			
 		}
+		
 		cestaRepository.save(cesta);
 	}
 
@@ -214,7 +215,7 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 		}else {
 			throw new IllegalStateException("NO HAY SUFICIENTE STOCK DE "+producto.getNombre());
 		}
-
+		
 	    cestaRepository.save(cesta);
 	}
 	

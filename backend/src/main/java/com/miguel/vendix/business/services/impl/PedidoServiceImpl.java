@@ -61,7 +61,6 @@ public class PedidoServiceImpl implements PedidoService {
 				.orElseThrow(() -> new IllegalArgumentException("Usuario con id ["+idUsuario+"] no encontrado"));
 		
 		for (ProductoDTO productoDTO : pedidoDTO.getProductos()) {
-	        System.out.println(productoDTO);
 	        
 	        Producto producto = productoRepository.findById(productoDTO.getId())
 	                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + productoDTO.getNombre()));
@@ -92,7 +91,7 @@ public class PedidoServiceImpl implements PedidoService {
 		pedido.setPrecioTotal(total);
 		pedido.setEstado(EstadoPedido.PENDIENTE);   
 		pedido.setFechaPedido(fechaPedido);
-		
+			
 		pedido.getProductos().putAll(cesta.getProductos());
 		
 		Pedido pedidoCreado = pedidoRepository.save(pedido);
@@ -255,8 +254,6 @@ public class PedidoServiceImpl implements PedidoService {
 		pedidoDTO.setFechaPedido(pedido.getFechaPedido());
 		pedidoDTO.setId(pedido.getId());
 		pedidoDTO.setEstado(pedido.getEstado());
-		
-		System.out.println(pedido.getCestaProductos());
 
 		for (Map.Entry<Producto, Integer> entry : pedido.getProductos().entrySet() ) {
 			Producto p = entry.getKey();
@@ -286,7 +283,7 @@ public class PedidoServiceImpl implements PedidoService {
 					
 					//Mensaje
 					"Pedido #"+pedido.getId()+" recibido correctamente \n"
-					+pedido.getCestaProductos().toString()+""
+					+pedido.toString()+""
 					+ "- Lo recibirá en un periodo de 2 dias maximo.");
 		}else {
 			this.emailService.enviarCorreo(
