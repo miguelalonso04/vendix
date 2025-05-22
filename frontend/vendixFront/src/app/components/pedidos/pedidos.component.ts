@@ -116,10 +116,6 @@ export class PedidosComponent implements OnInit {
      );
   }
 
-   private vaciarCesta(idUsuario: number){
-    this.cestaService.vaciarCesta(idUsuario).subscribe();
-  }
-
   private getUsuarioPedido(idPedido: number){
     this.pedidoService.getUsuario(idPedido).subscribe(
       data => {this.usuario = data}

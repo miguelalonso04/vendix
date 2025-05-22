@@ -46,6 +46,7 @@ export class CestaComponent implements OnInit {
     if (this.direccion.length > 0) {
       console.log("Creando pedido...");
       this.isProcessing = true;
+      this.getProductosCesta(this.idUsuario);
       
       try {
         await this.delay(3000);
@@ -127,7 +128,6 @@ export class CestaComponent implements OnInit {
   }
 
   private crearPedido(){
-
     this.pedido = {
       productos:  this.productos,
       direccion: this.direccion[0],
