@@ -1,13 +1,6 @@
 {
   "build": {
-    "env": {
-      "JAVA_HOME": "/usr/lib/jvm/java-17-openjdk"
-    },
-    "commands": {
-      "build": "cd backend && ./mvnw clean install"
-    }
-  },
-  "deploy": {
-    "startCommand": "java -jar backend/target/vendix.jar"
+    "builder": "dockerfile",
+    "dockerfilePath": "backend/Dockerfile"
   }
 }
