@@ -1,0 +1,11 @@
+{
+  "build": {
+    "env": {},
+    "commands": {
+      "build": "cd backend && ./mvnw clean install"
+    }
+  },
+  "deploy": {
+    "startCommand": "java -jar backend/target/vendix.jar"
+  }
+}
