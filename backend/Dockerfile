@@ -12,7 +12,7 @@ RUN chmod +x mvnw
 
 # Copia el resto del proyecto
 COPY pom.xml .
-COPY src src
+COPY src .
 
 # Construye el .jar usando Maven Wrapper
 RUN ./mvnw clean package -DskipTests
