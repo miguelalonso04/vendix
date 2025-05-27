@@ -1,7 +1,7 @@
 {
   "build": {
     "env": {
-      "JAVA_HOME": "C:\\Program Files\\Java\\jdk-23"
+      "JAVA_HOME": "/usr/lib/jvm/java-17-openjdk"
     },
     "commands": {
       "build": "cd backend && ./mvnw clean install"
