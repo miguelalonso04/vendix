@@ -6,15 +6,10 @@ FROM eclipse-temurin:17-jdk AS build
 WORKDIR /app
 
 # Copiar solo lo necesario primero (mejor caching)
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
+COPY . .
 
 # Descargar dependencias (caching eficiente)
 RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
-
-# Copiar el resto del código
-COPY src src
 
 # Construir el JAR sin ejecutar tests
 RUN ./mvnw clean package -DskipTests
