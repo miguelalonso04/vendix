@@ -10,9 +10,13 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://vendix-miguelalonso04s-projects.vercel.app")
-                .allowedMethods("*")
-                .allowedHeaders("*")
-                .exposedHeaders("Content-Length", "Cache-Control");
+        	.allowedOrigins(
+                "https://vendix-bsvo65aqw-miguelalonso04s-projects.vercel.app",
+                "https://vendix.vercel.app"
+            )
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .allowedHeaders("*")
+            .allowCredentials(true)
+            .maxAge(3600);
     }
 }
