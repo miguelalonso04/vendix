@@ -1,5 +1,10 @@
 {
+  "version": 2,
   "routes": [
-    { "src": "/.*", "dest": "/index.html" }
+    {
+      "src": "/(.*)",
+      "dest": "/browser/index.html",
+      "status": 200
+    }
   ]
 }
