@@ -2,6 +2,14 @@
   "version": 2,
   "routes": [
     {
+      "src": "/assets/(.*)",
+      "dest": "/browser/assets/$1"
+    },
+    {
+      "src": "/(main|polyfills|runtime|styles|vendor)-([a-zA-Z0-9]+)\\.(js|css)",
+      "dest": "/browser/$1-$2.$3"
+    },
+    {
       "src": "/(.*)",
       "dest": "/browser/index.html",
       "status": 200
