@@ -1,7 +1,7 @@
 # ========================
 # 🏗️ Etapa de construcción
 # ========================
-FROM eclipse-temurin:17-jdk AS build
+FROM eclipse-temurin:23-jdk AS build
 
 WORKDIR /app
 
@@ -17,7 +17,7 @@ RUN ./mvnw clean package -DskipTests
 # =====================
 # 🚀 Etapa de ejecución
 # =====================
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:23-jdk
 
 WORKDIR /app
 
