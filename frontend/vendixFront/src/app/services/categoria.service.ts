@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class CategoriaService {
 
-  private caregoriaUrl: string = 'http://localhost:8080/api/categoria'
+  private caregoriaUrl: string = 'https://vendix.up.railway.app/api/categoria'
 
 
   constructor(private http: HttpClient) { }

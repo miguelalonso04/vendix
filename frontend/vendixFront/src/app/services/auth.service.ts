@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private authUrl: string = 'http://localhost:8080/auth';
+  private authUrl: string = 'https://vendix.up.railway.app/auth';
 
   constructor(private http: HttpClient) { }
 

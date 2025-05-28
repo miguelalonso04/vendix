@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class CestaService {
 
-  private cestaUrl = 'http://localhost:8080/api/cesta';
+  private cestaUrl = 'https://vendix.up.railway.app/api/cesta';
 
   constructor(private http: HttpClient) { }
 
