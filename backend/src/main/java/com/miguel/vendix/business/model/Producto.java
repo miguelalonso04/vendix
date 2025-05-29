@@ -1,5 +1,7 @@
 package com.miguel.vendix.business.model;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.miguel.vendix.security.model.Usuario;
 
 import jakarta.persistence.Column;
@@ -40,6 +42,7 @@ public class Producto {
     @JoinColumn(name = "usuario_id") 
     private Usuario usuario;
 	
+	@Value("${app.base.url}")
 	@Column(name = "ruta_imagen")
     private String rutaImagen; 
 }
