@@ -172,23 +172,15 @@ public class ProductoController {
     }
     
     @GetMapping("{idProducto}/imagen")
-    public ResponseEntity<?> getImagen(
-        @PathVariable Long idProducto,
-        HttpServletRequest request  // Para construir URLs dinámicas
-    ) {
+    public ResponseEntity<String> getImagen(@PathVariable Long idProducto) {
         String rutaImagen = productoService.getRutaImagen(idProducto);
-        if (rutaImagen == null || rutaImagen.isEmpty()) {
+        if (rutaImagen != null) {
+            // Asume siempre HTTPS y dominio de Railway sin puerto
+            String imagenUrl = "https://vendixx.up.railway.app/uploads/" + rutaImagen;
+            return ResponseEntity.ok(imagenUrl);
+        } else {
             return ResponseEntity.notFound().build();
         }
-
-        // Construye la URL basada en el entorno (local/producción)
-        String baseUrl = request.getScheme() + "://" + request.getServerName();
-        if (request.getServerPort() != 80 && request.getServerPort() != 443) {
-            baseUrl += ":" + request.getServerPort();
-        }
-
-        String imagenUrl = baseUrl + "/uploads/" + rutaImagen;
-        return ResponseEntity.ok(imagenUrl);
     }
     
     @GetMapping("/usuario/{usuarioId}")
