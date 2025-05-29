@@ -1,10 +1,6 @@
-[providers]
-java = true
-node = false  # Desactiva si no usas Node.js
-python = false # Desactiva si no usas Python
-
+# Versión corregida sin error de parsing
 [build]
-provider = "java"  # Especifica el proveedor principal
+provider = "java"  # Proveedor principal
 include = [
   "backend/*",
   "script_bbdd/script_vendix_bbdd.sql"
@@ -13,7 +9,7 @@ include = [
 [build.environment]
 JAVA_VERSION = "23"
 PORT = "8080"
-# Configuración para MySQL
+# Configuración MySQL
 SPRING_DATASOURCE_URL = "jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&allowPublicKeyRetrieval=true"
 SPRING_DATASOURCE_USERNAME = "${MYSQLUSER}"
 SPRING_DATASOURCE_PASSWORD = "${MYSQLPASSWORD}"
@@ -26,7 +22,7 @@ cmd = "cd backend && java -jar target/*.jar"
 
 [deploy]
 setupCommand = """
-  echo "Waiting for MySQL to be ready..."
+  echo "Esperando a que MySQL esté listo..."
   sleep 15
   mysql -h ${MYSQLHOST} -P ${MYSQLPORT} -u ${MYSQLUSER} -p${MYSQLPASSWORD} ${MYSQLDATABASE} < script_bbdd/script_vendix_bbdd.sql
 """
