@@ -156,27 +156,10 @@ public class ProductoController {
     }
     
     @GetMapping("{idProducto}/imagen")
-    public ResponseEntity<String> getImagen(@PathVariable Long idProducto, HttpServletRequest request) {
-        String rutaImagen = productoService.getRutaImagen(idProducto);
-        if (rutaImagen != null) {
-            // Leer esquema correcto de encabezados proxy
-            String scheme = request.getHeader("X-Forwarded-Proto");
-            if (scheme == null || scheme.isEmpty()) {
-                scheme = request.getScheme();
-            }
-
-            String serverName = request.getServerName();
-
-            // No agregar puerto si es 80 para HTTP o 443 para HTTPS
-            int serverPort = request.getServerPort();
-            String port = "";
-            if ((scheme.equals("http") && serverPort != 80) ||
-                (scheme.equals("https") && serverPort != 443)) {
-                port = ":" + serverPort;
-            }
-
-            String baseUrl = scheme + "://" + serverName + port;
-
+	public ResponseEntity<String> getImagen(@PathVariable Long idProducto, HttpServletRequest request){
+    	String rutaImagen = productoService.getRutaImagen(idProducto);
+    	if (rutaImagen != null) {
+            String baseUrl = "https://" + request.getServerName() + (request.getServerPort() == 443 ? "" : ":" + request.getServerPort());
             String imagenUrl = baseUrl + "/uploads/" + rutaImagen;
 
             return ResponseEntity.ok(imagenUrl);
@@ -184,7 +167,6 @@ public class ProductoController {
             return ResponseEntity.notFound().build();
         }
     }
-
     
     @GetMapping("/usuario/{usuarioId}")
     public List<Producto> getProductosByUsuario(@PathVariable Long usuarioId) {
