@@ -1,32 +1,24 @@
-# Configuración compatible con la versión actual de Nixpacks
-providers = ["java"] 
+providers = ["java"]
 
-# Versión corregida sin error de parsing
-[build]
-provider = "java"  # Proveedor principal
-include = [
-  "backend/*",
-  "script_bbdd/script_vendix_bbdd.sql"
+[phases.setup]
+nixPkgs = ["openjdk23", "mysql", "maven"]
+
+[phases.build]
+cmds = [
+  "cd backend && ./mvnw dependency:purge-local-repository",
+  "cd backend && ./mvnw clean install -DskipTests -B --fail-never",
+  "cd backend && ./mvnw clean package -DskipTests -B"
 ]
 
-[build.environment]
+[start]
+cmd = "cd backend && java -jar target/*.jar"
+
+[env]
 JAVA_VERSION = "23"
 PORT = "8080"
-# Configuración MySQL
 SPRING_DATASOURCE_URL = "jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&allowPublicKeyRetrieval=true"
 SPRING_DATASOURCE_USERNAME = "${MYSQLUSER}"
 SPRING_DATASOURCE_PASSWORD = "${MYSQLPASSWORD}"
-
-[build.buildCommand]
-cmd = """
-  cd backend && \
-  ./mvnw dependency:purge-local-repository && \
-  ./mvnw clean install -DskipTests -B --fail-never && \
-  ./mvnw clean package -DskipTests -B
-"""
-
-[build.startCommand]
-cmd = "cd backend && java -jar target/*.jar"
 
 [deploy]
 setupCommand = """
