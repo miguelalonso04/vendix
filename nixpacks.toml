@@ -11,15 +11,7 @@ cmds = [
 ]
 
 [start]
-cmd = """
-  echo 'Esperando a que MySQL esté listo...'
-  until nc -z ${MYSQLHOST} ${MYSQLPORT}; do
-    echo "Esperando a MySQL en ${MYSQLHOST}:${MYSQLPORT}..."
-    sleep 2
-  done
-  echo 'MySQL está disponible. Iniciando backend.'
-  cd backend && java -jar target/*.jar
-"""
+cmd = "cd backend && java -jar target/*.jar"
 
 [env]
 JAVA_VERSION = "23"
