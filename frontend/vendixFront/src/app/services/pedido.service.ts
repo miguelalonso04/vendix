@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class PedidoService {
 
-  private pedidoUrl = 'https://vendix-production.up.railway.app/api/pedidos';
+  private pedidoUrl = 'https://vendixx.up.railway.app/api/pedidos';
 
   constructor(private http: HttpClient) { }
 
