@@ -18,7 +18,7 @@ SPRING_DATASOURCE_USERNAME = "${MYSQLUSER}"
 SPRING_DATASOURCE_PASSWORD = "${MYSQLPASSWORD}"
 
 [build.buildCommand]
-cmd = "cd backend && rm -rf ~/.m2/repository && ./mvnw clean package -DskipTests -U"
+cmd = "cd backend && ./mvnw clean package -DskipTests -B --no-transfer-progress"
 
 [build.startCommand]
 cmd = "cd backend && java -jar target/*.jar"
