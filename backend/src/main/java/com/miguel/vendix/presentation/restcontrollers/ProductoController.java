@@ -156,12 +156,11 @@ public class ProductoController {
     }
     
     @GetMapping("{idProducto}/imagen")
-	public ResponseEntity<String> getImagen(@PathVariable Long idProducto, HttpServletRequest request){
-    	String rutaImagen = productoService.getRutaImagen(idProducto);
-    	if (rutaImagen != null) {
-            String baseUrl = "https://" + request.getServerName() + (request.getServerPort() == 443 ? "" : ":" + request.getServerPort());
-            String imagenUrl = baseUrl + "/uploads/" + rutaImagen;
-
+    public ResponseEntity<String> getImagen(@PathVariable Long idProducto) {
+        String rutaImagen = productoService.getRutaImagen(idProducto);
+        if (rutaImagen != null) {
+            // Asume siempre HTTPS y dominio de Railway sin puerto
+            String imagenUrl = "https://vendixx.up.railway.app/uploads/" + rutaImagen;
             return ResponseEntity.ok(imagenUrl);
         } else {
             return ResponseEntity.notFound().build();
