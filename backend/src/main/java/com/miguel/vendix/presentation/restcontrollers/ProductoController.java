@@ -144,27 +144,51 @@ public class ProductoController {
     }
     
     @PostMapping("/{idProducto}/upload-image")
-    public ResponseEntity<Map<String, String>> uploadImage(@PathVariable Long idProducto, @RequestParam MultipartFile imagen) throws IOException {
-        
-        String rutaImagen = localStorageService.guardarImagen(imagen, idProducto);
-        productoService.actualizarRutaImagen(idProducto, rutaImagen);
-        
-        Map<String, String> response = new HashMap<>();
-        response.put("rutaImagen", rutaImagen);
+    public ResponseEntity<Map<String, String>> uploadImage(
+        @PathVariable Long idProducto,
+        @RequestParam("imagen") MultipartFile imagen,  // Añade el nombre del parámetro
+        HttpServletRequest request  // Para construir URLs dinámicas
+    ) throws IOException {
+        // 1. Validación básica del archivo
+        if (imagen.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "El archivo está vacío"));
+        }
 
-        return ResponseEntity.ok(response);
+        // 2. Guarda la imagen (ajusta la ruta según entorno)
+       
+        String rutaImagen = localStorageService.guardarImagen(imagen, idProducto);
+
+        // 3. Actualiza la BD
+        productoService.actualizarRutaImagen(idProducto, rutaImagen);
+
+        // 4. Devuelve URL completa (no solo la ruta relativa)
+        String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        String imagenUrl = baseUrl + "/uploads/" + rutaImagen;
+
+        return ResponseEntity.ok(Map.of(
+            "rutaImagen", rutaImagen,
+            "urlCompleta", imagenUrl
+        ));
     }
     
     @GetMapping("{idProducto}/imagen")
-    public ResponseEntity<String> getImagen(@PathVariable Long idProducto) {
+    public ResponseEntity<?> getImagen(
+        @PathVariable Long idProducto,
+        HttpServletRequest request  // Para construir URLs dinámicas
+    ) {
         String rutaImagen = productoService.getRutaImagen(idProducto);
-        if (rutaImagen != null) {
-            // Asume siempre HTTPS y dominio de Railway sin puerto
-            String imagenUrl = "https://vendixx.up.railway.app/uploads/" + rutaImagen;
-            return ResponseEntity.ok(imagenUrl);
-        } else {
+        if (rutaImagen == null || rutaImagen.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
+        // Construye la URL basada en el entorno (local/producción)
+        String baseUrl = request.getScheme() + "://" + request.getServerName();
+        if (request.getServerPort() != 80 && request.getServerPort() != 443) {
+            baseUrl += ":" + request.getServerPort();
+        }
+
+        String imagenUrl = baseUrl + "/uploads/" + rutaImagen;
+        return ResponseEntity.ok(imagenUrl);
     }
     
     @GetMapping("/usuario/{usuarioId}")

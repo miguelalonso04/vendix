@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:C:\\Users\\6003294\\eclipse-workspace\\vendix\\backend\\uploads");
+                .addResourceLocations("file:/app/uploads/");
     }
 }
 
