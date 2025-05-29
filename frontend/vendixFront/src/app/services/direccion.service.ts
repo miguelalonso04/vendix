@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class DireccionService {
 
-  private direccionUrl = 'https://vendix.up.railway.app/api/direccion'
+  private direccionUrl = 'https://vendix-production.up.railway.app/api/direccion'
 
   constructor(private http: HttpClient) { }
 

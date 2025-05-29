@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ValoracionesService {
 
-  private valoracionesUrl = 'https://vendix.up.railway.app/api/valoraciones';
+  private valoracionesUrl = 'https://vendix-production.up.railway.app/api/valoraciones';
 
   constructor(private http: HttpClient) { }
 
