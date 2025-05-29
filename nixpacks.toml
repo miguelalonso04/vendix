@@ -1,7 +1,7 @@
 providers = ["java"]
 
 [phases.setup]
-nixPkgs = ["openjdk23", "mysql", "maven"]
+nixPkgs = ["openjdk21", "mysql", "maven"]
 
 [phases.build]
 cmds = [
