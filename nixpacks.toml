@@ -1,25 +1,32 @@
+[providers]
+java = true
+node = false  # Desactiva si no usas Node.js
+python = false # Desactiva si no usas Python
+
 [build]
+provider = "java"  # Especifica el proveedor principal
 include = [
   "backend/*",
-  "script_bbdd/script_vendix_bbdd.sql"  # Incluye tu script SQL
+  "script_bbdd/script_vendix_bbdd.sql"
 ]
 
 [build.environment]
-JAVA_VERSION = "23"  # o tu versión de Java
+JAVA_VERSION = "23"
 PORT = "8080"
-SPRING_DATASOURCE_URL = "${RAILWAY_MYSQL_URL}"  # Variable automática para MySQL
+# Configuración para MySQL
+SPRING_DATASOURCE_URL = "jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&allowPublicKeyRetrieval=true"
 SPRING_DATASOURCE_USERNAME = "${MYSQLUSER}"
 SPRING_DATASOURCE_PASSWORD = "${MYSQLPASSWORD}"
-SPRING_DATASOURCE_DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver"
 
 [build.buildCommand]
-cmd = "cd backend && ./mvnw clean package -DskipTests"  # Para Maven
-# cmd = "cd backend && ./gradlew build -x test"  # Para Gradle
+cmd = "cd backend && ./mvnw clean package -DskipTests"
 
 [build.startCommand]
-cmd = "cd backend && java -jar target/*.jar"  # Para Maven
-# cmd = "cd backend && java -jar build/libs/*.jar"  # Para Gradle
+cmd = "cd backend && java -jar target/*.jar"
 
-# Configuración para ejecutar script MySQL
 [deploy]
-setupCommand = "sleep 10 && mysql -h ${MYSQLHOST} -P ${MYSQLPORT} -u ${MYSQLUSER} -p${MYSQLPASSWORD} ${MYSQLDATABASE} < script_bbdd/script_vendix_bbdd.sql"
+setupCommand = """
+  echo "Waiting for MySQL to be ready..."
+  sleep 15
+  mysql -h ${MYSQLHOST} -P ${MYSQLPORT} -u ${MYSQLUSER} -p${MYSQLPASSWORD} ${MYSQLDATABASE} < script_bbdd/script_vendix_bbdd.sql
+"""
