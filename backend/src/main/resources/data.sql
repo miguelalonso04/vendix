@@ -137,9 +137,9 @@ INSERT INTO VALORACIONES_PRODUCTO (producto_id, usuario_id, comentario, valoraci
 (18, 2, 'El relleno podría ser más consistente, se aplasta fácil.', 4),
 (18, 2, 'El hilo de la costura parece de baja calidad.', 3);
 
-insert into Cesta_Productos (id,total) Values (2,0);
+INSERT INTO Cesta_Productos (id,total) Values (2,0);
 
-insert into DIRECCION (id,ID_USER,calle,ciudad,provincia,CODIGO_POSTAL,pais) 
+INSERT INTO DIRECCION (id,ID_USER,calle,ciudad,provincia,CODIGO_POSTAL,pais) 
 VALUES (1,2,"AV Antonio Hurtado", "Caceres","Caceres","10002","España");
 
 ALTER TABLE CESTA_PRODUCTOS AUTO_INCREMENT = 2;
