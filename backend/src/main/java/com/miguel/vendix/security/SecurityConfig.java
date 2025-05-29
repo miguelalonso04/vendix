@@ -76,8 +76,8 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth ->
-                auth.requestMatchers("/auth/login/**").permitAll()
-                .requestMatchers("/auth/register/**").permitAll()
+                auth.requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/auth/register").permitAll()
                 .requestMatchers("/api/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers("/favicon.ico").permitAll()
