@@ -30,6 +30,9 @@ export class LayoutComponent {
   ngOnInit(): void {
     this.rol = this.localStorage.getItem('roles');
     this.idUsuario = this.localStorage.getItem('idUsuario');
+
+    const asideState = this.localStorage.getItem('asideCollapsed');
+    this.isAsideCollapsed = asideState === 'true';
     
     console.log(this.rol)
     this.getUsuarioById(this.idUsuario);
@@ -88,6 +91,7 @@ export class LayoutComponent {
 
    toggleAside() {
     this.isAsideCollapsed = !this.isAsideCollapsed;
+    this.localStorage.setItem('asideCollapsed', this.isAsideCollapsed);
   }
 
   @HostListener('window:resize', ['$event'])

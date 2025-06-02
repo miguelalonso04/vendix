@@ -9,6 +9,11 @@
   <div class="product-header">
     <h2>{{ productoElegido.nombre }}</h2>
     <span class="product-category">{{ productoElegido.categoria?.nombre }}</span>
+
+    <div class="product-owner">
+      <i class="bi bi-person-circle"></i>
+      Añadido por: <strong>{{ productoElegido.usuario?.username }}</strong>
+    </div>
   </div>
 
   <div class="product-content">
@@ -53,7 +58,7 @@
         </button>
       </div>
 
-      <div class="admin-actions" *ngIf="rol?.includes('ROLE_ADMIN')">
+      <div class="admin-actions" *ngIf="rol?.includes('ROLE_ADMIN') || productoElegido.usuario?.id === idUsuario">
         <button class="btn-update" (click)="updateProducto(productoElegido)">
           <i class="bi bi-pencil"></i> Editar producto
         </button>
