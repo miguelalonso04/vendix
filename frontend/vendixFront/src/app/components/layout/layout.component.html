@@ -19,11 +19,12 @@
         <div class="mb-1">
             <h3 class="h5 mb-1">📋 Categorias: </h3>
 
-            <p *ngFor="let c of categorias">
-                <a (click)="btnCategoria(c.id)" class="text-decoration-none d-block">
-                    <i class="bi bi-layers me-2"></i> {{ c.nombre }}
-                </a>
-            </p>
+            <li *ngFor="let c of categorias">
+            <a (click)="btnCategoria(c.id)" class="categoria-item">
+                <i class="bi me-2" [ngClass]="iconosCategoria[c.nombre] || 'bi-tag'"></i>
+                {{ c.nombre }}
+            </a>
+            </li>
         </div>
         
         <hr>
@@ -50,8 +51,14 @@
         <div class="d-flex">
             <a href="/home" class="btn btn-outline-dark me-2">🏠 Inicio</a>
             
-            <div *ngIf="rol== 'ROLE_USER'" class="me-2">
-                <a href="usuario/cesta" class="btn btn-warning text-white">🛒 Cesta</a>
+            <div *ngIf="rol === 'ROLE_USER'" class="me-2 position-relative">
+                <a href="usuario/cesta" class="btn btn-warning text-white position-relative">
+                    🛒 Cesta
+                    <span *ngIf="cantidadCesta > 0"
+                        class="badge bg-danger rounded-circle position-absolute top-0 start-100 translate-middle">
+                    {{ cantidadCesta }}
+                    </span>
+                </a>
             </div>
 
             <a href="home/pedidos" class="btn btn-info text-white">🛍️ Pedidos</a>

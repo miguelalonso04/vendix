@@ -5,6 +5,7 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CestaService } from '../../services/cesta.service';
 
 @Component({
   selector: 'app-layout',
@@ -22,9 +23,22 @@ export class LayoutComponent {
   nombreProducto !: string;
   isAsideCollapsed : boolean = false;
 
+  cantidadCesta: number = 0;
+
+  iconosCategoria: { [key: string]: string } = {
+    Libros: 'bi-book',
+    Electronica: 'bi-phone',        
+    Moda: 'bi-tshirt',
+    Deportes: 'bi-football',
+    Automocion: 'bi-truck',
+    Otros: 'bi-box'
+};
+
+
   constructor(private userService: UsersService,
               private categoriaService: CategoriaService, 
               private localStorage: LocalStorageService,
+              private cestaService: CestaService,
               private router: Router){ }
 
   ngOnInit(): void {
@@ -49,6 +63,17 @@ export class LayoutComponent {
   private getAllCategorias(){
     this.categoriaService.getAll().subscribe(
       data => {this.categorias = data}
+    );
+  }
+
+   private getCantidadCesta(idUsuario: number) {
+    this.cestaService.getAllProductosCesta(idUsuario).subscribe(
+      data => {
+        this.cantidadCesta = Array.isArray(data) ? data.length : 0;
+      },
+      error => {
+        console.error('Error al obtener la cantidad de productos en la cesta:', error);
+      }
     );
   }
 

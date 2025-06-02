@@ -118,6 +118,31 @@ main {
     background: linear-gradient(to right, #4ca1af, #2c3e50);
 }
 
+.categoria-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #333;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.categoria-item:hover {
+  background-color: #f0f0f0;
+  text-decoration: none;
+}
+
+.icono-categoria {
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.3em 0.5em;
+}
+
 @media (max-width: 768px) {
     aside {
         width: 35vw;
