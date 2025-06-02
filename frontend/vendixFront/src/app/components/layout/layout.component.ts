@@ -27,13 +27,12 @@ export class LayoutComponent {
 
   iconosCategoria: { [key: string]: string } = {
     Libros: 'bi-book',
-    Electronica: 'bi-phone',        
-    Moda: 'bi-tshirt',
-    Deportes: 'bi-football',
-    Automocion: 'bi-truck',
+    Electronica: 'bi-phone-fill',   
+    Moda: 'bi-shirt',               
+    Deportes: 'bi-soccer',          
+    Automocion: 'bi-car-front-fill',
     Otros: 'bi-box'
-};
-
+  };
 
   constructor(private userService: UsersService,
               private categoriaService: CategoriaService, 
@@ -45,8 +44,7 @@ export class LayoutComponent {
     this.rol = this.localStorage.getItem('roles');
     this.idUsuario = this.localStorage.getItem('idUsuario');
 
-    const asideState = this.localStorage.getItem('asideCollapsed');
-    this.isAsideCollapsed = asideState === 'true';
+    this.isAsideCollapsed = this.localStorage.getItem('asideCollapsed');
     
     console.log(this.rol)
     this.getUsuarioById(this.idUsuario);
