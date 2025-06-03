@@ -30,7 +30,6 @@ export class ProductosComponent implements OnInit{
   rutasImagenes: { [id: number]: string } = {};
   showAddToCartMessage = false;
   mensajeErrorBusqueda = '';
-  noHayProductosDisponibles: boolean = false;
 
   constructor(private productoService: ProductoService,
               private router: Router,
@@ -53,7 +52,6 @@ export class ProductosComponent implements OnInit{
     this.idUsuario = this.localStorage.getItem('idUsuario');
 
     this.controlProductos();
-    this.noHayProductosDisponibles = !this.productos.some(p => p.disponible);
   }
 
   private getImagenesUrl() {
@@ -188,7 +186,9 @@ export class ProductosComponent implements OnInit{
       });
     }
   }
-  
-  
+
+  get noHayProductosDisponibles(): boolean {
+    return this.productos?.length > 0 && !this.productos.some(p => p.disponible);
+  }
 
 }
