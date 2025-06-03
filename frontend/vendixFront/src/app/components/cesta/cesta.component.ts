@@ -77,7 +77,7 @@ export class CestaComponent implements OnInit {
       next: () => {this.getCesta(this.idUsuario);
       this.cestaService.getAllProductosCesta(this.idUsuario).subscribe(
         data => {
-          const cantidad = data.length;
+          const cantidad = Array.isArray(data) ? data.length : 0; 
           this.cestaService.actualizarCantidadCesta(cantidad);
         }
       );

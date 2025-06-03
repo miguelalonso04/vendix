@@ -82,7 +82,7 @@ export class ProductosComponent implements OnInit{
     this.showAddToCartMessage = true;
     this.cestaService.getAllProductosCesta(this.idUsuario).subscribe(
       data => {
-        const cantidad = data.length;
+        const cantidad = Array.isArray(data) ? data.length : 0; 
         this.cestaService.actualizarCantidadCesta(cantidad);
       }
     );

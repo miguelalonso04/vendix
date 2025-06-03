@@ -88,7 +88,7 @@ export class ViewProductoComponent implements OnInit {
     this.cestaService.addProducto(this.idUsuario,producto).subscribe();
     this.cestaService.getAllProductosCesta(this.idUsuario).subscribe(
       data => {
-        const cantidad = data.length;
+        const cantidad = Array.isArray(data) ? data.length : 0; 
         this.cestaService.actualizarCantidadCesta(cantidad);
       }
     );
