@@ -36,10 +36,12 @@ export class CestaComponent implements OnInit {
 
   ngOnInit(): void {
     this.idUsuario = this.localStorage.getItem('idUsuario');
-    this.getCesta(this.idUsuario);
-    this.getProductosCesta(this.idUsuario);
-    this.getNombreUsuario(this.idUsuario);
-    this.getDireccion(this.idUsuario);
+    if(this.idUsuario != 1){
+      this.getCesta(this.idUsuario);
+      this.getProductosCesta(this.idUsuario);
+      this.getNombreUsuario(this.idUsuario);
+      this.getDireccion(this.idUsuario);
+    }
   }
 
   async btnPedido() {
