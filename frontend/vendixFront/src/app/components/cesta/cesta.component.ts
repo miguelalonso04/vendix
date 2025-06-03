@@ -74,7 +74,14 @@ export class CestaComponent implements OnInit {
 
   eliminarProducto(producto: any): void {
     this.cestaService.eliminarUnProductoCesta(producto.id, this.idUsuario).subscribe({
-      next: () => this.getCesta(this.idUsuario),
+      next: () => {this.getCesta(this.idUsuario);
+      this.cestaService.getAllProductosCesta(this.idUsuario).subscribe(
+        data => {
+          const cantidad = data.length;
+          this.cestaService.actualizarCantidadCesta(cantidad);
+        }
+      );
+    },
       error: err => console.error('Error al eliminar producto:', err)
     });
   }
