@@ -125,15 +125,7 @@ main {
     background: linear-gradient(to right, #4ca1af, #2c3e50);
 }
 
-.categoria-item {
-  display: flex;
-  align-items: center;
-  padding: 6px 10px;
-  border-radius: 8px;
-  color: #333;
-  transition: background 0.2s ease;
-  cursor: pointer;
-}
+
 
 .categoria-item:hover {
   background-color: #f0f0f0;
@@ -173,8 +165,6 @@ main {
     body {
         padding-left: 0;
     }
-
-    
 
     .toggle-aside-btn {
         left: 20px;
