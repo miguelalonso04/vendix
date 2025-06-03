@@ -50,6 +50,7 @@ export class LayoutComponent {
     this.getUsuarioById(this.idUsuario);
     this.getAllCategorias();
     this.getCantidadCesta(this.idUsuario);
+    
   }
 
 
@@ -65,10 +66,12 @@ export class LayoutComponent {
     );
   }
 
-   private getCantidadCesta(idUsuario: number) {
+  private getCantidadCesta(idUsuario: number) {
     this.cestaService.getAllProductosCesta(idUsuario).subscribe(
       data => {
-        this.cantidadCesta = Array.isArray(data) ? data.length : 0;
+        const cantidad = data.length;
+        this.cantidadCesta = cantidad;
+        this.cestaService.actualizarCantidadCesta(cantidad);
       }
     );
   }

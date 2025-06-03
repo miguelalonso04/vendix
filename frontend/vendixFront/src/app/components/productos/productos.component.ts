@@ -80,6 +80,12 @@ export class ProductosComponent implements OnInit{
     this.cestaService.addProducto(this.idUsuario,producto).subscribe();
     this.mensaje = `"${producto.nombre}" se ha añadido a tu cesta`;
     this.showAddToCartMessage = true;
+    this.cestaService.getAllProductosCesta(this.idUsuario).subscribe(
+      data => {
+        const cantidad = data.length;
+        this.cestaService.actualizarCantidadCesta(cantidad);
+      }
+    );
      setTimeout(() => {
       this.showAddToCartMessage = false;
     }, 3000);

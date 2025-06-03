@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,10 @@ import { Observable } from 'rxjs';
 export class CestaService {
 
   private cestaUrl = 'https://vendixx.up.railway.app/api/cesta';
+
+  private cantidadCestaSubject = new BehaviorSubject<number>(0);
+  cantidadCesta$ = this.cantidadCestaSubject.asObservable();
+
 
   constructor(private http: HttpClient) { }
 
@@ -52,5 +56,9 @@ export class CestaService {
   restarCantidadProducto(idUsuario: number, idProducto: number):Observable<any>{
     const params = new HttpParams().set('idCesta', idUsuario);
     return this.http.put(`${this.cestaUrl}/productos/restar/${idProducto}` ,null, {params});
+  }
+
+  actualizarCantidadCesta(nuevaCantidad: number) {
+    this.cantidadCestaSubject.next(nuevaCantidad);
   }
 }
