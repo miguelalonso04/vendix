@@ -85,7 +85,7 @@ export class PedidosComponent implements OnInit {
   const desde = formatDate(this.fechaDesde, 'yyyy-MM-dd', 'en-US');
   const hasta = formatDate(this.fechaHasta, 'yyyy-MM-dd', 'en-US');
 
-  if (this.rol === 'ROLE_ADMIN') {
+  if (this.rol == 'ROLE_ADMIN') {
     // Admin: obtiene todos los pedidos entre fechas
     this.pedidoService.getBeetweenFechas(desde, hasta).subscribe({
       next: (data) => {
