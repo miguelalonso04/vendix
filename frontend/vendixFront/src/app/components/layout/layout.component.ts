@@ -29,7 +29,7 @@ export class LayoutComponent {
     Libros: 'bi-book',
     Electrónica: 'bi-tablet',   
     Moda: 'bi-watch',               
-    Deportes: 'bi-trophy',          
+    Deportes: 'bi-barbell',          
     Automocion: 'bi-car-front-fill',
     Otros: 'bi-box'
   };
