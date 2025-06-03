@@ -37,13 +37,10 @@ aside a:hover , .categoria-item:hover {
     background-color: #f0f0f0;
     text-decoration: none;
     color: #ffcc00;
-    padding-left: 5px;
     cursor: pointer;
     border-radius: 8px;
     display: flex;
     align-items: center;
-    padding: 6px 10px;
-    transition: background 0.2s ease;
 }
 
 aside hr {
