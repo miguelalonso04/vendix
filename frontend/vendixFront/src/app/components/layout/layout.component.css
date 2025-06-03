@@ -40,6 +40,10 @@ aside a:hover {
     background-color: #f0f0f0;
     text-decoration: none;
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    transition: background 0.2s ease;
 }
 
 aside hr {
@@ -247,8 +251,4 @@ main {
         transform: translateX(-100%);
     }
 
-    body:not(.aside-collapsed) main,
-    body.aside-collapsed main {
-        width: 100vw;
-    }
 }

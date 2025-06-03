@@ -27,9 +27,9 @@ export class LayoutComponent {
 
   iconosCategoria: { [key: string]: string } = {
     Libros: 'bi-book',
-    Electronica: 'bi-phone-fill',   
-    Moda: 'bi-shirt',               
-    Deportes: 'bi-soccer',          
+    Electrónica: 'bi-tablet',   
+    Moda: 'bi-watch',               
+    Deportes: 'bi-dribble',          
     Automocion: 'bi-car-front-fill',
     Otros: 'bi-box'
   };

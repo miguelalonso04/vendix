@@ -88,6 +88,7 @@ export class ViewProductoComponent implements OnInit {
     this.cestaService.addProducto(this.idUsuario,producto).subscribe();
     this.showAddToCartMessage = true;
     setTimeout(() => {
+      window.location.reload();
       this.showAddToCartMessage = false;
     }, 3000);
   }
