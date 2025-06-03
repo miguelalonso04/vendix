@@ -103,14 +103,11 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 				.orElseThrow(() -> new IllegalStateException("NO SE HA ENCONTRADO EL PRODUCTO CON ID "+idProducto) );
 		
 		if(cesta.getProductos().containsKey(producto)) {
+			cesta.setTotal(cesta.getTotal() - (producto.getPrecio() * cesta.getProductos().get(producto)));
 			cesta.getProductos().remove(producto);
 		}else {
 			new IllegalStateException("El producto "+producto.getNombre()+" no se encuentra en la cesta");
 		}
-		
-		System.out.println(producto.getPrecio() * cesta.getProductos().get(producto));
-		
-		cesta.setTotal(cesta.getTotal() - (producto.getPrecio() * cesta.getProductos().get(producto)));
 		
 		
 		cestaRepository.save(cesta);
