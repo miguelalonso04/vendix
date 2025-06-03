@@ -50,7 +50,9 @@ export class LayoutComponent {
     this.getUsuarioById(this.idUsuario);
     this.getAllCategorias();
     this.getCantidadCesta(this.idUsuario);
-    
+    this.cestaService.cantidadCesta$.subscribe(cantidad => {
+      this.cantidadCesta = cantidad;
+    });
   }
 
 
