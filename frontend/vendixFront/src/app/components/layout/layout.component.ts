@@ -49,6 +49,7 @@ export class LayoutComponent {
     console.log(this.rol)
     this.getUsuarioById(this.idUsuario);
     this.getAllCategorias();
+    this.getCantidadCesta(this.idUsuario);
   }
 
 
@@ -68,9 +69,6 @@ export class LayoutComponent {
     this.cestaService.getAllProductosCesta(idUsuario).subscribe(
       data => {
         this.cantidadCesta = Array.isArray(data) ? data.length : 0;
-      },
-      error => {
-        console.error('Error al obtener la cantidad de productos en la cesta:', error);
       }
     );
   }

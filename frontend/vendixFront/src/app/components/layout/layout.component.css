@@ -39,6 +39,7 @@ aside a:hover {
     cursor: pointer;
     background-color: #f0f0f0;
     text-decoration: none;
+    border-radius: 8px;
 }
 
 aside hr {
@@ -223,9 +224,11 @@ main {
         margin: 0;
     }
 
-    main {
+     main {
         padding: 15px;
         width: 100vw;
+        height: 100dvh;
+        box-sizing: border-box;
         transition: width 0.3s ease;
     }
 
@@ -244,11 +247,8 @@ main {
         transform: translateX(-100%);
     }
 
-    body:not(.aside-collapsed) main {
-        width: 100vw;
-    }
-
+    body:not(.aside-collapsed) main,
     body.aside-collapsed main {
-        width: 100vw; 
+        width: 100vw;
     }
 }
