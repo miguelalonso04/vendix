@@ -22,6 +22,8 @@ public class LocalStorageService {
         // Ruta completa donde se guardará la imagen
         Path rutaCompleta = Paths.get(uploadDir + nombreArchivo);
         
+        System.out.println(rutaCompleta);
+        
         // Crea el directorio si no existe
         Files.createDirectories(rutaCompleta.getParent());
         
