@@ -71,7 +71,7 @@ export class LayoutComponent {
   private getCantidadCesta(idUsuario: number) {
     this.cestaService.getAllProductosCesta(idUsuario).subscribe(
       data => {
-        const cantidad = data.length;
+        const cantidad = data.length || 0; 
         this.cantidadCesta = cantidad;
         this.cestaService.actualizarCantidadCesta(cantidad);
       }
