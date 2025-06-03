@@ -81,7 +81,6 @@ export class ProductosComponent implements OnInit{
     this.mensaje = `"${producto.nombre}" se ha añadido a tu cesta`;
     this.showAddToCartMessage = true;
      setTimeout(() => {
-      window.location.reload();
       this.showAddToCartMessage = false;
     }, 3000);
   }

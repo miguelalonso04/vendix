@@ -174,12 +174,7 @@ main {
         padding-left: 0;
     }
 
-    body:not(.aside-collapsed) main,
-    body:not(.aside-collapsed) header,
-    body:not(.aside-collapsed) nav  {
-        padding: 15px;
-        padding-left: 225px;
-    }
+    
 
     .toggle-aside-btn {
         left: 20px;
