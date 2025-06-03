@@ -104,6 +104,15 @@ public class PedidoController {
 		return pedidoService.getBetweenFechas(desde, hasta);
 	}
 	
+	@GetMapping("/fechas/{idUsuario}")
+	public List<Pedido> getBeetweenFechasUser(
+			@PathVariable Long idUsuario,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date  desde,
+			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date hasta){
+		
+		return pedidoService.getBetweenFechasUsuario(idUsuario,desde, hasta);
+	}
+	
 	@PutMapping("/confirmar")
 	public void confirmarPedido(@RequestParam Long id) {
 		try {

@@ -34,4 +34,10 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 	@Query("SELECT p FROM Pedido p WHERE p.estado = 'PENDIENTE' AND p.fechaPedido <= :fechaLimite")
 	List<Pedido> findPedidosPendientesAntiguos(@Param("fechaLimite") LocalDateTime fechaLimite);
 
+	@Query("SELECT p FROM Pedido p WHERE p.usuario.id = :idUsuario AND p.fechaPedido BETWEEN :desde AND :hasta ORDER BY p.fechaPedido DESC")
+	List<Pedido> findByUsuarioAndFechaPedidoBetweenOrderByFechaPedidoDesc(
+	    @Param("idUsuario") Long idUsuario,
+	    @Param("desde") Date desde,
+	    @Param("hasta") Date hasta
+	);
 }

@@ -31,9 +31,9 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 			 
 			 String jwt = parseJwt(request); //Obtiene el token de la cabecera de autentificación.
 			 
-			 if (jwt != null && jwtUtils.validateJwtToken(jwt)) { //El token existe y es valido??
+			 if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
 				 
-				 String username = jwtUtils.getUserNameFromJwtToken(jwt); //¿A qué usuario pertenece ese token?
+				 String username = jwtUtils.getUserNameFromJwtToken(jwt);
 				 UserDetails userDetails = userDetailsService.loadUserByUsername(username); //Cargamos datos del usuario.
 				 
 				 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -45,7 +45,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 		 } catch(UsernameNotFoundException e) {
 			 logger.error("No se puede identificar al usuario del token proporcionado: ", e);
 		 
-		 } catch (Exception e) { //¿Es el token inválido o ha expirado?
+		 } catch (Exception e) {
 			 logger.error("No se puede establecer la autenticación del usuario: ", e);
 			 
 		 }
@@ -66,7 +66,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 	 //
 	 // *************************************************************************************
 
-	 private String parseJwt(HttpServletRequest request) { //Esto es para buscar el token en la cabecera
+	 private String parseJwt(HttpServletRequest request) { //Busca el token en la cabecera
 	    	
 		String headerAuth = request.getHeader("Authorization"); 
 	        

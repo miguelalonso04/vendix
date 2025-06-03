@@ -74,31 +74,50 @@ export class PedidosComponent implements OnInit {
   }
 
    buscarPorFechas(): void {
-    if (!this.fechaDesde || !this.fechaHasta) {
-      this.searchError = 'Debes seleccionar ambas fechas';
-      return;
-    }
+  if (!this.fechaDesde || !this.fechaHasta) {
+    this.searchError = 'Debes seleccionar ambas fechas';
+    return;
+  }
 
-    this.isLoading = true;
-    this.searchError = '';
+  this.isLoading = true;
+  this.searchError = '';
 
-    const desde = formatDate(this.fechaDesde, 'yyyy-MM-dd', 'en-US');
-    const hasta = formatDate(this.fechaHasta, 'yyyy-MM-dd', 'en-US');
+  const desde = formatDate(this.fechaDesde, 'yyyy-MM-dd', 'en-US');
+  const hasta = formatDate(this.fechaHasta, 'yyyy-MM-dd', 'en-US');
 
+  if (this.rol === 'ROLE_ADMIN') {
+    // Admin: obtiene todos los pedidos entre fechas
     this.pedidoService.getBeetweenFechas(desde, hasta).subscribe({
       next: (data) => {
         this.lPedidos = data;
         if (this.lPedidos.length === 0) {
-          this.searchError = 'No se encontraron pedidos en el rango de fechas seleccionado';
+          this.searchError = 'No se encontraron pedidos en ese rango de fechas';
         }
         this.isLoading = false;
       },
-      error: (err) => {
+      error: () => {
+        this.searchError = 'Error al buscar pedidos por fechas';
+        this.isLoading = false;
+      }
+    });
+  } else {
+    // Usuario normal: obtiene sus propios pedidos entre fechas
+    this.pedidoService.getBeetweenFechasUsuario(this.idUsuario, desde, hasta).subscribe({
+      next: (data) => {
+        this.lPedidos = data;
+        if (this.lPedidos.length === 0) {
+          this.searchError = 'No se encontraron pedidos en ese rango de fechas';
+        }
+        this.isLoading = false;
+      },
+      error: () => {
         this.searchError = 'Error al buscar pedidos por fechas';
         this.isLoading = false;
       }
     });
   }
+}
+
 
   resetBusqueda(): void {
     this.fechaDesde = '';

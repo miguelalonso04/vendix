@@ -38,6 +38,8 @@ public interface PedidoService {
 	
 	List<Pedido> getBetweenFechas(Date desde, Date hasta);
 	
+	List<Pedido> getBetweenFechasUsuario(Long idUsuario, Date desde, Date hasta);
+	
 	void confirmarPedido(Long id);
 	
 	void cancelarPedido(Long id);

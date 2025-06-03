@@ -161,6 +161,11 @@ public class PedidoServiceImpl implements PedidoService {
 	public List<Pedido> getBetweenFechas(Date desde, Date hasta) {
 		return pedidoRepository.findByFechaPedidoBetweenOrderByFechaPedidoDesc(desde, hasta);
 	}
+	
+	@Override
+	public List<Pedido> getBetweenFechasUsuario(Long idUsuario, Date desde, Date hasta) {
+		return pedidoRepository.findByUsuarioAndFechaPedidoBetweenOrderByFechaPedidoDesc(idUsuario, desde, hasta);
+	}
 
 	@Override
 	public void confirmarPedido(Long id) {
