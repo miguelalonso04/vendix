@@ -51,9 +51,9 @@ export class ProductosComponent implements OnInit{
 
     this.rol=this.localStorage.getItem('roles');
     this.idUsuario = this.localStorage.getItem('idUsuario');
-    
-    this.noHayProductosDisponibles = !this.productos.some(p => p.disponible);
+
     this.controlProductos();
+    this.noHayProductosDisponibles = !this.productos.some(p => p.disponible);
   }
 
   private getImagenesUrl() {
