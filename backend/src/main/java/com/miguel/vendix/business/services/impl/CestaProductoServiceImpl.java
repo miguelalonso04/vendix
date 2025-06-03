@@ -108,7 +108,10 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 			new IllegalStateException("El producto "+producto.getNombre()+" no se encuentra en la cesta");
 		}
 		
-		cesta.setTotal(cesta.getTotal() - producto.getPrecio());
+		System.out.println(producto.getPrecio() * cesta.getProductos().get(producto));
+		
+		cesta.setTotal(cesta.getTotal() - (producto.getPrecio() * cesta.getProductos().get(producto)));
+		
 		
 		cestaRepository.save(cesta);
 	}
