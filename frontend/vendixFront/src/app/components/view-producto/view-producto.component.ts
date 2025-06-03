@@ -84,18 +84,24 @@ export class ViewProductoComponent implements OnInit {
     return estrellas;
   }
 
-  addACesta(producto: any){
-    this.cestaService.addProducto(this.idUsuario,producto).subscribe();
-    this.cestaService.getAllProductosCesta(this.idUsuario).subscribe(
-      data => {
-        const cantidad = Array.isArray(data) ? data.length : 0; 
-        this.cestaService.actualizarCantidadCesta(cantidad);
+   addACesta(producto: any) {
+    this.cestaService.addProducto(this.idUsuario, producto).subscribe({
+      next: () => {
+        this.showAddToCartMessage = true;
+
+        this.cestaService.incrementarCantidadCesta();
+
+        setTimeout(() => {
+          this.showAddToCartMessage = false;
+        }, 3000);
+      },
+      error: () => {
+        this.showAddToCartMessage = true;
+        setTimeout(() => {
+          this.showAddToCartMessage = false;
+        }, 3000);
       }
-    );
-    this.showAddToCartMessage = true;
-    setTimeout(() => {
-      this.showAddToCartMessage = false;
-    }, 3000);
+    });
   }
 
   updateProducto(Producto: any){

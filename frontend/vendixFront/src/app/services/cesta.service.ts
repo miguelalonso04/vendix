@@ -58,7 +58,12 @@ export class CestaService {
     return this.http.put(`${this.cestaUrl}/productos/restar/${idProducto}` ,null, {params});
   }
 
-  actualizarCantidadCesta(nuevaCantidad: number) {
-    this.cantidadCestaSubject.next(nuevaCantidad);
+  incrementarCantidadCesta() {
+    const actual = this.cantidadCestaSubject.getValue();
+    this.cantidadCestaSubject.next(actual + 1);
+  }
+
+  actualizarCantidadCesta(cantidad: number) {
+    this.cantidadCestaSubject.next(cantidad);
   }
 }
