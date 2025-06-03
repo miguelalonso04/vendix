@@ -163,6 +163,8 @@ public class ProductoController {
         // 4. Devuelve URL completa (no solo la ruta relativa)
         String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), "");
         String imagenUrl = baseUrl + "/uploads/" + rutaImagen;
+        
+        System.out.println("IMAGEN AÑADIDA CORRECTAMENTE "+imagenUrl);
 
         return ResponseEntity.ok(Map.of(
             "rutaImagen", rutaImagen,
@@ -174,7 +176,6 @@ public class ProductoController {
     public ResponseEntity<String> getImagen(@PathVariable Long idProducto) {
         String rutaImagen = productoService.getRutaImagen(idProducto);
         if (rutaImagen != null) {
-            // Asume siempre HTTPS y dominio de Railway sin puerto
             String imagenUrl = "https://vendixx.up.railway.app/uploads/" + rutaImagen;
             return ResponseEntity.ok(imagenUrl);
         } else {
