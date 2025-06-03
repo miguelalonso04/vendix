@@ -33,7 +33,7 @@ aside a {
     transition: all 0.2s;
 }
 
-aside a:hover .categoria-item:hover {
+aside a:hover , .categoria-item:hover {
     background-color: #f0f0f0;
     text-decoration: none;
     color: #ffcc00;
