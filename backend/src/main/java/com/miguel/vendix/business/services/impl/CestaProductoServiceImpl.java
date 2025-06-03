@@ -91,27 +91,29 @@ public class CestaProductoServiceImpl implements CestaProductoService {
 
 	@Override
 	public void eliminarUnProductoEnCesta(Long idProducto, Long idCesta) {
-		
-		CestaProductos cesta = cestaRepository.findById(idCesta)
-				.orElseThrow(() -> new IllegalStateException("NO SE HA ENCONTRADO LA CESTA DEL USUARIO "+idCesta));	
-		
-		if(cesta.getProductos().isEmpty()) {
-			throw new IllegalStateException("NO HAY PRODUCTOS EN LA CESTA");
-		}
-		
-		Producto producto = productoRepository.findById(idProducto)
-				.orElseThrow(() -> new IllegalStateException("NO SE HA ENCONTRADO EL PRODUCTO CON ID "+idProducto) );
-		
-		if(cesta.getProductos().containsKey(producto)) {
-			cesta.setTotal(cesta.getTotal() - (producto.getPrecio() * cesta.getProductos().get(producto)));
-			cesta.getProductos().remove(producto);
-		}else {
-			new IllegalStateException("El producto "+producto.getNombre()+" no se encuentra en la cesta");
-		}
-		
-		
-		cestaRepository.save(cesta);
+	    CestaProductos cesta = cestaRepository.findById(idCesta)
+	        .orElseThrow(() -> new IllegalStateException("NO SE HA ENCONTRADO LA CESTA DEL USUARIO " + idCesta));	
+
+	    if (cesta.getProductos().isEmpty()) {
+	        throw new IllegalStateException("NO HAY PRODUCTOS EN LA CESTA");
+	    }
+
+	    Producto producto = productoRepository.findById(idProducto)
+	        .orElseThrow(() -> new IllegalStateException("NO SE HA ENCONTRADO EL PRODUCTO CON ID " + idProducto));
+
+	    Integer cantidad = cesta.getProductos().get(producto);
+
+	    if (cantidad != null && cantidad > 0) {
+	        double subtotal = producto.getPrecio() * cantidad;
+	        cesta.setTotal(cesta.getTotal() - subtotal);
+	        cesta.getProductos().remove(producto);
+	    } else {
+	        throw new IllegalStateException("El producto " + producto.getNombre() + " no se encuentra en la cesta");
+	    }
+
+	    cestaRepository.save(cesta);
 	}
+
 
 	@Override
 	public List<ProductoDTO> getAllProductos(Long idCesta) {
