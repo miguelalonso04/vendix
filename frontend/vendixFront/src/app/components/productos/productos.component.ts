@@ -30,6 +30,7 @@ export class ProductosComponent implements OnInit{
   rutasImagenes: { [id: number]: string } = {};
   showAddToCartMessage = false;
   mensajeErrorBusqueda = '';
+  noHayProductosDisponibles: boolean = false;
 
   constructor(private productoService: ProductoService,
               private router: Router,
@@ -50,7 +51,8 @@ export class ProductosComponent implements OnInit{
 
     this.rol=this.localStorage.getItem('roles');
     this.idUsuario = this.localStorage.getItem('idUsuario');
-
+    
+    this.noHayProductosDisponibles = !this.productos.some(p => p.disponible);
     this.controlProductos();
   }
 
