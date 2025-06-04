@@ -25,7 +25,7 @@ public class LocalStorageService {
         System.out.println(rutaCompleta);
         
         // Crea el directorio si no existe
-        Files.createDirectories(rutaCompleta.getParent());
+        //Files.createDirectories(rutaCompleta.getParent());
         
         // Guarda el archivo en disco
         Files.write(rutaCompleta, archivo.getBytes());
