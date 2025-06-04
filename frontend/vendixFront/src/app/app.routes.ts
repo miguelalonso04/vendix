@@ -12,6 +12,7 @@ import { ValoracionComponent } from './components/valoracion/valoracion.componen
 import { ValoracionFormComponent } from './components/valoracion-form/valoracion-form.component';
 
 export const routes: Routes = [
+
   // Rutas sin layout
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
