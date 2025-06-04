@@ -13,6 +13,10 @@
       "src": "/(.*)",
       "dest": "/browser/index.html",
       "status": 200
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/assets/favicon.ico"
     }
   ]
 }
