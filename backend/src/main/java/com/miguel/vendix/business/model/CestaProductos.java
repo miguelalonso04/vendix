@@ -31,7 +31,7 @@ public class CestaProductos {
     private Long id;
     
     @ElementCollection
-    @CollectionTable(name = "cesta_productos_producto", 
+    @CollectionTable(name = "CESTA_PRODUCTOS_PRODUCTO", 
                      joinColumns = @JoinColumn(name = "cesta_id"))
     @MapKeyJoinColumn(name = "producto_id")
     @Column(name = "cantidad")
