@@ -191,8 +191,8 @@ export class ProductosComponent implements OnInit{
   }
 
   get noHayProductosDisponibles(): boolean {
-    return this.productos?.length > 0 && !this.productos.some(p => p.disponible);
-    
+    console.log(this.productos);
+    return !this.productos.some(p => p.disponible);
   }
 
 }
