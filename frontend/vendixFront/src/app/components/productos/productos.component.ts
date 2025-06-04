@@ -55,6 +55,9 @@ export class ProductosComponent implements OnInit{
   }
 
   private getImagenesUrl() {
+    if (!this.productos || this.productos.length == 0) {
+      return;
+    }
     this.productos.forEach(p => {
       this.productoService.getRutaImagen(p.id).subscribe(
         ruta => this.rutasImagenes[p.id] = ruta,
@@ -188,7 +191,9 @@ export class ProductosComponent implements OnInit{
   }
 
   get noHayProductosDisponibles(): boolean {
+    console.log(this.productos?.length > 0 && !this.productos.some(p => p.disponible));
     return this.productos?.length > 0 && !this.productos.some(p => p.disponible);
+    
   }
 
 }
