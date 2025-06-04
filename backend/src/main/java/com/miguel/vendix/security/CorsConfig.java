@@ -13,7 +13,6 @@ public class CorsConfig implements WebMvcConfigurer {
         	.allowedOrigins("https://vendix-miguelalonso04s-projects.vercel.app")
             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("*")
-            .allowCredentials(true)
             .maxAge(3600);
     }
 }
