@@ -112,7 +112,7 @@ export class ProductosFormComponent implements OnInit {
         }
 
         if (this.selectedFile) {
-          this.uploadImage();
+          await this.uploadImage();
         }
 
         setTimeout(() => this.router.navigate(['/home/productos']), 2000);
